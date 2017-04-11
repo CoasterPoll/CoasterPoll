@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Console;
+namespace ChaseH\Console;
 
+use ChaseH\Console\Commands\UserPromotion;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        UserPromotion::class,
     ];
 
     /**

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Providers;
+namespace ChaseH\Providers;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -14,7 +15,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    protected $namespace = 'ChaseH\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -23,8 +24,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
     }
 

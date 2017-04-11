@@ -167,15 +167,17 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        ChaseH\Providers\AppServiceProvider::class,
+        ChaseH\Providers\AuthServiceProvider::class,
+        // ChaseH\Providers\BroadcastServiceProvider::class,
+        ChaseH\Providers\EventServiceProvider::class,
+        ChaseH\Providers\RouteServiceProvider::class,
+        ChaseH\Providers\PermissionsServiceProvider::class,
 
     ],
 
