@@ -5,6 +5,7 @@ namespace ChaseH\Providers;
 use ChaseH\Models\Permission;
 use ChaseH\Models\Role;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -18,8 +19,14 @@ class PermissionsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if(Schema::hasTable('permissions')) {
-            Permission::get()->map(function ($permission) {
+        $hasTable = Cache::remember('has_permissions', 3600, function() {
+            return Schema::hasTable('permissions');
+        });
+        if($hasTable) {
+            $permissions = Cache::remember('all_permissions', 3600, function() {
+                return Permission::get();
+            });
+            $permissions->map(function ($permission) {
                 Gate::define($permission->name, function ($user) use ($permission) {
                     return $user->hasPermissionTo($permission);
                 });
