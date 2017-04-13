@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-    @include('coasters.nav')
     <div class="row">
         <div class="col-12">
             <table class="table table-striped">

@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-    @include('coasters.nav')
     <h1>{{ $manufacturer->name }}</h1>
     <div class="row">
         <div class="col-md-6">

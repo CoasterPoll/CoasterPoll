@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Cache;
 
 class MainController extends Controller
 {
-    public function index() {
-        return view('coasters.index');
-    }
-
     public function search() {
         return view('coasters.search');
     }

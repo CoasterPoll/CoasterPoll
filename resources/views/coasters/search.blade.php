@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-    @include('coasters.nav')
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="card card-block mb-4" id="search-bar"></div>
