@@ -17,8 +17,25 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
     return view('home');
 })->name('home');
 
-Auth::routes();
+// Authentication
+\Illuminate\Support\Facades\Auth::routes();
 
+// ## Coasters
+Route::group(['prefix' => 'coasters'], function() {
+    Route::get('/', 'Coasters\MainController@index')->name('coasters');
+    Route::get('/search', 'Coasters\MainController@search')->name('coasters.search');
+    Route::get('/list', 'Coasters\MainController@display')->name('coasters.coasters');
+
+    /**
+     * Before changing these, you ALSO must change the links in search.blade.php
+     */
+    Route::get('/m/{manufacturer}', 'Coasters\ManufacturerController@view')->name('coasters.manufacturer');
+    Route::get('/p/{park}', 'Coasters\ParkController@view')->name('coasters.park');
+    // Leave me last!
+    Route::get('/{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
+});
+
+// ## Admin
 Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], function() {
     Route::get('/', 'AdminController@dashboard')->name('admin');
     Route::get('/search', 'AdminController@search')->name('admin.search');

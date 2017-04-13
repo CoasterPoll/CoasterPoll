@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'ChV3') }}</title>
+    <title>@yield('title') | {{ config('app.name', 'ChV3') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap4.min.css') }}" rel="stylesheet">
@@ -63,7 +63,7 @@
             </ul>
         </div>
     </nav>
-    <div class="container-fluid" id="headContainer">
+    <div class="container" id="headContainer">
         @include('layouts._flash')
         @yield('content')
     </div>
@@ -74,5 +74,6 @@
     <script src="{{ asset('js/bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/toastr.min.js') }}"></script>
     <script src="{{ asset('js/bootbox.min.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>

@@ -20,6 +20,7 @@ class Coaster extends Model
         'rcdb_id',
         'copyright',
         'img_url',
+        'slug'
     ];
 
     // ## Functions

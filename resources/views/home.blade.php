@@ -9,8 +9,8 @@ Home
         <div class="col-md-8 offset-md-2">
             <div class="card">
                 <div class="card-block">
-                    <h2 class="card-title">Dashboard</h2>
-                    Console!
+                    <h2 class="card-title">Homepage</h2>
+                    CoasterPoll!
                 </div>
             </div>
         </div>

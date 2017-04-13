@@ -22,6 +22,7 @@ class CreateCoasters extends Migration
             $table->integer('manufacturer_id')->unsigned();
             $table->integer('type_id')->unsigned();
             $table->string('rcdb_id');
+            $table->string('slug');
             $table->text('copyright');
             $table->string('img_url');
             $table->timestamps();
