@@ -47,9 +47,9 @@
             templates: {
                 item: function(data) {
                     return '<div class="card card-block mb-4">' +
-                           '<h3 class="lead"><a class="lead-unstyled" href="/coasters/'+data.park.short+'/'+data.slug+'">'+data.name+'</a></h3>'+
-                           '<p><a href="/coasters/p/' + data.park.short + '">' + data.park.name + '</a></br>' +
-                           '<a href="/coasters/m/' + data.manufacturer.abbreviation + '">' + data.manufacturer.name + '</a></p>' +
+                           '<h3 class="lead"><a class="lead-unstyled" href="/'+data.park.short+'/'+data.slug+'">'+data.name+'</a></h3>'+
+                           '<p><a href="/' + data.park.short + '">' + data.park.name + '</a></br>' +
+                           '<a href="/m/' + data.manufacturer.abbreviation + '">' + data.manufacturer.name + '</a></p>' +
                            '</div>';
                 },
                 empty: function() {
