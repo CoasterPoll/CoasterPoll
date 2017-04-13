@@ -16,9 +16,9 @@ class MainController extends Controller
     public function display(Request $request) {
         $coasters = Cache::remember('coasters_list_pg:'.$request->input('page', 1), 30, function() {
             return Coaster::with(['park' => function($query) {
-                $query->select('id', 'name', 'city');
+                $query->select('id', 'name', 'city', 'short');
             }, 'manufacturer' => function($query) {
-                $query->select('id', 'name');
+                $query->select('id', 'name', 'abbreviation');
             }, 'type'])->paginate(25);
         });
 

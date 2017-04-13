@@ -13,23 +13,21 @@ use \Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function (\Illuminate\Http\Request $request) {
-    return view('home');
-})->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 // Authentication
 \Illuminate\Support\Facades\Auth::routes();
 
 // ## Coasters
-Route::get('/search', 'Coasters\MainController@search')->name('coasters.search');
-Route::get('/list', 'Coasters\MainController@display')->name('coasters.coasters');
+Route::get('search', 'Coasters\MainController@search')->name('coasters.search');
+Route::get('list', 'Coasters\MainController@display')->name('coasters.coasters');
 
 /**
  * Before changing these, you ALSO must change the links in search.blade.php
  */
 Route::get('/m/{manufacturer}', 'Coasters\ManufacturerController@view')->name('coasters.manufacturer');
-Route::get('/p/{park}', 'Coasters\ParkController@view')->name('coasters.park');
 // Leave me last!
+Route::get('/{park}', 'Coasters\ParkController@view')->name('coasters.park');
 Route::get('/{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
 
 // ## Admin
