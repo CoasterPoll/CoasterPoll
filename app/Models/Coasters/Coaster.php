@@ -2,13 +2,15 @@
 
 namespace ChaseH\Models\Coasters;
 
+use ChaseH\Models\LinkableTrait;
 use ChaseH\Models\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Coaster extends Model
 {
-    use SoftDeletes, SearchableTrait;
+    use SoftDeletes, SearchableTrait, Searchable, LinkableTrait;
 
     protected $table = "coasters";
 
@@ -66,5 +68,28 @@ class Coaster extends Model
             'name',
             'short',
         ];
+    }
+
+    public function searchableAs() {
+        return "coasters";
+    }
+
+    public function toSearchableArray()
+    {
+        $this->load('park');
+        $this->load('type');
+        $this->load('categories');
+        $this->load('manufacturer');
+
+        /**
+         * Load the categories relation so that it's available
+         *  in the laravel toArray method
+         */
+        $cats = [];
+        $cats['categories'] = array_map(function ($data) {
+            return $data['name'];
+        }, $this->categories->toArray());
+
+        return array_merge($this->toArray(), $cats, ['riders' => $this->riders->count()]);
     }
 }

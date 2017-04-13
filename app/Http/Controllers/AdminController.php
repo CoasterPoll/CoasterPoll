@@ -17,7 +17,7 @@ class AdminController extends Controller
         }
 
         // Search for users
-        $users = User::search($request->input('q'));
+        $users = User::look($request->input('q'));
 
         // Gather results
         $results = collect($users);
