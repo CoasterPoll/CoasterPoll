@@ -22,10 +22,12 @@ class PermissionsServiceProvider extends ServiceProvider
         $hasTable = Cache::remember('has_permissions', 3600, function() {
             return Schema::hasTable('permissions');
         });
+
         if($hasTable) {
             $permissions = Cache::remember('all_permissions', 3600, function() {
                 return Permission::get();
             });
+
             $permissions->map(function ($permission) {
                 Gate::define($permission->name, function ($user) use ($permission) {
                     return $user->hasPermissionTo($permission);

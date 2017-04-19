@@ -4,6 +4,7 @@ namespace ChaseH\Permissions;
 
 use ChaseH\Models\Permission;
 use ChaseH\Models\Role;
+use Illuminate\Support\Facades\Cache;
 
 trait HasPermissionsTrait {
     // Relationships
@@ -17,8 +18,13 @@ trait HasPermissionsTrait {
 
     // Functions
     public function hasRole(...$roles) {
+        $user = $this;
+        $roles = Cache::remember('roles:'.$this->id, 60, function() use ($user) {
+            return $user->roles;
+        });
+
         foreach($roles as $role) {
-            if($this->roles->contains('name', $role)) {
+            if($roles->contains('name', $role)) {
                 return true;
             }
         }
@@ -26,17 +32,32 @@ trait HasPermissionsTrait {
         return false;
     }
 
+    // Use this one to check!
     public function hasPermissionTo($permission) {
         return $this->hasPermissionThroughRole($permission) || $this->hasPermission($permission);
     }
 
     public function hasPermission($permission) {
-        return (bool) $this->permissions->where('name', $permission->name)->count();
+        $user = $this;
+        $permissions = Cache::remember('perms:'.$this->id, 60, function() use ($user) {
+            return $user->permissions;
+        });
+
+        return (bool) $permissions->contains('name', $permission->name);
     }
 
     public function hasPermissionThroughRole($permission) {
-        foreach($permission->roles as $role) {
-            if($this->roles->contains($role)) {
+        $user = $this;
+        $roles = Cache::remember('roles:'.$this->id, 60, function() use ($user) {
+            return $user->roles;
+        });
+
+        $perm_roles = Cache::remember('perm-role:'.$permission->id, 60, function() use ($permission) {
+            return $permission->roles;
+        });
+
+        foreach($perm_roles as $role) {
+            if($roles->contains($role)) {
                 return true;
             }
         }
