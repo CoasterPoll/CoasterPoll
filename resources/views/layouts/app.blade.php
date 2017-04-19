@@ -30,38 +30,7 @@
             <i class="fa fa-bars"></i>
         </button>
         <a class="navbar-brand" href="/">{{ config('app.name', 'ChV3') }}</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto my-auto">
-            <li class="nav-item"><a href="#" class="nav-link">Coasters</a></li>
-            </ul>
-            <ul class="navbar-nav">
-                @if (Auth::guest())
-                    <li class="nav-item p-1">
-                        <a class="btn btn-outline-success" href="{{ route('register') }}"><i class="fa fa-hand-peace-o"></i> Sign Up</a>
-                    </li>
-                    <li class="nav-item p-1">
-                        <a class="btn btn-outline-info" href="{{ route('login') }}"><i class="fa fa-sign-in"></i> Sign In</a>
-                    </li>
-                @else
-                    @role('Admin')
-                        <li class="nav-item"><a href="{{ route('admin') }}" class="nav-link">Admin Console</a></li>
-                    @endrole
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            {{ Auth::user()->name }}
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"
-                            ><i class="fa fa-fw fa-sign-out"></i> Sign Out</a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        </div>
-                    </li>
-                @endif
-            </ul>
-        </div>
+        @include('layouts._navbar')
     </nav>
     <div class="container" id="headContainer">
         @include('layouts._flash')
@@ -74,6 +43,8 @@
     <script src="{{ asset('js/bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/toastr.min.js') }}"></script>
     <script src="{{ asset('js/bootbox.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    @include('coasters._scripts')
     @yield('scripts')
 </body>
 </html>
