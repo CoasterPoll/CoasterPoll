@@ -14,7 +14,6 @@
 @endsection
 
 @section('scripts')
-    @include('coasters._scripts')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css">
     <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
     <script>
@@ -27,10 +26,19 @@
                 if (helper.state.query === '') {
                     return;
                 }
-
+                $('.ais-infinite-hits--showmore').find('button:disabled').addClass('btn btn-secondary');
+                $('.ais-infinite-hits--showmore').find('button').addClass('btn btn-secondary');
                 helper.search();
             }
         });
+        @can('Can track coasters')
+            window.riddenIds = [ @foreach($ridden_coasters as $r) {{ $r }}, @endforeach ];
+
+            window.isRidden1 = '<button type="button" class="btn btn-sm btn-block btn-success _ridden-btn" onclick="riddenBtn(this)" has-ridden="true" data-id="';
+            window.isRidden2 = '"><i class="fa fa-check-square-o"></i> Ridden</button>';
+            window.notRidden1 = '<button type="button" class="btn btn-sm btn-block btn-outline-success _ridden-btn" onclick="riddenBtn(this)" has-ridden="false" data-id="';
+            window.notRidden2 = '"><i class="fa fa-square-o"></i> Ridden</button>';
+        @endcan
         var searchBar = instantsearch.widgets.searchBox({
             container: "#search-bar",
             poweredBy: true,
@@ -46,11 +54,23 @@
             showMoreLabel: "Keep looking",
             templates: {
                 item: function(data) {
-                    return '<div class="card card-block mb-4">' +
-                           '<h3 class="lead"><a class="lead-unstyled" href="/'+data.park.short+'/'+data.slug+'">'+data.name+'</a></h3>'+
-                           '<p><a href="/' + data.park.short + '">' + data.park.name + '</a></br>' +
-                           '<a href="/m/' + data.manufacturer.abbreviation + '">' + data.manufacturer.name + '</a></p>' +
-                           '</div>';
+                    var str1 = '<div class="card card-block mb-4">' +
+                           '<h3 class="lead"><a class="lead-unstyled" href="/p/'+data.park.short+'/'+data.slug+'">'+data.name+'</a></h3>'+
+                           '<p class="mb-2"><a href="/p/' + data.park.short + '">' + data.park.name + '</a></p>' +
+                           '<p><a href="/m/' + data.manufacturer.abbreviation + '">' + data.manufacturer.name + '</a></p>';
+                    var str3 = '</div>';
+                    @can('Can track coasters')
+                        if(riddenIds.includes(data.id)) {
+                            var str2 = window.isRidden1 + data.id + window.isRidden2;
+                        } else {
+                            var str2 = window.notRidden1 + data.id + window.notRidden2;
+                        }
+                    @endcan
+                    @cannot('Can track coasters')
+                        var str2 = "";
+                    @endcannot
+
+                    return str1 + str2 + str3;
                 },
                 empty: function() {
                     return "Oops. Looks like there's nothing here by that name.";
@@ -59,13 +79,16 @@
             cssClasses: {
                 root: "row",
                 item: "col-sm-6 col-md-4 col-lg-3",
+                empty: "card-outline-danger"
             }
+
         });
         search.addWidget(searchBar);
         search.addWidget(searchResults);
         search.start();
         $(document).on('ready', function() {
-            $('.ais-infinite-hits--showmore').find('button, :disabled').addClass('btn btn-secondary');
+            $('.ais-infinite-hits--showmore').find('button:disabled').addClass('btn btn-secondary uses-fa');
+            $('.ais-infinite-hits--showmore').find('button').addClass('btn btn-secondary uses-fa');
         })
     </script>
 @endsection

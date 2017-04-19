@@ -29,6 +29,7 @@ Route::get('/m/{manufacturer}', 'Coasters\ManufacturerController@view')->name('c
 // Leave me last!
 Route::get('/{park}', 'Coasters\ParkController@view')->name('coasters.park');
 Route::get('/{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
+    Route::post('/track/ridden', 'Coasters\MainController@ride')->name('coasters.track.ride')->middleware('auth');
 
 // ## Admin
 Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], function() {

@@ -26,4 +26,27 @@ class MainController extends Controller
             'coasters' => $coasters,
         ]);
     }
+    public function ride(Request $request) {
+        try {
+            $coaster = Coaster::where('id', $request->input('coaster'))->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
+        if($request->input('ridden') == "false") {
+            Auth::user()->ridden()->attach($coaster->id);
+            $mark = 'true';
+        } else {
+            Auth::user()->ridden()->detach($coaster->id);
+            $mark = 'false';
+        }
+
+        // Clear cache so it shows up instantly
+        Cache::forget('ridden:'.Auth::id());
+
+        return response()->json([
+            'message' => "Looks like it wasn't too bad...",
+            'mark' => $mark,
+        ]);
+    }
 }

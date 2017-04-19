@@ -32,6 +32,9 @@
                             <tr>
                                 <th><a href="{{ route('coasters.coaster', ['park' => $park->short, 'coaster' => $coaster->slug]) }}" class="link-unstyled">{{ $coaster->name }}</a></th>
                                 <td><a href="{{ route('coasters.manufacturer', ['manufacturer' => $coaster->manufacturer->abbreviation]) }}">{{ $coaster->manufacturer->name }}</a></td>
+                                @can('Can track coasters')
+                                    <td>@include('coasters._ridden', ['ridden_coaster_id' => $coaster->id])</td>
+                                @endcan
                             </tr>
                         @endforeach
                         </tbody>
