@@ -7,6 +7,16 @@
         @can('Can rank coasters')
             <li class="nav-item"><a href="{{ route('coasters.rank') }}" class="nav-link">Ranking</a></li>
         @endcan
+        @can('Can manage coasters')
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    New
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ route('coasters.park.new') }}">Park</a>
+                </div>
+            </li>
+        @endcan
     </ul>
     <ul class="navbar-nav">
         <form class="form-inline justify-content-end mr-2" action="{{ route('coasters.search') }}" method="get">

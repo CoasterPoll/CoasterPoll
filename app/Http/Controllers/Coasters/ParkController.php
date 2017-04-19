@@ -110,4 +110,8 @@ class ParkController extends Controller
 
         return redirect(route('coasters.park.id', ['park' => $park->id]))->withSuccess("We've made some changes!");
     }
+
+    public function new() {
+        return view('coasters.park.new');
+    }
 }

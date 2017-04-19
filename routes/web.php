@@ -34,6 +34,8 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
         Route::post('/p/update', 'Coasters\ParkController@update')->name('coasters.park.update');
         Route::post('/c/update', 'Coasters\CoasterController@update')->name('coasters.coaster.update');
         Route::post('/m/update', 'Coasters\ManufacturerController@update')->name('coasters.manufacturer.update');
+
+        Route::get('/new/park', 'Coasters\ParkController@new')->name('coasters.park.new');
     });
 
     Route::get('P{park}', 'Coasters\ParkController@short')->name('coasters.park.id');
