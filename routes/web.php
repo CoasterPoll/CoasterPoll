@@ -19,21 +19,28 @@ Route::get('/', 'HomeController@index')->name('home');
 \Illuminate\Support\Facades\Auth::routes();
 
 // ## Coasters
-Route::get('search', 'Coasters\MainController@search')->name('coasters.search');
-Route::get('list', 'Coasters\MainController@display')->name('coasters.coasters');
+Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware'], function() {
+    Route::get('search', 'Coasters\MainController@search')->name('coasters.search');
+    Route::get('list', 'Coasters\MainController@display')->name('coasters.coasters');
 
-/**
- * Before changing these, you ALSO must change the links in search.blade.php
- */
-Route::get('/m/{manufacturer}', 'Coasters\ManufacturerController@view')->name('coasters.manufacturer');
-// Leave me last!
-Route::get('/{park}', 'Coasters\ParkController@view')->name('coasters.park');
-Route::get('/{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
+    Route::get('ridden', 'Coasters\MainController@ridden')->name('coasters.ridden')->middleware('auth');
     Route::get('rank', 'Coasters\MainController@rank')->name('coasters.rank')->middleware('auth');
     Route::post('rank/update', 'Coasters\MainController@updateRank')->name('coasters.rank.post')->middleware('auth');
     Route::put('rank/new', 'Coasters\MainController@newRank')->name('coasters.rank.put')->middleware('auth');
 
     Route::post('/track/ridden', 'Coasters\MainController@ride')->name('coasters.track.ride')->middleware('auth');
+
+    /**
+     * Before changing these, you ALSO must change the links in search.blade.php and _scripts.blade.php
+     */
+    Route::get('/m/{manufacturer}', 'Coasters\ManufacturerController@view')->name('coasters.manufacturer');
+
+    // Leave me last!
+    Route::get('/p/{park}', 'Coasters\ParkController@view')->name('coasters.park');
+    Route::get('/p/{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
+});
+
+
 
 // ## Admin
 Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], function() {
