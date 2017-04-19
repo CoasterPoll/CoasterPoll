@@ -28,4 +28,14 @@ class ManufacturerController extends Controller
             'manufacturer' => $man,
         ]);
     }
+
+    public function short($manufacturer) {
+        try {
+            $manufacturer = Manufacturer::select('abbreviation')->where('id', $manufacturer)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
+        return redirect(route('coasters.manufacturer', ['manufacturer' => $manufacturer->abbreviation]));
+    }
 }

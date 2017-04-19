@@ -29,4 +29,16 @@ class CoasterController extends Controller
             'coaster' => $coaster,
         ]);
     }
+
+    public function short($coaster) {
+        try {
+            $coaster = Coaster::select('slug')->with('park', function($query) {
+                $query->select('short');
+            })->where('id', $coaster)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
+        return redirect(route('coasters.coaster', ['park' => $coaster->park->short, 'coaster' => $coaster->slug]));
+    }
 }

@@ -21,10 +21,10 @@ class CreateCoasters extends Migration
             $table->integer('park_id')->unsigned();
             $table->integer('manufacturer_id')->unsigned();
             $table->integer('type_id')->unsigned();
-            $table->string('rcdb_id');
+            $table->string('rcdb_id')->nullable();
             $table->string('slug');
-            $table->text('copyright');
-            $table->string('img_url');
+            $table->text('copyright')->nullable();
+            $table->string('img_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -75,10 +75,10 @@ class CreateCoasters extends Migration
             $table->string('name');
             $table->string('abbreviation')->unique();
             $table->string('website');
-            $table->string('rcdb_id');
-            $table->text('copyright');
-            $table->string('location');
-            $table->string('img_url');
+            $table->string('rcdb_id')->nullable();
+            $table->text('copyright')->nullable();
+            $table->string('location')->nullable();
+            $table->string('img_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
