@@ -167,3 +167,11 @@
     background-color: rgba(58, 150, 207, 0.1);
     padding: 2px 0 2px 2px;
 }
+
+.uses-fa {
+    font-family:Arial, FontAwesome
+}
+
+.hidden {
+    display: none !important;
+}

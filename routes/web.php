@@ -29,6 +29,10 @@ Route::get('/m/{manufacturer}', 'Coasters\ManufacturerController@view')->name('c
 // Leave me last!
 Route::get('/{park}', 'Coasters\ParkController@view')->name('coasters.park');
 Route::get('/{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
+    Route::get('rank', 'Coasters\MainController@rank')->name('coasters.rank')->middleware('auth');
+    Route::post('rank/update', 'Coasters\MainController@updateRank')->name('coasters.rank.post')->middleware('auth');
+    Route::put('rank/new', 'Coasters\MainController@newRank')->name('coasters.rank.put')->middleware('auth');
+
     Route::post('/track/ridden', 'Coasters\MainController@ride')->name('coasters.track.ride')->middleware('auth');
 
 // ## Admin

@@ -101,6 +101,8 @@ class CreateCoasters extends Migration
         // ## Relavent permissions
         DB::table('permissions')->insert([
             ['name' => 'Can manage coasters', 'group' => 'Coasters', 'description' => "The ability to add/edit/remove coasters, parks, and manufacturers."],
+            ['name' => 'Can track coasters', 'group' => 'Coasters', 'description' => "The ability to track coasters that have been ridden."],
+            ['name' => 'Can rank coasters', 'group' => 'Coasters', 'description' => "The ability to rank coasters that have been ridden."],
         ]);
     }
 

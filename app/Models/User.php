@@ -42,4 +42,8 @@ class User extends Authenticatable
     public function ridden() {
         return $this->belongsToMany('ChaseH\Models\Coasters\Coaster')->withTimestamps();
     }
+
+    public function ranked() {
+        return $this->hasMany('ChaseH\Models\Coasters\Rank');
+    }
 }
