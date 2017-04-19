@@ -65,6 +65,20 @@ class ParkController extends Controller
             }
         }
 
+        // Deleting a park record. So sad.
+        if($id !== null && $request->input('delete') == "true") {
+            try {
+                $park = Park::where('id', $id)->firstOrFail();
+            } catch (ModelNotFoundException $e) {
+                return abort(404);
+            }
+
+            Cache::forget('park:'.$park->short);
+            $park->delete();
+
+            return redirect(route('home'))->withSuccess("We're sorry to see it go.");
+        }
+
         $validation = Validator::make($request->all(), [
             'name' => 'required',
             'short' => [

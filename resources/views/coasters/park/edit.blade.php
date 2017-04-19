@@ -43,6 +43,7 @@
                     @endisset
                     {{ csrf_field() }}
                     <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                    <button type="submit" class="btn btn-danger confirm-form" name="delete" value="true"><i class="fa fa-trash"></i> Hide</button>
                 </fieldset>
             </form>
         </div>
