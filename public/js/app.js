@@ -44,3 +44,25 @@ function submitRide(btn) {
         }
     });
 }
+$('.confirm-form').on('click', function(e) {
+    e.preventDefault();
+    var btn = $(this);
+    bootbox.confirm({
+        message: "Are you sure?",
+        buttons: {
+            confirm: {
+                label: "Do it.",
+                className: "btn-primary"
+            },
+            cancel: {
+                label: "Nevermind!",
+                className: "btn-secondary"
+            }
+        },
+        callback: function(result) {
+            if(result) {
+                btn.off('click').click();
+            }
+        }
+    })
+});
