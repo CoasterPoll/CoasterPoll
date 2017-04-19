@@ -32,7 +32,9 @@ class MainController extends Controller
     }
 
     public function ridden() {
-        dd(Auth::user()->ridden);
+        return view('coasters.ridden', [
+            'coasters' => Auth::user()->ridden->load('park', 'manufacturer'),
+        ]);
     }
 
     public function ride(Request $request) {

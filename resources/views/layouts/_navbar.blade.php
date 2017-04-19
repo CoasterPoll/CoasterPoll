@@ -2,7 +2,7 @@
     <ul class="navbar-nav mr-auto my-auto">
         <li class="nav-item"><a href="{{ route('coasters.coasters') }}" class="nav-link">List</a></li>
         @can('Can track coasters')
-            <li class="nav-item"><a href="{{ route('coasters.ridden') }}" class="nav-link">My Coasters</a></li>
+            <li class="nav-item"><a href="{{ route('coasters.ridden') }}" class="nav-link">Ridden</a></li>
         @endcan
         @can('Can rank coasters')
             <li class="nav-item"><a href="{{ route('coasters.rank') }}" class="nav-link">Ranking</a></li>
