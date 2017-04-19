@@ -6,45 +6,50 @@
 
 @section('content')
     <h1>{{ $park->name }}</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                @if($park->img_url !== "")
-                    <img class="card-img-top" src="{{ $park->img_url }}" alt="{{ $park->name }}">
-                @endif
-                <div class="card-block">
-                    <h4 class="card-title">{{ $park->short }}</h4>
-                    <h6 class="card-subtitle">{{ $park->city }}, {{ $park->country }}</h6>
-                    <p class="card-text">{{ $park->copyright }}</p>
-                    <a class="card-link" href="{{ $park->website }}">Website</a>
-                    @if($park->rcdb_id !== null)
-                        <a class="card-link" href="https://rcdb.com/{{ $park->rcdb_id }}.htm">View on RCDB</a>
-                    @endif
-                </div>
+    @can('Can manage coasters')
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#main" id="main-tab">Main View</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#edit" id="edit-tab">Edit</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="main" role="tabpanel">
+                @include('coasters.park.main')
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-block">
-                    <table class="table">
-                        <tbody>
-                        @foreach($park->coasters as $coaster)
-                            <tr>
-                                <th><a href="{{ route('coasters.coaster', ['park' => $park->short, 'coaster' => $coaster->slug]) }}" class="link-unstyled">{{ $coaster->name }}</a></th>
-                                <td><a href="{{ route('coasters.manufacturer', ['manufacturer' => $coaster->manufacturer->abbreviation]) }}">{{ $coaster->manufacturer->name }}</a></td>
-                                @can('Can track coasters')
-                                    <td>@include('coasters._ridden', ['ridden_coaster_id' => $coaster->id])</td>
-                                @endcan
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+            <div class="tab-pane" id="edit" role="tabpanel">
+                @include('coasters.park.edit')
             </div>
+            <div class="tab-pane" id="messages" role="tabpanel">...</div>
+            <div class="tab-pane" id="settings" role="tabpanel">...</div>
         </div>
-    </div>
+    @endcan
+    @cannot('Can manage coasters')
+        @include('coasters.park.main')
+    @endcannot
 @endsection
 
 @section('scripts')
     @include('coasters._scripts')
+    <script>
+        @can('Can manage coasters')
+        $('#main-tab').click(function (e) {
+            e.preventDefault();
+            window.location = "#main";
+            $(this).tab('show');
+        });
+        $('#edit-tab').click(function (e) {
+            e.preventDefault();
+            window.location = "#edit";
+            $(this).tab('show');
+        });
+
+        var hash = window.location.hash;
+        if(hash) {
+            $(hash+'-tab').tab('show');
+        }
+        @endcan
+    </script>
 @endsection

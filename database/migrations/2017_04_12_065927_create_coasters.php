@@ -43,10 +43,10 @@ class CreateCoasters extends Migration
             $table->string('short')->unique();
             $table->string('city');
             $table->string('country');
-            $table->string('website');
-            $table->string('rcdb_id');
-            $table->string('img_url');
-            $table->text('copyright');
+            $table->string('website')->nullable();
+            $table->string('rcdb_id')->nullable();
+            $table->string('img_url')->nullable();
+            $table->text('copyright')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

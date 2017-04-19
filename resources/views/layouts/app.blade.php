@@ -22,6 +22,12 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+        @isset($_new_url)
+            window.history.replaceState({}, '', '{!! $_new_url !!}');
+        @endisset
+        @isset($_hash)
+            window.location.hash = '{!! $_hash !!}';
+        @endisset
     </script>
 </head>
 <body>

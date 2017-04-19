@@ -23,18 +23,27 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
     Route::get('search', 'Coasters\MainController@search')->name('coasters.search');
     Route::get('list', 'Coasters\MainController@display')->name('coasters.coasters');
 
-    Route::get('ridden', 'Coasters\MainController@ridden')->name('coasters.ridden')->middleware('auth');
-    Route::get('rank', 'Coasters\MainController@rank')->name('coasters.rank')->middleware('auth');
-    Route::post('rank/update', 'Coasters\MainController@updateRank')->name('coasters.rank.post')->middleware('auth');
-    Route::put('rank/new', 'Coasters\MainController@newRank')->name('coasters.rank.put')->middleware('auth');
+    Route::group(['middleware' => 'auth'], function() {
+        Route::get('ridden', 'Coasters\MainController@ridden')->name('coasters.ridden');
+        Route::get('rank', 'Coasters\MainController@rank')->name('coasters.rank');
+        Route::post('rank/update', 'Coasters\MainController@updateRank')->name('coasters.rank.post');
+        Route::put('rank/new', 'Coasters\MainController@newRank')->name('coasters.rank.put');
 
-    Route::post('/track/ridden', 'Coasters\MainController@ride')->name('coasters.track.ride')->middleware('auth');
+        Route::post('/track/ridden', 'Coasters\MainController@ride')->name('coasters.track.ride');
+
+        Route::post('/p/update', 'Coasters\ParkController@update')->name('coasters.park.update');
+        Route::post('/c/update', 'Coasters\CoasterController@update')->name('coasters.coaster.update');
+        Route::post('/m/update', 'Coasters\ManufacturerController@update')->name('coasters.manufacturer.update');
+    });
+
+    Route::get('P{park}', 'Coasters\ParkController@short')->name('coasters.park.id');
+    Route::get('C{coaster}', 'Coasters\CoasterController@short')->name('coasters.coaster.id');
+    Route::get('M{manufacturer}', 'Coasters\ManufacturerController@short')->name('coasters.manufacturer.id');
 
     /**
      * Before changing these, you ALSO must change the links in search.blade.php and _scripts.blade.php
      */
     Route::get('/m/{manufacturer}', 'Coasters\ManufacturerController@view')->name('coasters.manufacturer');
-
     // Leave me last!
     Route::get('/p/{park}', 'Coasters\ParkController@view')->name('coasters.park');
     Route::get('/p/{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
