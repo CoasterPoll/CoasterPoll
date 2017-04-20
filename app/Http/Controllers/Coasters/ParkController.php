@@ -34,14 +34,20 @@ class ParkController extends Controller
         ]);
     }
 
-    public function short($park) {
+    public function short($park, $tab = null) {
         try {
             $park = Park::select('short')->where('id', $park)->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return abort(404);
         }
 
-        return $this->view($park->short, "#edit", route('coasters.park', ['park' => $park->short]));
+        if($tab !== null) {
+            $hash = "#{$tab}";
+        } else {
+            $hash = null;
+        }
+
+        return $this->view($park->short, $hash, route('coasters.park', ['park' => $park->short]));
     }
 
     public function update(Request $request) {
@@ -122,7 +128,7 @@ class ParkController extends Controller
 
         Cache::forget('park:'.$park->short);
 
-        return redirect(route('coasters.park.id', ['park' => $park->id]))->withSuccess("We've made some changes!");
+        return redirect(route('coasters.park.id', ['park' => $park->id, 'tab' => 'edit']))->withSuccess("We've made some changes!");
     }
 
     public function new() {

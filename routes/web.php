@@ -40,9 +40,9 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
         Route::get('/new/manufacturer', 'Coasters\ManufacturerController@new')->name('coasters.manufacturer.new');
     });
 
-    Route::get('P{park}', 'Coasters\ParkController@short')->name('coasters.park.id');
-    Route::get('C{coaster}', 'Coasters\CoasterController@short')->name('coasters.coaster.id');
-    Route::get('M{manufacturer}', 'Coasters\ManufacturerController@short')->name('coasters.manufacturer.id');
+    Route::get('P{park}/{tab?}', 'Coasters\ParkController@short')->name('coasters.park.id')->where(['park' => '[0-9]+']);
+    Route::get('C{coaster}/{tab?}', 'Coasters\CoasterController@short')->name('coasters.coaster.id');
+    Route::get('M{manufacturer}/{tab?}', 'Coasters\ManufacturerController@short')->name('coasters.manufacturer.id');
 
     /**
      * Before changing these, you ALSO must change the links in search.blade.php and _scripts.blade.php

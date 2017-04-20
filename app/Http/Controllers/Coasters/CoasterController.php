@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CoasterController extends Controller
 {
-    public function view($pk, $cstr) {
+    public function view($pk, $cstr, $hash = null, $new_url = null) {
         if(Cache::has($pk.":".$cstr)) {
             $coaster = Cache::get($pk.":".$cstr);
         } else {
@@ -62,11 +62,9 @@ class CoasterController extends Controller
         ]);
     }
 
-    public function short($coaster) {
+    public function short($coasterid, $tab = null) {
         try {
-            $coaster = Coaster::select('slug')->with('park', function($query) {
-                $query->select('short');
-            })->where('id', $coaster)->firstOrFail();
+            $coaster = Coaster::where('id', $coasterid)->with('park')->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return abort(404);
         }
