@@ -100,7 +100,7 @@ class ParkController extends Controller
 
         if($validation->fails()) {
             if($id !== null) {
-                return redirect(route('coasters.park.id', ['park' => $id]))->withInput()->withErrors($validation);
+                return redirect(route('coasters.park.id', ['park' => $id, 'tab' => 'edit']))->withInput()->withErrors($validation);
             } else {
                 return back(400)->withErrors($validation)->withInput();
             }

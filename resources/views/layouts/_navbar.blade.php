@@ -15,6 +15,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="{{ route('coasters.coaster.new') }}">Coaster</a>
                     <a class="dropdown-item" href="{{ route('coasters.park.new') }}">Park</a>
+                    <a class="dropdown-item" href="{{ route('coasters.manufacturer.new') }}">Manufacturer</a>
                 </div>
             </li>
         @endcan

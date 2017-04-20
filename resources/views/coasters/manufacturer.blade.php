@@ -6,45 +6,57 @@
 
 @section('content')
     <h1>{{ $manufacturer->name }}</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                @if($manufacturer->img_url !== "")
-                    <img class="card-img-top" src="{{ $manufacturer->img_url }}" alt="{{ $manufacturer->name }}">
-                @endif
-                <div class="card-block">
-                    <h4 class="card-title">{{ $manufacturer->abbreviation }}</h4>
-                    <h6 class="card-subtitle">{{ $manufacturer->location }}</h6>
-                    <p class="card-text">{{ $manufacturer->copyright }}</p>
-                    <a class="card-link" href="{{ $manufacturer->website }}">Website</a>
-                    @if($manufacturer->rcdb_id !== null)
-                        <a class="card-link" href="https://rcdb.com/{{ $manufacturer->rcdb_id }}.htm">View on RCDB</a>
-                    @endif
-                </div>
+    @can('Can manage coasters')
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#main" id="main-tab">Main View</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#edit" id="edit-tab">Edit</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="main" role="tabpanel">
+                @include('coasters.manufacturer.main')
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-block">
-                    <table class="table">
-                        <tbody>
-                            @foreach($manufacturer->coasters as $coaster)
-                                <tr>
-                                    <th><a href="{{ route('coasters.coaster', ['park' => $coaster->park->short, 'coaster' => $coaster->slug]) }}" class="link-unstyled">{{ $coaster->name }}</a></th>
-                                    <td><a href="{{ route('coasters.park', ['park' => $coaster->park->short]) }}">{{ $coaster->park->name }}</a></td>
-                                    @can('Can track coasters')
-                                        <td>@include('coasters._ridden', ['ridden_coaster_id' => $coaster->id])</td>
-                                    @endcan
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+            <div class="tab-pane" id="edit" role="tabpanel">
+                @include('coasters.manufacturer.edit')
             </div>
+            <div class="tab-pane" id="messages" role="tabpanel">...</div>
+            <div class="tab-pane" id="settings" role="tabpanel">...</div>
         </div>
-    </div>
+    @endcan
+    @cannot('Can manage coasters')
+        @include('coasters.manufacturer.main')
+    @endcannot
 @endsection
 
 @section('scripts')
     @include('coasters._scripts')
+    <script>
+        @can('Can manage coasters')
+        $('#main-tab').click(function (e) {
+            e.preventDefault();
+            window.location = "#main";
+            $(this).tab('show');
+        });
+        $('#edit-tab').click(function (e) {
+            e.preventDefault();
+            window.location = "#edit";
+            $(this).tab('show');
+        });
+
+        $('.nav-link').on('click', function() {
+            $('#categories-card').height($('#main-card').height());
+        });
+        $(window).on('load', function() {
+            $('#categories-card').height($('#main-card').height());
+        });
+
+        var hash = window.location.hash;
+        if(hash) {
+            $(hash+'-tab').tab('show');
+        }
+        @endcan
+    </script>
 @endsection
