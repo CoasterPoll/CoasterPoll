@@ -66,3 +66,6 @@ $('.confirm-form').on('click', function(e) {
         }
     })
 });
+$('.fade-on-collapse').on('click', function() {
+    $('.nav-fadable').toggleClass('nav-transparent');
+});

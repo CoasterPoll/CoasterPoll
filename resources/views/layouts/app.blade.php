@@ -42,7 +42,7 @@
         @include('layouts._flash')
         @yield('content')
     </div>
-
+    @include('layouts._footer')
     <!-- Scripts -->
     <script src="{{ asset('js/jquery-2.2.3.min.js') }}"></script>
     <script src="{{ asset('js/tether.min.js') }}"></script>
