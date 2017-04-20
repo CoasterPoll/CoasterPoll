@@ -18,9 +18,9 @@ class CreateCoasters extends Migration
         Schema::create('coasters', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('park_id')->unsigned();
-            $table->integer('manufacturer_id')->unsigned();
-            $table->integer('type_id')->unsigned();
+            $table->integer('park_id')->unsigned()->default(0);
+            $table->integer('manufacturer_id')->unsigned()->default(0);
+            $table->integer('type_id')->unsigned()->default(0);
             $table->string('rcdb_id')->nullable();
             $table->string('slug');
             $table->text('copyright')->nullable();

@@ -6,34 +6,56 @@
 
 @section('content')
     <h1>{{ $coaster->name }}</h1>
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-                @if($coaster->img_url !== "")
-                    <img class="card-img-top" src="{{ $coaster->img_url }}" alt="{{ $coaster->name }}">
-                @endif
-                <div class="card-block">
-                    <h4 class="card-title"><a href="{{ route('coasters.park', ['park' => $coaster->park->short]) }}" class="lead-unstyled">{{ $coaster->park->name }}</a></h4>
-                    <h6 class="card-subtitle">{{ $coaster->park->city }}</h6>
-                    <p class="card-text mt-2">Made by <a href="{{ route('coasters.manufacturer', ['manufacturer' => $coaster->manufacturer->abbreviation]) }}">{{ $coaster->manufacturer->name }}</a></p>
-                    <p class="card-text">
-                        <ul>
-                            @foreach($coaster->categories as $category)
-                                <li><a href="{{ route('coasters.search') }}?q={{ $category->name }}">{{ $category->name }}</a></li>
-                            @endforeach
-                        </ul>
-                    </p>
-                    <p class="card-text">{{ $coaster->copyright }}</p>
-                    @if($coaster->rcdb_id !== null)
-                        <a class="card-link" href="https://rcdb.com/{{ $coaster->rcdb_id }}.htm">View on RCDB</a>
-                    @endif
-                    @can('Can track coasters')
-                        <div class="text-right">
-                            @include('coasters._ridden', ['ridden_coaster_id' => $coaster->id])
-                        </div>
-                    @endcan
-                </div>
+    @can('Can manage coasters')
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#main" id="main-tab">Main View</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#edit" id="edit-tab">Edit</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="main" role="tabpanel">
+                @include('coasters.coaster.main')
             </div>
+            <div class="tab-pane" id="edit" role="tabpanel">
+                @include('coasters.coaster.edit')
+            </div>
+            <div class="tab-pane" id="messages" role="tabpanel">...</div>
+            <div class="tab-pane" id="settings" role="tabpanel">...</div>
         </div>
-    </div>
+    @endcan
+    @cannot('Can manage coasters')
+        @include('coasters.coaster.main')
+    @endcannot
+@endsection
+
+@section('scripts')
+    <script>
+        @can('Can manage coasters')
+        $('#main-tab').click(function (e) {
+            e.preventDefault();
+            window.location = "#main";
+            $(this).tab('show');
+        });
+        $('#edit-tab').click(function (e) {
+            e.preventDefault();
+            window.location = "#edit";
+            $(this).tab('show');
+        });
+
+        $('.nav-link').on('click', function() {
+            $('#categories-card').height($('#main-card').height());
+        });
+        $(window).on('load', function() {
+            $('#categories-card').height($('#main-card').height());
+        });
+
+        var hash = window.location.hash;
+        if(hash) {
+            $(hash+'-tab').tab('show');
+        }
+        @endcan
+    </script>
 @endsection

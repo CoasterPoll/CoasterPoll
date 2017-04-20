@@ -18,6 +18,9 @@ class Coaster extends Model
         'name',
         'year',
         'rcdb_id',
+        'park_id',
+        'manufacturer_id',
+        'type_id',
         'copyright',
         'img_url',
         'slug'
