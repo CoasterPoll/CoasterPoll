@@ -15,6 +15,8 @@ use \Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::post('/analytics/view', 'AnalyticsController@view')->name('analytics.view');
+
 // Authentication
 \Illuminate\Support\Facades\Auth::routes();
 

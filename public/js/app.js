@@ -3,6 +3,23 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+$(document).on('ready', function() {
+    var _timer = window.setTimeout(updatePageViews, 4000);
+});
+function updatePageViews() {
+    var perfData = window.performance.timing;
+    var pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+    $.post({
+        url: "/analytics/view",
+        data: {
+            page: window.location.pathname,
+            time: pageLoadTime,
+            query: window.location.search,
+            hash: window.location.hash,
+            referrer: document.referrer
+        }
+    })
+}
 $('._ridden-btn').on('click', function() {
     var btn = $(this);
     submitRide(btn);
