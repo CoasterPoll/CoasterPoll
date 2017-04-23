@@ -4,6 +4,7 @@ namespace ChaseH\Http\Controllers\Auth;
 
 use ChaseH\Models\User;
 use ChaseH\Http\Controllers\Controller;
+use ChaseH\Notifications\NoDemopgrahics;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -62,10 +63,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $user->notify(new NoDemopgrahics());
+
+        return $user;
     }
 }
