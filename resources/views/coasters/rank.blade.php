@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <h1>Rank Coasters</h1>
+    <h1>Rank Coasters <span class="pull-right"><button type="button" class="btn btn-primary" id="updating-btn" onclick="updateRanks()"><i id="updating-i" class="fa fa-save"></i> Save</button></span></h1>
     <div class="row">
         <div class="col-md-12" id="rankings">
             @foreach($ranked as $rank)
@@ -83,7 +83,7 @@
                     });
 
                     // Check if we're aiming for the number 1 spot.
-                    if(row.prev().length == 0) {
+                    if(row.prev().length) {
                         var newRank = 1;
                     } else {
                         var newRank = parseFloat(row.prev().find('.rank').val()) + parseFloat(1); // Find where we are
@@ -101,7 +101,12 @@
                     desc.val(parseFloat(oldRank) + parseFloat(1));
                 });
 
-                var newRank = parseFloat(row.prev().find('.rank').val()) + parseFloat(1); // Find where we are
+                if(!row.prev().length) {
+                    var newRank = parseFloat(row.next().find('.rank').val()) - parseFloat(1); // Find where we are
+                } else {
+                    var newRank = parseFloat(row.prev().find('.rank').val()) + parseFloat(1); // Find where we are
+                }
+
                 row.find('.rank').val(newRank).removeClass('hidden').show(); // Update input for where we are
                 row.find('i').removeClass('fa-arrow-up').addClass('fa-arrows-v');
 
@@ -138,13 +143,18 @@
                     rank: rank
                 },
                 success: function(res) {
-                    console.log(res);
-                    toastr.success("We've done it!");
+                    toastr.success("We've added that to your ranking!");
                 },
                 error: function(res) {
                     toastr.error(res.statusText);
+                },
+                beforeSend: function() {
+                    $('#updating-btn').prop('disabled', 'disabled').find('#updating-i').addClass('fa-spinner fa-spin').removeClass('fa-save');
+                },
+                complete: function() {
+                    $('#updating-btn').prop('disabled', null).find('#updating-i').removeClass('fa-spinner fa-spin').addClass('fa-save');
                 }
-            })
+            });
         }
 
         function updateRanks() {
@@ -161,10 +171,16 @@
                 data: {
                     all: data
                 },
-                success: function(res) {
+                success: function (res) {
                     toastr.success(res.message);
+                },
+                beforeSend: function () {
+                    $('#updating-btn').prop('disabled', 'disabled').find('#updating-i').addClass('fa-spinner fa-spin').removeClass('fa-save');
+                },
+                complete: function () {
+                    $('#updating-btn').prop('disabled', null).find('#updating-i').removeClass('fa-spinner fa-spin').addClass('fa-save');
                 }
-            })
+            });
         }
     </script>
 @endsection

@@ -49,6 +49,7 @@ class MainController extends Controller
             $mark = 'true';
         } else {
             Auth::user()->ridden()->detach($coaster->id);
+            Auth::user()->ranked()->where('coaster_id', $coaster->id)->delete();
             $mark = 'false';
         }
 
@@ -56,7 +57,7 @@ class MainController extends Controller
         Cache::forget('ridden:'.Auth::id());
 
         return response()->json([
-            'message' => "Looks like it wasn't too bad...",
+            'message' => "Thanks for telling us!",
             'mark' => $mark,
         ]);
     }
