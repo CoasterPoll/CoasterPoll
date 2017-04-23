@@ -2,6 +2,7 @@
 
 namespace ChaseH\Console;
 
+use ChaseH\Console\Commands\UpdateDemographicCity;
 use ChaseH\Console\Commands\UpdateRidersCount;
 use ChaseH\Console\Commands\UserPromotion;
 use Illuminate\Console\Scheduling\Schedule;
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         UserPromotion::class,
         UpdateRidersCount::class,
+        UpdateDemographicCity::class,
     ];
 
     /**

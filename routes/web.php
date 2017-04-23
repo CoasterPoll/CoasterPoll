@@ -17,8 +17,13 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('/analytics/view', 'AnalyticsController@view')->name('analytics.view');
 
-// Authentication
+// ## Authentication
 \Illuminate\Support\Facades\Auth::routes();
+Route::group(['prefix' => 'user', 'middleware' => 'auth'], function() {
+    Route::get('/demographics', 'Users\PreferencesController@demographics')->name('user.demographics');
+    Route::post('/demographics', 'Users\PreferencesController@saveDemographics')->name('user.demographics.post');
+
+});
 
 // ## Coasters
 Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware'], function() {

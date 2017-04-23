@@ -2,6 +2,7 @@
 
 namespace ChaseH\Models;
 
+use ChaseH\Models\Analytics\Demographic;
 use ChaseH\Permissions\HasPermissionsTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,5 +46,9 @@ class User extends Authenticatable
 
     public function ranked() {
         return $this->hasMany('ChaseH\Models\Coasters\Rank');
+    }
+
+    public function demographics() {
+        return $this->belongsTo(Demographic::class, 'demographic_id', 'id');
     }
 }
