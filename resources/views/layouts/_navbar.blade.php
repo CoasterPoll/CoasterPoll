@@ -37,6 +37,28 @@
             <li class="nav-item"><a href="{{ route('admin') }}" class="nav-link">Admin Console</a></li>
             @endrole
             <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" id="notifications-dropdown" data-count="{{ $_notifications->count() }}"><i class="fa @if($_notifications->count() > 0) fa-bell text-warning @else fa-bell-o @endif" id="notifications-icon"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    @foreach($_notifications as $notification)
+                        <a class="dropdown-item notification py-0" href="{{ $notification->data['link'] }}" data-notification="{{ $notification->id }}">
+                            <div class="container-fluid mx-0 px-0 notification-container">
+                                <div class="card card-block p-1">
+                                    <h6 class="lead">@if($notification->read_at == null)<i class="fa fa-circle-o text-info unread-dot"></i> @endif{{ $notification->data['title'] }}</h6>
+                                    <p class="my-1">{{ $notification->data['body'] }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                    <a class="dropdown-item py-0" href="{{ route('notifications') }}">
+                        <div class="container-fluid mx-0 px-0 notification-container">
+                            <div class="card card-block p-1 text-center">
+                                <p class="lead mb-0">All Notifications</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     {{ Auth::user()->name }}
                 </a>

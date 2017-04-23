@@ -86,3 +86,33 @@ $('.confirm-form').on('click', function(e) {
 $('.fade-on-collapse').on('click', function() {
     $('.nav-fadable').toggleClass('nav-transparent');
 });
+$('#notifications-dropdown').on('shown.bs.dropdown', function() {
+    $('.nav-fadable').removeClass('nav-transparent');
+}).on('hidden.bs.dropdown', function() {
+    $('.nav-fadable').addClass('nav-transparent');
+});
+$('.notification').on('mouseenter', function() {
+    var hover = $(this);
+    var dropdown = $('#notifications-dropdown');
+    if(hover.data('notification') !== "") {
+        window._notification_count = (dropdown.data('count') - 1.0);
+        dropdown.data('count', _notification_count);
+        window.setTimeout(markNotificationRead(hover), 2000);
+    }
+});
+function markNotificationRead(item) {
+    $.post({
+        url: "/user/notifications/mark",
+        data: {
+            id: item.data('notification')
+        },
+        success: function() {
+            item.find('.unread-dot').hide();
+            item.data('notification', "");
+
+            if(_notification_count == 0) {
+                $('#notifications-icon').addClass('fa-bell-o').removeClass('fa-bell text-warning');
+            }
+        }
+    })
+}

@@ -23,6 +23,9 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function() {
     Route::get('/demographics', 'Users\PreferencesController@demographics')->name('user.demographics');
     Route::post('/demographics', 'Users\PreferencesController@saveDemographics')->name('user.demographics.post');
 
+    Route::get('/notifications', 'NotificationController@all')->name('notifications');
+    Route::post('/notifications/mark', 'NotificationController@mark')->name('notifications.mark');
+    Route::delete('/notifications/delete', 'NotificationController@delete')->name('notifications.delete');
 });
 
 // ## Coasters

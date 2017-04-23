@@ -2,6 +2,7 @@
 
 namespace ChaseH\Http;
 
+use ChaseH\Http\Middleware\NotificationsMiddleware;
 use ChaseH\Http\Middleware\RoleMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -35,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \ChaseH\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            NotificationsMiddleware::class
         ],
 
         'api' => [

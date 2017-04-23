@@ -11,6 +11,16 @@ use ChaseH\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    public function profile($user) {
+        try {
+            $user = User::where('name', $user)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
+        dd($user);
+    }
+
     public function getUser($id) {
         try {
             $user = User::where('id', $id)->with('permissions', 'roles')->firstOrFail();
