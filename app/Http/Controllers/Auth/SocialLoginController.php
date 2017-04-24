@@ -3,6 +3,7 @@
 namespace ChaseH\Http\Controllers\Auth;
 
 use ChaseH\Models\User;
+use ChaseH\Notifications\NoDemopgrahics;
 use Illuminate\Http\Request;
 use ChaseH\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class SocialLoginController extends Controller
     }
 
     public function redirect($service, Request $request) {
-        return Socialite::driver($service)->redirect();
+        return Socialite::with($service)->redirect();
     }
 
     public function callback($service, Request $request) {

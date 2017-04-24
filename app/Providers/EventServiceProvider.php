@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'ChaseH\Events\Event' => [
             'ChaseH\Listeners\EventListener',
         ],
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            '\SocialiteProviders\Reddit\RedditExtendSocialite@handle'
+        ]
     ];
 
     /**

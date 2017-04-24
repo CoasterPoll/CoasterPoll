@@ -14,7 +14,8 @@
         "laravel/scout": "^3.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "socialiteproviders/reddit": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
