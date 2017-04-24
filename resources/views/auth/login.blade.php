@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
+@section('title')
+    Login
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Sign In</h2>
@@ -62,6 +66,20 @@
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Social Sign In</h2>
+                </div>
+                <div class="card-block">
+                    <div class="nav nav-pills flex-column">
+                        @foreach(config('social.services') as $name => $service)
+                            <a class="nav-link btn btn-outline-primary mb-2" href="{{ route('auth.social', ['service' => $name]) }}"><i class="fa {{ $service['class'] }} fa-fw"></i> {{ $service['name'] }}</a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

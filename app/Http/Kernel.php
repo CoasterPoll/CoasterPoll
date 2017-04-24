@@ -4,6 +4,7 @@ namespace ChaseH\Http;
 
 use ChaseH\Http\Middleware\NotificationsMiddleware;
 use ChaseH\Http\Middleware\RoleMiddleware;
+use ChaseH\Http\Middleware\SocialMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -36,7 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \ChaseH\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            NotificationsMiddleware::class
+            NotificationsMiddleware::class,
         ],
 
         'api' => [
@@ -59,6 +60,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \ChaseH\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'role' => RoleMiddleware::class
+        'role' => RoleMiddleware::class,
+        'social' => SocialMiddleware::class,
     ];
 }

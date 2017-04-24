@@ -19,6 +19,9 @@ Route::post('/analytics/view', 'AnalyticsController@view')->name('analytics.view
 
 // ## Authentication
 \Illuminate\Support\Facades\Auth::routes();
+Route::get('login/{service}', 'Auth\SocialLoginController@redirect')->name('auth.social');
+Route::get('login/{service}/callback', 'Auth\SocialLoginController@callback')->name('auth.social.callback');
+
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function() {
     Route::get('/demographics', 'Users\PreferencesController@demographics')->name('user.demographics');
     Route::post('/demographics', 'Users\PreferencesController@saveDemographics')->name('user.demographics.post');

@@ -40,6 +40,14 @@ class User extends Authenticatable
         $this->roles()->attach(Role::where('name', $role)->first());
     }
 
+    public function hasSocialLinked($service) {
+        return (bool) $this->services->where('service', $service)->count();
+    }
+
+    public function services() {
+        return $this->hasMany(UserSocial::class);
+    }
+
     public function ridden() {
         return $this->belongsToMany('ChaseH\Models\Coasters\Coaster')->withTimestamps();
     }
