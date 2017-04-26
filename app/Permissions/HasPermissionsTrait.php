@@ -19,12 +19,12 @@ trait HasPermissionsTrait {
     // Functions
     public function hasRole(...$roles) {
         $user = $this;
-        $roles = Cache::remember('roles:'.$this->id, 60, function() use ($user) {
+        $userroles = Cache::remember('roles:'.$this->id, 60, function() use ($user) {
             return $user->roles;
         });
 
         foreach($roles as $role) {
-            if($roles->contains('name', $role)) {
+            if($userroles->contains('name', $role)) {
                 return true;
             }
         }
