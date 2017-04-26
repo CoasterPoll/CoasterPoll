@@ -28,6 +28,9 @@ Route::get('login/{service}', 'Auth\SocialLoginController@redirect')->name('auth
 Route::get('login/{service}/callback', 'Auth\SocialLoginController@callback')->name('auth.social.callback');
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function() {
+    Route::get('/settings', 'Users\PreferencesController@settings')->name('user.settings');
+    Route::post('/settings', 'Users\PreferencesController@updateSettings')->name('user.settings.post');
+
     Route::get('/demographics', 'Users\PreferencesController@demographics')->name('user.demographics');
     Route::post('/demographics', 'Users\PreferencesController@saveDemographics')->name('user.demographics.post');
 
