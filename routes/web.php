@@ -17,6 +17,11 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('/analytics/view', 'AnalyticsController@view')->name('analytics.view');
 
+Route::get('contact', 'ContactController@general')->name('contact');
+Route::get('contact/general', 'ContactController@general');
+Route::get('contact/coaster/{coaster?}', 'ContactController@coaster')->name('contact.coaster');
+Route::post('contact', 'ContactController@post')->name('contact.post');
+
 // ## Authentication
 \Illuminate\Support\Facades\Auth::routes();
 Route::get('login/{service}', 'Auth\SocialLoginController@redirect')->name('auth.social');
@@ -72,6 +77,7 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
 Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], function() {
     Route::get('/', 'AdminController@dashboard')->name('admin');
     Route::get('/search', 'AdminController@search')->name('admin.search');
+    Route::get('/contact/{id?}','ContactController@admin')->name('admin.contact');
 
     Route::group(['middleware' => ['can:Can manage users']], function() {
         Route::get('user/{id}', 'Users\UserController@getUser')->name('admin.user')->where('id', '[0-9]+');

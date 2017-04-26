@@ -41,6 +41,10 @@ class Coaster extends Model
         return $return->get();
     }
 
+    public function getLink() {
+        return route('coasters.coaster.id', ['id' => $this->id]);
+    }
+
     // ## Relationships
     public function park() {
         return $this->belongsTo('ChaseH\Models\Coasters\Park');
@@ -64,6 +68,10 @@ class Coaster extends Model
 
     public function rankings() {
         return $this->hasMany('ChaseH\Models\Coasters\Rank');
+    }
+
+    public function contact() {
+        return $this->morphMany('ChaseH\Models\Contact', 'contactable');
     }
 
     // ## Traits

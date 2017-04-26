@@ -8,6 +8,7 @@
             <div class="col-sm-4 offset-sm-4">
                 <div class="nav flex-column justify-content-center">
                     <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                     <a class="nav-link" href="https://blog.coasterpoll.com">Blog</a>
                     <a class="nav-link" href="https://things.chaseh.net/">Bugs/Features</a>
                 </div>

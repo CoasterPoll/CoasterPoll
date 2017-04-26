@@ -59,4 +59,8 @@ class User extends Authenticatable
     public function demographics() {
         return $this->belongsTo(Demographic::class, 'demographic_id', 'id');
     }
+
+    public function contacts() {
+        return $this->hasMany('ChaseH\Models\Contact');
+    }
 }
