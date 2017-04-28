@@ -43,8 +43,8 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     @foreach($_notifications as $notification)
-                        <a class="dropdown-item notification py-0" href="{{ $notification->data['link'] }}" data-notification="{{ $notification->id }}">
-                            <div class="container-fluid mx-0 px-0 notification-container">
+                        <a class="dropdown-item notification py-0 my-1" href="{{ $notification->data['link'] }}" data-notification="{{ $notification->id }}">
+                            <div class="container-fluid mx-0 px-1 notification-container">
                                 <div class="card card-block p-1">
                                     <h6 class="lead">@if($notification->read_at == null)<i class="fa fa-circle-o text-info unread-dot"></i> @endif{{ $notification->data['title'] }}</h6>
                                     <p class="my-1">{{ $notification->data['body'] }}</p>
@@ -52,8 +52,8 @@
                             </div>
                         </a>
                     @endforeach
-                    <a class="dropdown-item py-0" href="{{ route('notifications') }}">
-                        <div class="container-fluid mx-0 px-0 notification-container">
+                    <a class="dropdown-item py-0 my-1" href="{{ route('notifications') }}">
+                        <div class="container-fluid mx-0 px-1 notification-container">
                             <div class="card card-block p-1 text-center">
                                 <p class="lead mb-0">All Notifications</p>
                             </div>
