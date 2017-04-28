@@ -8,6 +8,7 @@ use ChaseH\Permissions\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -44,6 +45,8 @@ class User extends Authenticatable
 
     public function promoteToAdmin($role = "Admin") {
         $this->roles()->attach(Role::where('name', $role)->first());
+
+        Cache::forget('roles:'.$this->id);
     }
 
     public function hasSocialLinked($service) {
