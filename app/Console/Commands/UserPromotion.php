@@ -14,7 +14,7 @@ class UserPromotion extends Command
      *
      * @var string
      */
-    protected $signature = 'user:promote {username : The username of the user to promote}';
+    protected $signature = 'user:promote {email : The email of the user to promote}';
 
     /**
      * The console command description.
@@ -40,11 +40,11 @@ class UserPromotion extends Command
      */
     public function handle()
     {
-        $username = $this->argument('username');
+        $email = $this->argument('email');
         try {
-            $user = User::where('name', $username)->firstOrFail();
+            $user = User::where('email', $email)->firstOrFail();
         } catch (ModelNotFoundException $e) {
-            $this->error("Cannot find {$username}.");
+            $this->error("Cannot find {$email}.");
             die();
         }
 
@@ -56,7 +56,7 @@ class UserPromotion extends Command
         } else {
             $valid = false;
             while(!$valid) {
-                $input = $this->ask("What role should we promote {$username} to?", "Admin");
+                $input = $this->ask("What role should we promote {$email} to?", "Admin");
                 if(Role::where('name', $input)->count() > 0) {
                     $valid = true;
                     $role = $input;
