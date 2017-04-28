@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use ChaseH\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class PreferencesController extends Controller
 {
@@ -74,14 +75,21 @@ class PreferencesController extends Controller
         $user = Auth::user();
 
         if($request->input('edit-password') == 'true') {
-            $this->validate($request, [
+            $v = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
                 'password' => 'required|string|min:6|confirmed',
-                'old_password' => 'required|string|min:6',
             ]);
 
-            if(!Hash::check($request->input('old_password'), $user->getAuthPassword())) {
+            $v->sometimes('old_password', 'required|string|min:6', function($input) use ($user) {
+                return $user->password !== null;
+            });
+
+            if($v->fails()) {
+                return back()->withErrors($v)->withInput();
+            }
+
+            if($user->password !== null && !Hash::check($request->input('old_password'), $user->getAuthPassword())) {
                 return back()->withDanger("That password doesn't match your current one.");
             }
 
