@@ -38,7 +38,7 @@
         <a class="navbar-brand" href="/">{{ config('app.name', 'ChV3') }}</a>
         @include('layouts._navbar')
     </nav>
-    <div class="container" id="headContainer">
+    <div class="@if(isset($_override_container)){{ $_override_container }} @else container @endif" id="headContainer">
         @include('layouts._flash')
         @yield('content')
     </div>

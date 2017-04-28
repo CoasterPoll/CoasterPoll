@@ -1,3 +1,6 @@
+@if(!isset($_override_footer_image))
+<img src="@if(!isset($_footer_image)) {{ asset('img/track-footer.png') }} @else {{ asset($_footer_image) }} @endif" id="footer-track" alt="Track">
+@endif
 <footer class="footer bg-faded">
     <div class="container">
         <div class="row">
@@ -5,8 +8,8 @@
                 <h1 class="branding"><a class="lead-unstyled" href="/">CoasterPoll.com</a></h1>
                 <p class="text-muted">Powered by <a href="https://chaseh.net">ChaseH.net</a> </p>
             </div>
-            <div class="col-sm-4 offset-sm-4">
-                <div class="nav flex-column justify-content-center">
+            <div class="col-sm-8">
+                <div class="nav justify-content-center flex-sm-row flex-column">
                     <a class="nav-link" href="/">Home</a>
                     <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                     <a class="nav-link" href="https://blog.coasterpoll.com">Blog</a>
