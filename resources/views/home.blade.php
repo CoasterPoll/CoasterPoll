@@ -22,7 +22,7 @@ Home
                     </span>
                 </div>
                 <div class="col-sm-8">
-                    <h3>1. Visit Parks</h3>
+                    <h3>1. Visit Parks  (And Ride Coasters!)</h3>
                     <p>The best place to start is visiting parks and riding coasters. Your opinion matters whether you've been to 1 park or 100. Once you ride it, just click the <button type="button" id="ridden-example" class="btn btn-sm btn-outline-success"><i class="fa fa-check-square-o"></i> Ridden</button> button to keep track of which coasters you've riddne.</p>
                 </div>
             </div>
