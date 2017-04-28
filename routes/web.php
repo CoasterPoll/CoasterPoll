@@ -14,6 +14,7 @@ use \Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');
 
 Route::post('/analytics/view', 'AnalyticsController@view')->name('analytics.view');
 
@@ -90,6 +91,7 @@ Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], fu
         Route::post('user/permission/grant', 'Users\PermissionsController@postUserPermission')->name('admin.user.permission.post');
         Route::post('user/lock', 'Users\UserController@lockAccount')->name('admin.user.lock.post');
         Route::post('user/unlock', 'Users\UserController@unlockAccount')->name('admin.user.unlock.post');
+        Route::post('user/reset', 'Users\UserController@resetPassword')->name('admin.user.reset-password');
     });
 
     Route::group(['middleware' => ['can:Can manage roles']], function() {

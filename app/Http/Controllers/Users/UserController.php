@@ -6,11 +6,14 @@ use ChaseH\Models\Permission;
 use ChaseH\Models\Role;
 use ChaseH\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use ChaseH\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    use SendsPasswordResetEmails;
+
     public function profile($user) {
         try {
             $user = User::where('name', $user)->firstOrFail();
@@ -78,5 +81,11 @@ class UserController extends Controller
         $user->unlockAccount();
 
         return redirect(route('admin.user', ['id' => $user->id]))->withSuccess("Account unlocked!");
+    }
+
+    public function resetPassword(Request $request) {
+        $response = $this->sendResetLinkEmail($request);
+
+        return back()->withSuccess("Done.");
     }
 }

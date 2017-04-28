@@ -63,6 +63,18 @@
                             </div>
                         </form>
                     @endif
+                    <form action="{{ route('admin.user.reset-password') }}" method="post" class="mb-4">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="email" value="{{ $user->email }}">
+                                <p>Emails user with a reset link.</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-outline-warning"><i class="fa fa-question-circle"></i> Reset</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
