@@ -2,6 +2,7 @@
 
 namespace ChaseH\Models;
 
+use ChaseH\Events\UserCreated;
 use ChaseH\Models\Analytics\Demographic;
 use ChaseH\Permissions\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +11,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasPermissionsTrait, SearchableTrait;
     use Notifiable, HasPermissionsTrait, SearchableTrait, SoftDeletes;
 
     /**
@@ -29,6 +29,10 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    protected $events = [
+        'created' => UserCreated::class,
     ];
 
     protected static function getSearchable() {
