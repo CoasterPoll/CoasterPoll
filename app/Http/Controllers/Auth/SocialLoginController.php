@@ -41,6 +41,10 @@ class SocialLoginController extends Controller
             ]);
         }
 
+        if($user->deleted_at !== null) {
+            return redirect(route('home'))->withDanger("Sorry. Your account is locked.");
+        }
+
         Auth::login($user); // Log in, don't remember;
 
         return redirect()->intended('/');
@@ -49,7 +53,7 @@ class SocialLoginController extends Controller
     protected function getExistingUser($serviceUser, $service) {
         return User::where('email', $serviceUser->getEmail())->orWhereHas('services', function($query) use ($serviceUser, $service) {
             $query->where('social_id', $serviceUser->getId())->where('service', $service);
-        })->first();
+        })->withTrashed()->first();
     }
 
     protected function needsToCreateSocial(User $user, $service) {

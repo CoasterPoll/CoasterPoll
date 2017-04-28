@@ -88,6 +88,8 @@ Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], fu
         Route::delete('user/role/remove', 'Users\PermissionsController@deleteUserRole')->name('admin.user.role.delete');
         Route::post('user/role/grant', 'Users\PermissionsController@postUserRole')->name('admin.user.role.post');
         Route::post('user/permission/grant', 'Users\PermissionsController@postUserPermission')->name('admin.user.permission.post');
+        Route::post('user/lock', 'Users\UserController@lockAccount')->name('admin.user.lock.post');
+        Route::post('user/unlock', 'Users\UserController@unlockAccount')->name('admin.user.unlock.post');
     });
 
     Route::group(['middleware' => ['can:Can manage roles']], function() {

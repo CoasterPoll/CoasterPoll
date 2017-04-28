@@ -4,12 +4,14 @@ namespace ChaseH\Models;
 
 use ChaseH\Models\Analytics\Demographic;
 use ChaseH\Permissions\HasPermissionsTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use Notifiable, HasPermissionsTrait, SearchableTrait;
+    use Notifiable, HasPermissionsTrait, SearchableTrait, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -62,5 +64,17 @@ class User extends Authenticatable
 
     public function contacts() {
         return $this->hasMany('ChaseH\Models\Contact');
+    }
+
+    public function lockAccount() {
+        $this->roles()->detach();
+
+        $this->delete();
+    }
+
+    public function unlockAccount() {
+        $this->restore();
+
+        $this->roles()->attach(Role::where('name', 'User')->first());
     }
 }

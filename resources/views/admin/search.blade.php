@@ -20,11 +20,14 @@
         @isset($results)
             <div class="col-md-8">
                 @foreach($results as $result)
-                    <div class="card @if($loop->first) mb-4 @else my-4 @endif">
+                    <div class="card @if($loop->first) mb-4 @else my-4 @endif @if($result->deleted_at) card-outline-danger @endif ">
                         @if($result instanceof Chaseh\Models\User)
                             <div class="card-block">
-                                <h4 class="card-title">{{ $result->name }} <small>User</small></h4>
-                                <a href="{{ route('admin.user', ['id' => $result->id]) }}">Edit</a>
+                                <h4 class="card-title"><a href="{{ route('admin.user', ['id' => $result->id]) }}" class="link-unstyled">{{ $result->name }}</a> <small>User</small></h4>
+                                <ul class="list-unstyled flex-row">
+                                    <li><a href="{{ route('admin.user', ['id' => $result->id]) }}">Edit</a></li>
+                                    <li><a href="mailto:{{ $result->email }}">{{ $result->email }}</a></li>
+                                </ul>
                             </div>
                         @endif
                     </div>

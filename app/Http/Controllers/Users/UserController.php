@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function getUser($id) {
         try {
-            $user = User::where('id', $id)->with('permissions', 'roles')->firstOrFail();
+            $user = User::where('id', $id)->with('permissions', 'roles')->withTrashed()->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return abort(404);
         }
@@ -54,5 +54,29 @@ class UserController extends Controller
         ]);
 
         return back()->withSuccess("Yeah! We made some changes, like 'em?");
+    }
+
+    public function lockAccount(Request $request) {
+        try {
+            $user = User::where('id', $request->input('user'))->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
+        $user->lockAccount();
+
+        return redirect(route('admin.user', ['id' => $user->id]))->withSuccess("Account locked.");
+    }
+
+    public function unlockAccount(Request $request) {
+        try {
+            $user = User::where('id', $request->input('user'))->withTrashed()->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
+        $user->unlockAccount();
+
+        return redirect(route('admin.user', ['id' => $user->id]))->withSuccess("Account unlocked!");
     }
 }

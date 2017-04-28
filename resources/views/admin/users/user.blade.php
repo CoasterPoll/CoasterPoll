@@ -36,7 +36,33 @@
                     <h2 class="card-title"><em>Nadda</em></h2>
                 </div>
                 <div class="card-block">
-
+                    @if($user->deleted_at == null)
+                        <form action="{{ route('admin.user.lock.post') }}" class="mb-4" method="post">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="user" value="{{ $user->id }}">
+                                    <p>Removes permissions and soft deletes account.</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="submit" class="btn btn-outline-danger confirm-form"><i class="fa fa-lock"></i> Lock</button>
+                                </div>
+                            </div>
+                        </form>
+                    @else
+                        <form action="{{ route('admin.user.unlock.post') }}" method="post">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="user" value="{{ $user->id }}">
+                                    <p>Restores account.</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="submit" class="btn btn-outline-success confirm-form"><i class="fa fa-unlock"></i> Unlock</button>
+                                </div>
+                            </div>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
