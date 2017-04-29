@@ -2,6 +2,7 @@
 
 namespace ChaseH\Http;
 
+use ChaseH\Http\Middleware\LinksInViewsMiddleware;
 use ChaseH\Http\Middleware\NotificationsMiddleware;
 use ChaseH\Http\Middleware\RoleMiddleware;
 use ChaseH\Http\Middleware\SocialMiddleware;
@@ -38,6 +39,7 @@ class Kernel extends HttpKernel
             \ChaseH\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             NotificationsMiddleware::class,
+            LinksInViewsMiddleware::class,
         ],
 
         'api' => [

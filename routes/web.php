@@ -99,4 +99,17 @@ Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], fu
         Route::post('user/roles', 'Users\PermissionsController@postRole')->name('admin.user.roles.post');
         Route::delete('user/roles', 'Users\PermissionsController@deleteRole')->name('admin.user.roles.delete');
     });
+
+    Route::group(['middleware' => ['can:Can write content'], 'prefix' => 'content'], function() {
+        Route::get('pages', 'ContentController@adminPages')->name('admin.content.pages');
+        Route::post('page', 'ContentController@savePage')->name('admin.content.page.post');
+        Route::get('page/{page?}', 'ContentController@adminPage')->name('admin.content.page');
+
+        Route::get('links/{link?}', 'ContentController@adminLinks')->name('admin.content.links');
+        Route::post('links', 'ContentController@saveLink')->name('admin.content.link.post');
+        Route::delete('link', 'ContentController@deleteLink')->name('admin.content.link.delete');
+    });
 });
+
+// ## CMS?
+Route::get('{page}', 'ContentController@page')->name('content');

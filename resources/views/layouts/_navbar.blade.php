@@ -19,6 +19,9 @@
                 </div>
             </li>
         @endcan
+        @foreach($_navbar_links as $_link)
+            <li class="nav-item"><a href="{{ $_link->href }}" class="nav-link">{{ $_link->text }}</a></li>
+        @endforeach
     </ul>
     <ul class="navbar-nav">
         <form class="form-inline justify-content-end mr-2" action="{{ route('coasters.search') }}" method="get">

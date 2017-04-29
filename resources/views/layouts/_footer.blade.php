@@ -4,16 +4,19 @@
 <footer class="footer bg-faded">
     <div class="container">
         <div class="row">
-            <div class="col-sm-4 text-center">
+            <div class="col-md-4 text-center">
                 <h1 class="branding"><a class="lead-unstyled" href="/">CoasterPoll.com</a></h1>
                 <p class="text-muted">Powered by <a href="https://chaseh.net">ChaseH.net</a> </p>
             </div>
-            <div class="col-sm-8">
-                <div class="nav justify-content-center flex-sm-row flex-column">
+            <div class="col-md-8">
+                <div class="nav justify-content-center flex-md-row flex-column">
                     <a class="nav-link" href="/">Home</a>
                     <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                     <a class="nav-link" href="https://blog.coasterpoll.com">Blog</a>
                     <a class="nav-link" href="https://things.chaseh.net/">Bugs/Features</a>
+                    @foreach($_footer_links as $_link)
+                        <a class="nav-link" href="{{ $_link->href }}">{{ $_link->text }}</a>
+                    @endforeach
                 </div>
             </div>
         </div>

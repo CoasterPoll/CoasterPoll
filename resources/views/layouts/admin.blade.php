@@ -69,6 +69,10 @@
             <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar" id="sidebar">
                 <ul class="nav nav-pills flex-column">
                     <li><span class="nav-link lead pb-0"><i class="fa fa-sitemap fa-fw"></i> Main Site</span></li>
+                    @can('Can write content')
+                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.content.pages') }}">Pages</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.content.links') }}">Links</a></li>
+                    @endcan
                 </ul>
                 <ul class="nav nav-pills flex-column">
                     <li><span class="nav-link lead pb-0"><i class="fa fa-users fa-fw"></i> Users</span></li>
