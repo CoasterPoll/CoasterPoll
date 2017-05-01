@@ -39,12 +39,12 @@
                     @if($user->deleted_at == null)
                         <form action="{{ route('admin.user.lock.post') }}" class="mb-4" method="post">
                             <div class="row">
-                                <div class="col-sm-9">
+                                <div class="col-sm-7">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="user" value="{{ $user->id }}">
                                     <p>Removes permissions and soft deletes account.</p>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-5">
                                     <button type="submit" class="btn btn-outline-danger confirm-form"><i class="fa fa-lock"></i> Lock</button>
                                 </div>
                             </div>
@@ -52,12 +52,12 @@
                     @else
                         <form action="{{ route('admin.user.unlock.post') }}" method="post">
                             <div class="row">
-                                <div class="col-sm-9">
+                                <div class="col-sm-7">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="user" value="{{ $user->id }}">
                                     <p>Restores account.</p>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-5">
                                     <button type="submit" class="btn btn-outline-success confirm-form"><i class="fa fa-unlock"></i> Unlock</button>
                                 </div>
                             </div>
@@ -65,12 +65,12 @@
                     @endif
                     <form action="{{ route('admin.user.reset-password') }}" method="post" class="mb-4">
                         <div class="row">
-                            <div class="col-sm-9">
+                            <div class="col-sm-7">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="email" value="{{ $user->email }}">
                                 <p>Emails user with a reset link.</p>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-5">
                                 <button type="submit" class="btn btn-outline-warning"><i class="fa fa-question-circle"></i> Reset</button>
                             </div>
                         </div>
