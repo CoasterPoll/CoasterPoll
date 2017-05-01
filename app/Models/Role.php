@@ -10,7 +10,8 @@ class Role extends Model
     use Notifiable;
 
     protected $fillable = [
-        'name'
+        'name',
+        'default',
     ];
 
     public function permissions() {

@@ -79,6 +79,8 @@ trait HasPermissionsTrait {
 
         $this->permissions()->sync($permissions);
 
+        Cache::forget('perms:'.$this->id);
+
         return $this;
     }
 
@@ -90,6 +92,8 @@ trait HasPermissionsTrait {
         $permissions = $this->getPermissions(array_flatten($permissions));
 
         $this->permissions()->detach($permissions);
+
+        Cache::forget('perms:'.$this->id);
 
         return $this;
     }
@@ -110,6 +114,8 @@ trait HasPermissionsTrait {
 
         $this->roles()->syncWithoutDetaching($roles);
 
+        Cache::forget('roles:'.$this->id);
+
         return $this;
     }
 
@@ -121,6 +127,8 @@ trait HasPermissionsTrait {
         $roles = $this->getRoles(array_flatten($roles));
 
         $this->roles()->detach($roles);
+
+        Cache::forget('roles:'.$this->id);
 
         return $this;
     }

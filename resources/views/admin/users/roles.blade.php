@@ -45,6 +45,16 @@
                                 <label for="name">Name</label>
                                 <input type="text" id="name" name="name" autocomplete="nope" class="form-control" @if(isset($single)) value="{{ $single->name }}"@else autofocus @endif tabindex="1">
                             </fieldset>
+                            <fieldset class="form-group">
+                                <div class="btn-group mr-2" data-toggle="buttons">
+                                    <label class="btn btn-primary @if(isset($single) && $single->default) active @endif">
+                                        <input type="radio" name="default" value="1" id="default" autocomplete="off" @if(isset($single) && $single->default) checked @endif> Default
+                                    </label>
+                                    <label class="btn btn-primary @if(isset($single) && !$single->default) active @endif">
+                                        <input type="radio" name="default" value="0" id="special" autocomplete="off" @if(isset($single) && !$single->default) checked @endif> Special
+                                    </label>
+                                </div>
+                            </fieldset>
                         </div>
                         <div class="col-md-6">
                             <table class="table table-striped table-sm">

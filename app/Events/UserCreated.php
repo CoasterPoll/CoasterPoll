@@ -23,7 +23,10 @@ class UserCreated
      */
     public function __construct(User $user)
     {
-        $user->roles()->attach(Role::where('name', 'User')->first());
+        $roles = Role::where('default', true)->get();
+        foreach($roles as $role) {
+            $user->roles()->attach($role);
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use ChaseH\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
 class PermissionsController extends Controller
@@ -48,6 +49,8 @@ class PermissionsController extends Controller
 
         $user->givePermissionTo($req->input('permissions'));
 
+        Cache::forget('perms:'.$user->id);
+
         return back()->withSuccess("Updated {$user->name}'s individual permissions.");
     }
 
@@ -77,7 +80,8 @@ class PermissionsController extends Controller
         $role = Role::updateOrCreate([
             'id' => $request->input('role')
         ], [
-            'name' => $request->input('name')
+            'name' => $request->input('name'),
+            'default' => $request->input('default'),
         ]);
 
         $ids = $request->input('permissions');
@@ -88,6 +92,10 @@ class PermissionsController extends Controller
         $permissions = Permission::whereIn('id', $ids)->get();
 
         $role->permissions()->sync($permissions);
+
+        foreach($permissions as $permission) {
+            Cache::forget('perm-role:'.$permission->id);
+        }
 
         return back()->withSuccess("We made changes to {$role->name}! Hopefully for the better...");
     }
