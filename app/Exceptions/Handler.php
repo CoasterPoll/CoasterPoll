@@ -62,4 +62,15 @@ class Handler extends ExceptionHandler
 
         return redirect()->guest(route('login'));
     }
+
+    protected function prepareResponse($request, Exception $e)
+    {
+        if ($this->isHttpException($e)) {
+            return $this->toIlluminateResponse($this->renderHttpException($e), $e);
+        } elseif (! config('app.debug')) {
+            return response()->view('errors.500', [], 500);
+        } else {
+            return $this->toIlluminateResponse($this->convertExceptionToResponse($e), $e);
+        }
+    }
 }
