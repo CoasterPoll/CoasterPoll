@@ -19,9 +19,7 @@ class NotificationsMiddleware
     public function handle($request, Closure $next)
     {
         if(Auth::check()) {
-            $notifications = Cache::remember('notif:'.Auth::id(), 30, function() {
-                return Auth::user()->unreadNotifications;
-            });
+            $notifications = Auth::user()->unreadNotifications;
         } else {
             $notifications = null;
         }
