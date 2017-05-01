@@ -109,8 +109,8 @@ class ResultsController extends Controller
             'name' => $request->input('name'),
             'url' => $request->input('url'),
             'group' => $request->input('group'),
-            'description' => $request->input('description'),
-            'public' => $request->input('public'),
+            'description' => $request->input('description', 0),
+            'public' => $request->input('public', 0),
             'run_at' => $run_at->created_at,
         ]);
 
@@ -118,8 +118,10 @@ class ResultsController extends Controller
             $page->setDefault();
         }
 
-        if(ResultPage::where('public', true)->count() > 0) {
+        if(ResultPage::where('public', true)->where('default', true)->count() > 0) {
             Cache::forever('has-results', true);
+        } else {
+            Cache::forget('has-results');
         }
 
         return back()->withSuccess("We've saved that page.");
