@@ -57,7 +57,7 @@
             @endrole
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" id="notifications-dropdown" data-count="{{ $_notifications->count() }}">
-                    @if($_notifications->count() > 0)<span class="badge badge-success">{{ $_notifications->count() }}</span>@endif
+                    @if($_notifications->count() > 0)<span class="badge badge-success" id="notification-badge">{{ $_notifications->count() }}</span>@endif
                     <i class="fa @if($_notifications->count() > 0) fa-bell text-warning @else fa-bell-o @endif" id="notifications-icon"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
