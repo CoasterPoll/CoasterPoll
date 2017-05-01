@@ -112,6 +112,7 @@ function markNotificationRead(item) {
 
             if(_notification_count == 0) {
                 $('#notifications-icon').addClass('fa-bell-o').removeClass('fa-bell text-warning');
+                $('#notification-badge').hide();
             }
         }
     })
