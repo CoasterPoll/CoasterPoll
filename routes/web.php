@@ -60,7 +60,16 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
         Route::get('/new/park', 'Coasters\ParkController@new')->name('coasters.park.new');
         Route::get('/new/coaster', 'Coasters\CoasterController@new')->name('coasters.coaster.new');
         Route::get('/new/manufacturer', 'Coasters\ManufacturerController@new')->name('coasters.manufacturer.new');
+        Route::group(['middleware' => 'can:Can run results'], function() {
+            Route::get('/results/manage/{page?}', 'Coasters\ResultsController@manage')->name('coasters.results.manage');
+            Route::post('/results/run', 'Coasters\ResultsController@run')->name('coasters.results.run');
+            Route::post('/results/page', 'Coasters\ResultsController@savePage')->name('coasters.results.page.post');
+            Route::delete('/results/page', 'Coasters\ResultsController@deletePage')->name('coasters.results.page.delete');
+            Route::delete('/results/group', 'Coasters\ResultsController@deleteGroup')->name('coasters.results.group.delete');
+        });
     });
+
+    Route::get('/results/{url?}', 'Coasters\ResultsController@results')->name('coasters.results');
 
     Route::get('P{park}/{tab?}', 'Coasters\ParkController@short')->name('coasters.park.id')->where(['park' => '[0-9]+']);
     Route::get('C{coaster}/{tab?}', 'Coasters\CoasterController@short')->name('coasters.coaster.id');

@@ -7,6 +7,22 @@
         @can('Can rank coasters')
             <li class="nav-item"><a href="{{ route('coasters.rank') }}" class="nav-link">Ranking</a></li>
         @endcan
+        @if(\Illuminate\Support\Facades\Cache::get('has-results') === true && !\Illuminate\Support\Facades\Auth::check())
+            <li class="nav-item"><a href="{{ route('coasters.results') }}" class="nav-link">Results</a></li>
+        @endif
+        @can('Can run results')
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    Results
+                </a>
+                <div class="dropdown-menu">
+                    @if(\Illuminate\Support\Facades\Cache::get('has-results') === true)
+                        <a class="dropdown-item" href="{{ route('coasters.results') }}">View Results</a>
+                    @endif
+                    <a class="dropdown-item" href="{{ route('coasters.results.manage') }}">Manage</a>
+                </div>
+            </li>
+        @endcan
         @can('Can manage coasters')
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
