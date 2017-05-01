@@ -11,11 +11,11 @@
     <title>@yield('title') | {{ config('app.name', 'ChV3') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/bootstrap4.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/sweetalert.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" media="all">
-    <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link href="{{ env('CDN_URL', env('APP_URL')) }}/css/bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/sweetalert.css" type="text/css">
+    <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/toastr.min.css">
+    <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/app.css">
 
     <!-- Scripts -->
     <script>
@@ -44,12 +44,12 @@
     </div>
     @include('layouts._footer')
     <!-- Scripts -->
-    <script src="{{ asset('js/jquery-2.2.3.min.js') }}"></script>
-    <script src="{{ asset('js/tether.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('js/toastr.min.js') }}"></script>
-    <script src="{{ asset('js/bootbox.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/jquery-2.2.3.min.js"></script>
+    <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/tether.min.js"></script>
+    <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/bootstrap4.min.js"></script>
+    <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/toastr.min.js"></script>
+    <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/bootbox.min.js"></script>
+    <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/app.js"></script>
     @include('coasters._scripts')
     @yield('scripts')
 </body>
