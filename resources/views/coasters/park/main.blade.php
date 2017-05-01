@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card">
-            @if($park->img_url !== null && $park->img_url !== "")
-                <img class="card-img-top" src="{{ $park->img_url }}" alt="{{ $park->name }}">
+            @if($park->hasImg())
+                <img class="card-img-top" src="{{ $park->getImg() }}" alt="{{ $park->name }}">
             @endif
             <div class="card-block">
                 <h4 class="card-title">{{ $park->short }}</h4>

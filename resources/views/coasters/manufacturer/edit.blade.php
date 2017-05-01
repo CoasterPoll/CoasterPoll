@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-8 offset-md-2">
         <div class="card card-block">
-            <form action="{{ route('coasters.manufacturer.update') }}" method="post">
+            <form action="{{ route('coasters.manufacturer.update') }}" method="post" enctype="multipart/form-data">
                 <fieldset class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" class="form-control" name="name" @isset($manufacturer->name)value="{{ $manufacturer->name }}" @endisset>
@@ -28,6 +28,14 @@
                             <p class="text-muted">Only the numbers in the URL (before the .htm).</p>
                         </div>
                     </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="photo">Photo</label>
+                    <input type="file" class="form-control-file" id="photo" name="photo">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="img_url">Image URL</label>
+                    <input type="text" name="img_url" value="@if($manufacturer->hasImg()) {{ $manufacturer->getImg() }} @endif " id="img_url" class="form-control">
                 </fieldset>
                 <fieldset class="form-group">
                     @isset($manufacturer->id)

@@ -110,7 +110,7 @@ class CoasterController extends Controller
         // Deleting a record. So sad.
         if($id !== null && $request->input('delete') == "true") {
             try {
-                $park = Coaster::where('id', $id)->firstOrFail();
+                $coaster = Coaster::where('id', $id)->firstOrFail();
             } catch (ModelNotFoundException $e) {
                 return abort(404);
             }
@@ -139,13 +139,6 @@ class CoasterController extends Controller
             }
         }
 
-        // Check for an uploaded image
-        if(false) {
-            $img_url = "";
-        } else {
-            $img_url = null;
-        }
-
         $coaster = Coaster::updateOrCreate([
             'id' => $id,
         ],[
@@ -156,9 +149,27 @@ class CoasterController extends Controller
             'park_id' => $request->input('park'),
             'type_id' => $request->input('type'),
             'rcdb_id' => $request->input('rcdb_id'),
-            'img_url' => $img_url,
             'copyright' => $request->input('copyright'),
         ]);
+
+        // Check for an uploaded image
+        if($request->hasFile('photo')) {
+            // Upload the file
+            $img_path = $request->photo->store('public-images', 's3');
+
+            $coaster->update([
+                'img_path' => $img_path,
+                'img_url' => null,
+            ]);
+        }
+
+        // Check if we're changing the image url
+        if(!$request->hasFile('photo') && $request->img_url !== $coaster->getImg()) {
+            $coaster->update([
+                'img_url' => $request->img_url,
+                'img_path' => null,
+            ]);
+        }
 
         $coaster->categories()->sync($request->input('categories'));
 

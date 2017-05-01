@@ -91,13 +91,6 @@ class ManufacturerController extends Controller
             }
         }
 
-        // Check for an uploaded image
-        if(false) {
-            $img_url = "";
-        } else {
-            $img_url = null;
-        }
-
         $manufacturer = Manufacturer::updateOrCreate([
             'id' => $id,
         ],[
@@ -106,9 +99,27 @@ class ManufacturerController extends Controller
             'location' => $request->input('location'),
             'website' => $request->input('website'),
             'rcdb_id' => $request->input('rcdb_id'),
-            'img_url' => $img_url,
             'copyright' => $request->input('copyright'),
         ]);
+
+        // Check for an uploaded image
+        if($request->hasFile('photo')) {
+            // Upload the file
+            $img_path = $request->photo->store('public-images', 's3');
+
+            $manufacturer->update([
+                'img_path' => $img_path,
+                'img_url' => null,
+            ]);
+        }
+
+        // Check if we're changing the image url
+        if(!$request->hasFile('photo') && $request->img_url !== $manufacturer->getImg()) {
+            $manufacturer->update([
+                'img_url' => $request->img_url,
+                'img_path' => null,
+            ]);
+        }
 
         Cache::forget('man:'.$manufacturer->abbreviation);
 

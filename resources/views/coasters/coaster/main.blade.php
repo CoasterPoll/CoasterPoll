@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-md-8 offset-md-2">
         <div class="card">
-            @if($coaster->img_url !== null)
-                <img class="card-img-top" src="{{ $coaster->img_url }}" alt="{{ $coaster->name }}">
+            @if($coaster->hasImg())
+                <img class="card-img-top" src="{{ $coaster->getImg() }}" alt="{{ $coaster->name }}">
             @endif
             <div class="card-block">
                 <h4 class="card-title"><a href="{{ route('coasters.park', ['park' => $coaster->park->short]) }}" class="lead-unstyled">{{ $coaster->park->name }}</a></h4>

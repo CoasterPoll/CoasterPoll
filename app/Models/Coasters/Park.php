@@ -20,6 +20,7 @@ class Park extends Model
         'website',
         'rcdb_id',
         'img_url',
+        'img_path',
         'copyright',
     ];
 
@@ -28,6 +29,30 @@ class Park extends Model
             'name',
             'city'
         ];
+    }
+
+    public function getLink() {
+        return route('coasters.park.id', ['id' => $this->id]);
+    }
+
+    public function hasImg() {
+        if($this->img_path !== null || $this->img_url !== null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getImg() {
+        if($this->img_path !== null) {
+            return env('IMG_URL')."/".$this->img_path;
+        }
+
+        if($this->img_url !== null) {
+            return $this->img_url;
+        }
+
+        return null;
     }
 
     // ## Relationships

@@ -1,4 +1,4 @@
- <form action="{{ route('coasters.coaster.update') }}" method="post">
+ <form action="{{ route('coasters.coaster.update') }}" method="post" enctype="multipart/form-data">
      <div class="row">
         <div class="col-md-6 offset-md-1">
             <div class="card card-block" id="main-card">
@@ -47,6 +47,14 @@
                             <p class="text-muted">Only the numbers in the URL (before the .htm).</p>
                         </div>
                     </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="photo">Photo</label>
+                    <input type="file" class="form-control-file" id="photo" name="photo">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="img_url">Image URL</label>
+                    <input type="text" name="img_url" value="@if($coaster->hasImg()) {{ $coaster->getImg() }} @endif " id="img_url" class="form-control">
                 </fieldset>
                 <fieldset class="form-group">
                     @isset($coaster->id)

@@ -106,13 +106,6 @@ class ParkController extends Controller
             }
         }
 
-        // Check for an uploaded image
-        if(false) {
-            $img_url = "";
-        } else {
-            $img_url = null;
-        }
-
         $park = Park::updateOrCreate([
             'id' => $id,
         ],[
@@ -122,9 +115,27 @@ class ParkController extends Controller
             'country' => $request->input('country'),
             'website' => $request->input('website'),
             'rcdb_id' => $request->input('rcdb_id'),
-            'img_url' => $img_url,
             'copyright' => $request->input('copyright'),
         ]);
+
+        // Check for an uploaded image
+        if($request->hasFile('photo')) {
+            // Upload the file
+            $img_path = $request->photo->store('public-images', 's3');
+
+            $park->update([
+                'img_path' => $img_path,
+                'img_url' => null,
+            ]);
+        }
+
+        // Check if we're changing the image url
+        if(!$request->hasFile('photo') && $request->img_url !== $park->getImg()) {
+            $park->update([
+                'img_url' => $request->img_url,
+                'img_path' => null,
+            ]);
+        }
 
         Cache::forget('park:'.$park->short);
 

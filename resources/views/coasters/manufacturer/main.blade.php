@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card">
-            @if($manufacturer->img_url !== null)
-                <img class="card-img-top" src="{{ $manufacturer->img_url }}" alt="{{ $manufacturer->name }}">
+            @if($manufacturer->hasImg())
+                <img class="card-img-top" src="{{ $manufacturer->getImg() }}" alt="{{ $manufacturer->name }}">
             @endif
             <div class="card-block">
                 <h4 class="card-title">{{ $manufacturer->abbreviation }}</h4>
