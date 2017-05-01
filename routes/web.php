@@ -46,20 +46,21 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
     Route::get('list', 'Coasters\MainController@display')->name('coasters.coasters');
 
     Route::group(['middleware' => 'auth'], function() {
-        Route::get('ridden', 'Coasters\MainController@ridden')->name('coasters.ridden');
-        Route::get('rank', 'Coasters\MainController@rank')->name('coasters.rank');
-        Route::post('rank/update', 'Coasters\MainController@updateRank')->name('coasters.rank.post');
-        Route::put('rank/new', 'Coasters\MainController@newRank')->name('coasters.rank.put');
+        Route::get('ridden', 'Coasters\MainController@ridden')->name('coasters.ridden')->middleware('can:Can track coasters');
+        Route::get('rank', 'Coasters\MainController@rank')->name('coasters.rank')->middleware('can:Can rank coasters');
+        Route::post('rank/update', 'Coasters\MainController@updateRank')->name('coasters.rank.post')->middleware('can:Can rank coasters');
+        Route::put('rank/new', 'Coasters\MainController@newRank')->name('coasters.rank.put')->middleware('can:Can rank coasters');
 
-        Route::post('/track/ridden', 'Coasters\MainController@ride')->name('coasters.track.ride');
+        Route::post('/track/ridden', 'Coasters\MainController@ride')->name('coasters.track.ride')->middleware('can:Can track coasters');
 
-        Route::post('/p/update', 'Coasters\ParkController@update')->name('coasters.park.update');
-        Route::post('/c/update', 'Coasters\CoasterController@update')->name('coasters.coaster.update');
-        Route::post('/m/update', 'Coasters\ManufacturerController@update')->name('coasters.manufacturer.update');
+        Route::post('/p/update', 'Coasters\ParkController@update')->name('coasters.park.update')->middleware('can:Can manage coasters');
+        Route::post('/c/update', 'Coasters\CoasterController@update')->name('coasters.coaster.update')->middleware('can:Can manage coasters');
+        Route::post('/m/update', 'Coasters\ManufacturerController@update')->name('coasters.manufacturer.update')->middleware('can:Can manage coasters');
 
-        Route::get('/new/park', 'Coasters\ParkController@new')->name('coasters.park.new');
-        Route::get('/new/coaster', 'Coasters\CoasterController@new')->name('coasters.coaster.new');
-        Route::get('/new/manufacturer', 'Coasters\ManufacturerController@new')->name('coasters.manufacturer.new');
+        Route::get('/new/park', 'Coasters\ParkController@new')->name('coasters.park.new')->middleware('can:Can manage coasters');
+        Route::get('/new/coaster', 'Coasters\CoasterController@new')->name('coasters.coaster.new')->middleware('can:Can manage coasters');
+        Route::get('/new/manufacturer', 'Coasters\ManufacturerController@new')->name('coasters.manufacturer.new')->middleware('can:Can manage coasters');
+
         Route::group(['middleware' => 'can:Can run results'], function() {
             Route::get('/results/manage/{page?}', 'Coasters\ResultsController@manage')->name('coasters.results.manage');
             Route::post('/results/run', 'Coasters\ResultsController@run')->name('coasters.results.run');
@@ -83,8 +84,6 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
     Route::get('/p/{park}', 'Coasters\ParkController@view')->name('coasters.park');
     Route::get('/p/{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
 });
-
-
 
 // ## Admin
 Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], function() {
