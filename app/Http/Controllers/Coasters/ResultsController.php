@@ -133,12 +133,14 @@ class ResultsController extends Controller
             try {
                 $page = ResultPage::where('default', true)->firstOrFail();
             } catch (ModelNotFoundException $e) {
+                Cache::forget('has-results');
                 return abort(404);
             }
         } else { // If we're looking at a specific url
             try {
                 $page = ResultPage::where('url', $url)->firstOrFail();
             } catch (ModelNotFoundException $e) {
+                Cache::forget('has-results');
                 return abort(404);
             }
         }
