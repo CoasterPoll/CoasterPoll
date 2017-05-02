@@ -1,7 +1,7 @@
 <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
 <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
 <script>
-    var client = algoliasearch('{!! env('ALGOLIA_APP_ID') !!}', '{!! env('ALGOLIA_SEARCH') !!}');
+    var client = algoliasearch('{!! config('scout.algolia.id') !!}', '{!! config('scout.algolia.search') !!}');
     var index = client.initIndex('coasters');
     autocomplete('#coaster-search', { hint: true }, [
         {

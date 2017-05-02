@@ -11,21 +11,22 @@
     <title>@yield('title') | {{ config('app.name', 'ChV3') }} Console</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/bootstrap4.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/sweetalert.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" media="all">
-    <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link href="{{ config('app.cdn') }}/css/bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ config('app.cdn') }}/css/sweetalert.css" type="text/css">
+    <link rel="stylesheet" href="{{ config('app.cdn') }}/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="{{ config('app.cdn') }}/css/toastr.min.css">
+    <link rel="stylesheet" href="{{ config('app.cdn') }}/css/admin.css">
 
     <!-- Favicon Stuff -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('app.cdn') }}/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ config('app.cdn') }}/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ config('app.cdn') }}/favicon-16x16.png">
+    <link rel="manifest" href="{{ config('app.cdn') }}/manifest.json">
+    <link rel="mask-icon" href="{{ config('app.cdn') }}/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="apple-mobile-web-app-title" content="CoasterPoll">
     <meta name="application-name" content="CoasterPoll">
     <meta name="theme-color" content="#ffffff">
+
 
     <!-- Scripts -->
     <script>
@@ -41,7 +42,7 @@
         </button>
         <span class="navbar-brand">
             <a class="navbar-brand" href="{{ route('admin') }}" style="align-self: flex-start;">
-                <img src="{{ env('CDN_URL', env('APP_URL')) }}/img/coasterpoll-button-admin.png" alt="CoasterPoll.com" width="30" height="30">
+                <img src="{{ config('app.cdn') }}/img/coasterpoll-button-admin.png" alt="CoasterPoll.com" width="30" height="30">
                 {{ config('app.name', 'ChV3') }} Console
             </a>
             <button role="button" class="navbar-toggler btn btn-outline-success hidden-sm-up" id="show-xs-sidebar">Show Sidebar</button>
@@ -101,10 +102,10 @@
     </div>
 
 <!-- Scripts -->
-<script src="{{ asset('js/jquery-2.2.3.min.js') }}"></script>
-<script src="{{ asset('js/tether.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap4.min.js') }}"></script>
-<script src="{{ asset('js/toastr.min.js') }}"></script>
-<script src="{{ asset('js/bootbox.min.js') }}"></script>
+<script src="{{ config('app.cdn') }}/js/jquery-2.2.3.min.js"></script>
+<script src="{{ config('app.cdn') }}/js/tether.min.js"></script>
+<script src="{{ config('app.cdn') }}/js/bootstrap4.min.js"></script>
+<script src="{{ config('app.cdn') }}/js/toastr.min.js"></script>
+<script src="{{ config('app.cdn') }}/js/bootbox.min.js"></script>
 </body>
 </html>

@@ -52,6 +52,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'cdn' => env('CDN_URL', env('APP_URL', 'http://localhost')),
+    'img' => env('IMG_URL', env('APP_URL', 'http://localhost')),
 
     /*
     |--------------------------------------------------------------------------
