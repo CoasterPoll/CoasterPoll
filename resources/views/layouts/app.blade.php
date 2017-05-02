@@ -17,6 +17,16 @@
     <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/toastr.min.css">
     <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/app.css">
 
+    <!-- Favicon Stuff -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="apple-mobile-web-app-title" content="CoasterPoll">
+    <meta name="application-name" content="CoasterPoll">
+    <meta name="theme-color" content="#ffffff">
+
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -35,7 +45,10 @@
         <button class="navbar-toggler-right btn btn-outline-info my-0 hidden-md-up fade-on-collapse" id="collapseHeader" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa fa-bars"></i>
         </button>
-        <a class="navbar-brand" href="/">{{ config('app.name', 'ChV3') }}</a>
+        <a class="navbar-brand" href="/">
+            <img src="{{ env('CDN_URL', env('APP_URL')) }}/img/CoasterPoll-Navbar.png" alt="CoasterPoll.com" width="30" height="30">
+            {{ config('app.name', 'ChV3') }}
+        </a>
         @include('layouts._navbar')
     </nav>
     <div class="@if(isset($_override_container)){{ $_override_container }} @else container @endif" id="headContainer">

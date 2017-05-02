@@ -17,6 +17,16 @@
     <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 
+    <!-- Favicon Stuff -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="apple-mobile-web-app-title" content="CoasterPoll">
+    <meta name="application-name" content="CoasterPoll">
+    <meta name="theme-color" content="#ffffff">
+
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -30,7 +40,10 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <span class="navbar-brand">
-            <a class="navbar-brand" href="{{ route('admin') }}" style="align-self: flex-start;">{{ config('app.name', 'ChV3') }} Console</a>
+            <a class="navbar-brand" href="{{ route('admin') }}" style="align-self: flex-start;">
+                <img src="{{ env('CDN_URL', env('APP_URL')) }}/img/CoasterPoll-Button-Admin.png" alt="CoasterPoll.com" width="30" height="30">
+                {{ config('app.name', 'ChV3') }} Console
+            </a>
             <button role="button" class="navbar-toggler btn btn-outline-success hidden-sm-up" id="show-xs-sidebar">Show Sidebar</button>
         </span>
         <div class="navbar-collapse collapse" id="main-nav">
