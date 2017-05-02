@@ -2,6 +2,7 @@
 
 namespace ChaseH\Http;
 
+use ChaseH\Http\Middleware\CorsMiddleware;
 use ChaseH\Http\Middleware\LinksInViewsMiddleware;
 use ChaseH\Http\Middleware\NotificationsMiddleware;
 use ChaseH\Http\Middleware\RoleMiddleware;
@@ -40,6 +41,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             NotificationsMiddleware::class,
             LinksInViewsMiddleware::class,
+            CorsMiddleware::class,
         ],
 
         'api' => [
