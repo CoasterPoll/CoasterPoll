@@ -47,7 +47,7 @@
             <i class="fa fa-bars"></i>
         </button>
         <a class="navbar-brand" href="/">
-            <img src="{{ env('CDN_URL', env('APP_URL')) }}/img/CoasterPoll-Navbar.png" alt="CoasterPoll.com" width="30" height="30">
+            <img src="{{ env('CDN_URL', env('APP_URL')) }}/img/coasterpoll-navbar.png" alt="CoasterPoll.com" width="30" height="30">
             {{ config('app.name', 'ChV3') }}
         </a>
         @include('layouts._navbar')

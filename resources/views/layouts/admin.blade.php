@@ -41,7 +41,7 @@
         </button>
         <span class="navbar-brand">
             <a class="navbar-brand" href="{{ route('admin') }}" style="align-self: flex-start;">
-                <img src="{{ env('CDN_URL', env('APP_URL')) }}/img/CoasterPoll-Button-Admin.png" alt="CoasterPoll.com" width="30" height="30">
+                <img src="{{ env('CDN_URL', env('APP_URL')) }}/img/coasterpoll-button-admin.png" alt="CoasterPoll.com" width="30" height="30">
                 {{ config('app.name', 'ChV3') }} Console
             </a>
             <button role="button" class="navbar-toggler btn btn-outline-success hidden-sm-up" id="show-xs-sidebar">Show Sidebar</button>
