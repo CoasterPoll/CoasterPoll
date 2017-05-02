@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/sweetalert.css" type="text/css">
     <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/font-awesome.min.css" media="all">
     <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/toastr.min.css">
+    <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/introjs.min.css">
     <link rel="stylesheet" href="{{ env('CDN_URL', env('APP_URL')) }}/css/app.css">
 
     <!-- Favicon Stuff -->
@@ -62,6 +63,7 @@
     <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/bootstrap4.min.js"></script>
     <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/toastr.min.js"></script>
     <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/bootbox.min.js"></script>
+    <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/intro.min.js"></script>
     <script src="{{ env('CDN_URL', env('APP_URL')) }}/js/app.js"></script>
     @include('coasters._scripts')
     @yield('scripts')

@@ -23,7 +23,7 @@
         </div>
     </div>
     @if($unranked->count() != 0)
-        <hr id="unranked-divider">
+        <hr id="unranked-divider" data-step="2" data-intro="Just above this.">
     @endif
     <div class="row">
         <div class="col-md-12" id="unranked">
@@ -31,7 +31,7 @@
                 <div class="card card-block py-1 my-1">
                     <div class="row">
                         <div class="col-sm-10 align-content-center">
-                            <span class="lead handle"><i class="fa fa-arrow-up"></i> &nbsp;&nbsp;{{ $coaster->name }}</span> <span class="small"><a href="{{ route('coasters.manufacturer', ['manufacturer' => $coaster->manufacturer->abbreviation]) }}">{{ $coaster->manufacturer->abbreviation }}</a> at <a href="{{ route('coasters.park', ['park' => $coaster->park->short]) }}">{{ $coaster->park->short }}</a>.</span>
+                            <span class="lead handle" @if($ranked->count() == 0) data-step="1" data-intro="Start by dragging this..." @endif ><i class="fa fa-arrow-up"></i> &nbsp;&nbsp;{{ $coaster->name }}</span> <span class="small"><a href="{{ route('coasters.manufacturer', ['manufacturer' => $coaster->manufacturer->abbreviation]) }}">{{ $coaster->manufacturer->abbreviation }}</a> at <a href="{{ route('coasters.park', ['park' => $coaster->park->short]) }}">{{ $coaster->park->short }}</a>.</span>
                         </div>
                         <div class="col-sm-2 text-right">
                             <input type="number" class="form-control form-control-sm my-1 rank hidden" data-coaster="{{ $coaster->id }}" value="">
@@ -50,6 +50,14 @@
         function byId(id) {
             return document.getElementById(id);
         }
+
+        @if($ranked->count() == 0)
+            $('.lead').on('mouseenter', function() {
+                introJs().start().onexit(function() {
+                    $('.lead').unbind('mouseenter');
+                });
+            });
+        @endif
 
         Sortable.create(byId('rankings'), {
             handle: '.handle',
@@ -105,6 +113,10 @@
                     var newRank = parseFloat(row.next().find('.rank').val()) - parseFloat(1); // Find where we are
                 } else {
                     var newRank = parseFloat(row.prev().find('.rank').val()) + parseFloat(1); // Find where we are
+                }
+
+                if(isNaN(newRank)) {
+                    newRank = 1;
                 }
 
                 row.find('.rank').val(newRank).removeClass('hidden').show(); // Update input for where we are
@@ -172,7 +184,7 @@
                     all: data
                 },
                 success: function (res) {
-                    toastr.success(res.message);
+                    //toastr.success(res.message);
                 },
                 beforeSend: function () {
                     $('#updating-btn').prop('disabled', 'disabled').find('#updating-i').addClass('fa-spinner fa-spin').removeClass('fa-save');
