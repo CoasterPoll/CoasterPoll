@@ -1,4 +1,4 @@
-@php ($_override_footer_image = "img/broken-track.png")
+@php ($_override_footer_image = "/img/broken-track.png")
 @php ($_override_container = "container-fluid")
 
 @extends('layouts.app')

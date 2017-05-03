@@ -1,4 +1,4 @@
-@php ($_footer_image = "img/closed-moose.png")
+@php ($_footer_image = "/img/closed-moose.png")
 
 @extends('layouts.app')
 

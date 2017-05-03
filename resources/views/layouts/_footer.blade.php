@@ -1,5 +1,5 @@
 @if(!isset($_override_footer_image))
-<img src="@if(!isset($_footer_image)) {{ asset('img/track-footer.png') }} @else {{ asset($_footer_image) }} @endif" id="footer-track" alt="Track">
+<img src="@if(!isset($_footer_image)) {{ config('app.cdn') }}/img/track-footer.png @else {{ config('app.cdn') }}{{ $_footer_image }} @endif" id="footer-track" alt="Track">
 @endif
 <footer class="footer bg-faded">
     <div class="container">
