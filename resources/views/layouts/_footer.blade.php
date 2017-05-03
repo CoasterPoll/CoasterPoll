@@ -12,8 +12,6 @@
                 <div class="nav justify-content-center flex-md-row flex-column">
                     <a class="nav-link" href="/">Home</a>
                     <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
-                    <a class="nav-link" href="https://blog.coasterpoll.com">Blog</a>
-                    <a class="nav-link" href="https://things.chaseh.net/">Bugs/Features</a>
                     @isset($_footer_links)
                         @foreach($_footer_links as $_link)
                             <a class="nav-link" href="{{ $_link->href }}">{{ $_link->text }}</a>
