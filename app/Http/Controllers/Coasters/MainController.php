@@ -54,8 +54,9 @@ class MainController extends Controller
         }
 
         // Clear cache so it shows up instantly
-        Cache::forget('ridden:'.Auth::id());
-        Cache::forget('unranked:'.Auth::id());
+        Cache::forget('ridden:'.Auth::user()->id);
+        Cache::forget('unranked:'.Auth::user()->id);
+        Cache::forget('ranked:'.Auth::user()->id);
 
         return response()->json([
             'message' => "Thanks for telling us!",
