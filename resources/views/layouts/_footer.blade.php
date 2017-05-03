@@ -14,9 +14,11 @@
                     <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                     <a class="nav-link" href="https://blog.coasterpoll.com">Blog</a>
                     <a class="nav-link" href="https://things.chaseh.net/">Bugs/Features</a>
-                    @foreach($_footer_links as $_link)
-                        <a class="nav-link" href="{{ $_link->href }}">{{ $_link->text }}</a>
-                    @endforeach
+                    @isset($_footer_links)
+                        @foreach($_footer_links as $_link)
+                            <a class="nav-link" href="{{ $_link->href }}">{{ $_link->text }}</a>
+                        @endforeach
+                    @endisset
                 </div>
             </div>
         </div>
