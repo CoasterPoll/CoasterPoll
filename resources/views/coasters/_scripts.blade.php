@@ -9,7 +9,7 @@
             displayKey: 'name',
             templates: {
                 suggestion: function(suggestion) {
-                    return '<span><a href="/p/'+suggestion.park.short+'/'+suggestion.slug+'">'+suggestion.name+'</a></span><span>'+suggestion.park.short+'</span>';
+                    return '<span><a href="/@'+suggestion.park.short+'/'+suggestion.slug+'">'+suggestion.name+'</a></span><span>'+suggestion.park.short+'</span>';
                 }
             },
             empty: '<div class="aa-empty">No Coasters :(</div>'

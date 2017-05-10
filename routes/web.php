@@ -81,8 +81,8 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
      */
     Route::get('/m/{manufacturer}', 'Coasters\ManufacturerController@view')->name('coasters.manufacturer');
     // Leave me last!
-    Route::get('/p/{park}', 'Coasters\ParkController@view')->name('coasters.park');
-    Route::get('/p/{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
+    Route::get('/@{park}', 'Coasters\ParkController@view')->name('coasters.park');
+    Route::get('/@{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
 });
 
 // ## Advertising

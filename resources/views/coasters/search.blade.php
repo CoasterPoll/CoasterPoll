@@ -55,7 +55,7 @@
             templates: {
                 item: function(data) {
                     var str1 = '<div class="card card-block mb-4">' +
-                           '<h3 class="lead"><a class="lead-unstyled" href="/p/'+data.park.short+'/'+data.slug+'">'+data.name+'</a></h3>'+
+                           '<h3 class="lead"><a class="lead-unstyled" href="/@'+data.park.short+'/'+data.slug+'">'+data.name+'</a></h3>'+
                            '<p class="mb-2"><a href="/p/' + data.park.short + '">' + data.park.name + '</a></p>' +
                            '<p><a href="/m/' + data.manufacturer.abbreviation + '">' + data.manufacturer.name + '</a></p>';
                     var str3 = '</div>';
