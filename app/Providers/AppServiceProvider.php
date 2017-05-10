@@ -2,6 +2,7 @@
 
 namespace ChaseH\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,6 +16,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Blade::directive('null', function($object) {
+            return "<?php if ({$object} !== null): ?>";
+        });
+
+        Blade::directive('endnull', function() {
+            return "<?php endif; ?>";
+        });
     }
 
     /**
