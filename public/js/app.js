@@ -117,3 +117,15 @@ function markNotificationRead(item) {
         }
     })
 }
+function getCookie(key) {
+    var cookies = document.cookie.split('; ');
+    for (var i = 0, parts; (parts = cookies[i] && cookies[i].split('=')); i++) {
+        if (decode(parts.shift()) === key) {
+            return decode(parts.join('='));
+        }
+    }
+    return null;
+}
+function decode(s) {
+    return decodeURIComponent(s.replace(/\+/g, ' '));
+}
