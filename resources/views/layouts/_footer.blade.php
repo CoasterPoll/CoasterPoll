@@ -37,7 +37,7 @@
                         <a href="https://reddit.com/r/coasterpoll" class="link-unstyled"><i class="fa fa-reddit-alien fa-2x"></i></a>
                     </li>
                     <li class="nav-link">
-                        <a href="https://blog.coasterpoll.com/" class="link-unstyled"><i class="fa fa-wordpress fa-2x"></i></a>
+                        <a href="https://blog.coasterpoll.com/" class="link-unstyled"><i class="fa fa-comments-o fa-2x"></i></a>
                     </li>
                 </ul>
             </div>
