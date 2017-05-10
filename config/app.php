@@ -66,7 +66,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('TIMEZONE', 'America/Los_Angeles'),
 
     /*
     |--------------------------------------------------------------------------
@@ -235,4 +235,5 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
+    'ads' => env('ADS', false),
 ];

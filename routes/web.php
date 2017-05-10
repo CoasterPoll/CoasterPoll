@@ -85,6 +85,26 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
     Route::get('/p/{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
 });
 
+// ## Advertising
+Route::group(['middleware' => ['auth'], 'prefix' => 'sponsor'], function() {
+    Route::get('/', 'Ads\SponsorController@dashboard')->name('ads');
+    Route::post('/join', 'Ads\SponsorController@join')->name('ads.join');
+    Route::get('/campaigns', 'Ads\CampaignController@manage')->name('ads.campaigns');
+    Route::get('/campaigns/new', 'Ads\CampaignController@new')->name('ads.campaign.new');
+    Route::get('/campaigns/{campaign}', 'Ads\CampaignController@view')->name('ads.campaign')->where(['campaign' => '[0-9]+']);
+    Route::get('/campaigns/{campaign}/edit', 'Ads\CampaignController@edit')->name('ads.campaign.edit')->where(['campaign' => '[0-9]+']);
+    Route::post('/campaigns/edit', 'Ads\CampaignController@save')->name('ads.campaign.save');
+    Route::delete('/campaigns/delete', 'Ads\CampaignController@delete')->name('ads.campaign.delete');
+    Route::get('/campaigns/{campaign}/switch/preview', 'Ads\CampaignController@switchToPreview')->name('ads.campaign.switch.preview')->where(['campaign' => '[0-9]+']);
+    Route::get('/campaigns/{campaign}/switch/list', 'Ads\CampaignController@switchToList')->name('ads.campaign.switch.list')->where(['campaign' => '[0-9]+']);
+
+    Route::get('/ads/new', 'Ads\AdController@new')->name('ads.ad.new');
+    Route::get('/ads/{ad}', 'Ads\AdController@edit')->name('ads.ad')->where(['ad' => '[0-9]+']);
+    Route::post('/ads/edit', 'Ads\AdController@save')->name('ads.ad.save');
+    Route::delete('/ads/delete', 'Ads\AdController@delete')->name('ads.ad.delete');
+
+});
+
 // ## Admin
 Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], function() {
     Route::get('/', 'AdminController@dashboard')->name('admin');

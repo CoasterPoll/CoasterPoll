@@ -12,6 +12,9 @@
                 <div class="nav justify-content-center flex-md-row flex-column">
                     <a class="nav-link" href="/">Home</a>
                     <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
+                    @if(config('app.ads'))
+                        <a class="nav-link" href="{{ route('ads') }}">Sponsor</a>
+                    @endif
                     @isset($_footer_links)
                         @foreach($_footer_links as $_link)
                             <a class="nav-link" href="{{ $_link->href }}">{{ $_link->text }}</a>
