@@ -18,16 +18,17 @@
     <script src="https://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
     <script>
         var search = instantsearch({
-            appId: '{!! env('ALGOLIA_APP_ID') !!}',
-            apiKey: '{!! env('ALGOLIA_SEARCH') !!}',
+            appId: '{!! config('scout.algolia.id') !!}',
+            apiKey: '{!! config('scout.algolia.search') !!}',
             indexName: 'coasters',
             urlSync: true,
             searchFunction: function(helper) {
                 if (helper.state.query === '') {
                     return;
                 }
-                $('.ais-infinite-hits--showmore').find('button:disabled').addClass('btn btn-secondary');
-                $('.ais-infinite-hits--showmore').find('button').addClass('btn btn-secondary');
+                var showmore = $('.ais-infinite-hits--showmore');
+                showmore.find('button:disabled').addClass('btn btn-secondary');
+                showmore.find('button').addClass('btn btn-secondary');
                 helper.search();
             }
         });
