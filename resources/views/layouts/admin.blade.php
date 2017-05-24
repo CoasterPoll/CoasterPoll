@@ -34,6 +34,13 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "{!! config('ads.client') !!}",
+            enable_page_level_ads: true
+        });
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-info">
