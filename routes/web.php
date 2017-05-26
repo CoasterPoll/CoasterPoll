@@ -43,7 +43,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function() {
 // ## Coasters
 Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware'], function() {
     Route::get('search', 'Coasters\MainController@search')->name('coasters.search');
-    Route::get('list', 'Coasters\MainController@display')->name('coasters.coasters');
+    Route::get('coasters', 'Coasters\MainController@display')->name('coasters.coasters');
 
     Route::group(['middleware' => 'auth'], function() {
         Route::get('ridden', 'Coasters\MainController@ridden')->name('coasters.ridden')->middleware('can:Can track coasters');
