@@ -102,7 +102,18 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'sponsor'], function() {
     Route::get('/ads/{ad}', 'Ads\AdController@edit')->name('ads.ad')->where(['ad' => '[0-9]+']);
     Route::post('/ads/edit', 'Ads\AdController@save')->name('ads.ad.save');
     Route::delete('/ads/delete', 'Ads\AdController@delete')->name('ads.ad.delete');
+});
 
+// ## Subscriptions
+Route::group(['middleware' => ['auth'], 'prefix' => 'subscribe'], function() {
+    Route::get('/manage/{user?}', 'Subscriptions\SubscriptionController@index')->name('subs.manage');
+    Route::post('/manage/cancel/{user?}', 'Subscriptions\SubscriptionController@cancel')->name('subs.manage.cancel');
+    Route::post('/manage/resume/{user?}', 'Subscriptions\SubscriptionController@resume')->name('subs.manage.resume');
+    Route::get('/plans', 'Subscriptions\PlanController@index')->name('subs.plans');
+    Route::get('/plans/{plan}', 'Subscriptions\PlanController@show')->name('subs.plan');
+    Route::post('/plans/{plan}', 'Subscriptions\SubscriptionController@create')->name('subs.plan.post');
+
+    Route::get('/test', 'Subscriptions\PlanController@test');
 });
 
 // ## Admin

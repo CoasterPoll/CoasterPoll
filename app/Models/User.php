@@ -4,15 +4,17 @@ namespace ChaseH\Models;
 
 use ChaseH\Events\UserCreated;
 use ChaseH\Models\Analytics\Demographic;
+use ChaseH\Models\Subscriptions\Subscription;
 use ChaseH\Permissions\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Cache;
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasPermissionsTrait, SearchableTrait, SoftDeletes;
+    use Notifiable, HasPermissionsTrait, SearchableTrait, PreferenceTrait, SoftDeletes, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'preferences'
     ];
 
     /**
@@ -34,6 +36,10 @@ class User extends Authenticatable
 
     protected $events = [
         'created' => UserCreated::class,
+    ];
+
+    protected $casts = [
+        'preferences' => 'json',
     ];
 
     protected static function getSearchable() {
@@ -83,5 +89,9 @@ class User extends Authenticatable
         $this->restore();
 
         $this->roles()->attach(Role::where('name', 'User')->first());
+    }
+
+    public function subscriptions() {
+        return $this->hasMany(Subscription::class, $this->getForeignKey())->orderBy('created_at', 'desc');
     }
 }

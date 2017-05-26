@@ -88,6 +88,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="{{ route('user.settings') }}">Account Settings</a>
+                    <a class="dropdown-item" href="{{ route('subs.manage') }}">Manage Subscriptions</a>
                     <a class="dropdown-item" href="{{ route('user.demographics') }}">Demographics</a>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"
