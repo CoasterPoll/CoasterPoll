@@ -85,6 +85,11 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
     Route::get('/@{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
 });
 
+// ## Public Profiles
+Route::group(['prefix' => 'u'], function() {
+    Route::get('{handle?}', 'Users\ProfileController@profile')->name('profile');
+});
+
 // ## Advertising
 Route::group(['middleware' => ['auth'], 'prefix' => 'sponsor'], function() {
     Route::get('/', 'Ads\SponsorController@dashboard')->name('ads');

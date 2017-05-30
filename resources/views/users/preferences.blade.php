@@ -26,6 +26,20 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('handle') ? ' has-error' : '' }} row">
+                            <label for="handle" class="col-md-4 control-label">Handle</label>
+                            <div class="col-md-6 ">
+                                <div class="input-group">
+                                    <div class="input-group-addon">/u/</div>
+                                    <input id="handle" type="text" class="form-control" name="handle" value="{{ ($user->handle) ?: old('handle') }}" required>
+                                </div>@if ($errors->has('handle'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('handle') }}</strong>
+                                    </span>
+                                @endif
+                                <small class="text-muted">Careful, changing this can break links to your content.</small>
+                            </div>
+                        </div>
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} row">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
                             <div class="col-md-6">

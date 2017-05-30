@@ -87,6 +87,7 @@
                     {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{{ route('profile', ['handle' => \Illuminate\Support\Facades\Auth::user()->handle]) }}">Your Profile</a>
                     <a class="dropdown-item" href="{{ route('user.settings') }}">Account Settings</a>
                     <a class="dropdown-item" href="{{ route('subs.manage') }}">Manage Subscriptions</a>
                     <a class="dropdown-item" href="{{ route('user.demographics') }}">Demographics</a>
