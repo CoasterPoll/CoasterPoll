@@ -184,6 +184,7 @@ return [
         ChaseH\Providers\EventServiceProvider::class,
         ChaseH\Providers\RouteServiceProvider::class,
         ChaseH\Providers\PermissionsServiceProvider::class,
+        ChaseH\Stretch\StretchProvider::class,
 
     ],
 

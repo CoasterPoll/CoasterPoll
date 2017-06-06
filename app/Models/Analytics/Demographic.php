@@ -4,10 +4,13 @@ namespace ChaseH\Models\Analytics;
 
 use ChaseH\Models\Coasters\Park;
 use ChaseH\Models\User;
+use ChaseH\Stretch\Stretchy;
 use Illuminate\Database\Eloquent\Model;
 
 class Demographic extends Model {
     protected $table = "demographics";
+
+    use Stretchy;
 
     protected $fillable = [
         'age_range',
@@ -20,8 +23,30 @@ class Demographic extends Model {
         'unique_parks'
     ];
 
+    protected $searchableUsing = "stretch";
+
+    public function toSearchableArray()
+    {
+        //$this->load('homePark');
+
+        return [
+            'age_range' => $this->getAgeRange(),
+            'gender' => $this->getGender(),
+            'city' => $this->city,
+            'location' => ($this->latitude !== null) ? ($this->latitude).",".($this->longitude) : "",
+            //'home_park' => $this->homePark->name ?? 0,
+            'park_visits' => $this->park_visits ?? 0,
+            'unique_parks' => $this->unique_parks ?? 0,
+            'changed' => $this->updated_at->timestamp,
+        ];
+    }
+
     public function getAgeRange() {
-        return self::$age_ranges[$this->age_range];
+        return self::$age_ranges[$this->age_range] ?? "Not Specified";
+    }
+
+    public function getGender() {
+        return self::$genders[$this->gender] ?? "Not Specified";
     }
 
     public static $age_ranges = [
@@ -47,7 +72,7 @@ class Demographic extends Model {
     }
 
     public function homePark() {
-        return $this->hasOne(Park::class);
+        return $this->belongsTo(Park::class);
     }
 
     public function user() {
