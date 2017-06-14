@@ -16,8 +16,6 @@ class HomeController extends Controller {
      */
     public function index()
     {
-        dd(View::where('id', 6)->first()->toSearchableArray());
-
         return view('home');
     }
 }
