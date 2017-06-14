@@ -59,4 +59,8 @@ class Park extends Model
     public function coasters() {
         return $this->hasMany('ChaseH\Models\Coasters\Coaster');
     }
+
+    public function links() {
+        return $this->morphMany('Chaseh\Models\Sharing\Link', 'linkable');
+    }
 }

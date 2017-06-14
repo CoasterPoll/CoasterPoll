@@ -79,6 +79,10 @@ class User extends Authenticatable
         return $this->hasMany('ChaseH\Models\Contact');
     }
 
+    public function links() {
+        return $this->hasMany('ChaseH\Models\Sharing\Link', 'posted_by');
+    }
+
     public function lockAccount() {
         $this->roles()->detach();
 

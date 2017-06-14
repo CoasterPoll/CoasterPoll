@@ -121,6 +121,16 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'subscribe'], function() {
     Route::get('/test', 'Subscriptions\PlanController@test');
 });
 
+// ## Sharing
+Route::group(['prefix' => 'links'], function() {
+    Route::get('/', 'Sharing\LinkController@index')->name('links');
+    Route::get('/view/{link}/{slug?}', 'Sharing\LinkController@view')->name('links.link.view');
+
+    Route::get('/submit', 'Sharing\LinkController@submit')->name('links.submit');
+    Route::get('/submit:{what?}', 'Sharing\LinkController@submit')->name('links.submit.on');
+    Route::post('/submit', 'Sharing\LinkController@create')->name('links.submit.post');
+});
+
 // ## Admin
 Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], function() {
     Route::get('/', 'AdminController@dashboard')->name('admin');

@@ -1,6 +1,7 @@
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto my-auto">
         <li class="nav-item"><a href="{{ route('coasters.coasters') }}" class="nav-link">Coasters</a></li>
+        <li class="nav-item"><a href="{{ route('links') }}" class="nav-link">Links</a></li>
         @can('Can track coasters')
             <li class="nav-item"><a href="{{ route('coasters.ridden') }}" class="nav-link">Ridden</a></li>
         @endcan

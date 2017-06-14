@@ -95,6 +95,10 @@ class Coaster extends Model
         return $this->morphMany('ChaseH\Models\Contact', 'contactable');
     }
 
+    public function links() {
+        return $this->morphMany('Chaseh\Models\Sharing\Link', 'linkable');
+    }
+
     // ## Traits
     protected function getSearchable() {
         return [
