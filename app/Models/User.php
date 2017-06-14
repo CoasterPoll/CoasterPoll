@@ -98,4 +98,12 @@ class User extends Authenticatable
     public function subscriptions() {
         return $this->hasMany(Subscription::class, $this->getForeignKey())->orderBy('created_at', 'desc');
     }
+
+    public function getProfileLink() {
+        if($this->deleted_at != null) {
+            return "#";
+        }
+
+        return route('profile', ['handle' => $this->handle]);
+    }
 }
