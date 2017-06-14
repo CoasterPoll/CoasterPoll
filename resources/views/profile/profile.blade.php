@@ -54,7 +54,7 @@
                     <p class="card-text">A user since {{ $user->created_at->format("M 'y") }}.</p>
                     @if($user->can('Can track coasters'))
                         <p class="card-text">Ridden {{ $user->ridden()->count() }} coasters.</p>
-                        <p class="card-text">Visited {{ $parks->count() }} parks. <small class="text-muted"><i class="fa fa-info-circle" title="Based on what parks the coasters {{ $user->handle }}'s ridden."></i></small></p>
+                        <p class="card-text">Visited {{ $parks->count() }} parks. <small class="text-muted"><i class="fa fa-info-circle" title="Based on what parks the coasters {{ $user->handle }} has ridden are in."></i></small></p>
                     @endif
                 </div>
             </div>
