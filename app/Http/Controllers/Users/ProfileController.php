@@ -19,7 +19,7 @@ class ProfileController extends Controller
 
         try {
             $user = Cache::remember('u:'.$handle, 60, function() use ($handle) {
-                return User::where('handle', $handle)->firstOrFail();
+                return User::where('handle', $handle)->with('links')->firstOrFail();
             });
         } catch (ModelNotFoundException $e) {
             return abort(404);
