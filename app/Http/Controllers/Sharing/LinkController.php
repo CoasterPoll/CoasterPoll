@@ -4,30 +4,53 @@ namespace ChaseH\Http\Controllers\Sharing;
 
 use ChaseH\Helpers\CPID;
 use ChaseH\Models\Sharing\Link;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use ChaseH\Http\Controllers\Controller;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class LinkController extends Controller
 {
     public function index() {
-        $links = Link::whereActive()->orderBy('created_at', 'DESC')->get();
+        $links = Link::whereActive()->orderBy('created_at', 'DESC')->paginate(25);
 
         return view('sharing.index', [
             'links' => $links,
         ]);
     }
 
-    public function view($link, $slug = null) {
+    public function view($link, $slug = null, Request $request) {
         $model = Link::whereActive()->where('id', base_convert($link, 32, 10))->with('linkable')->first();
+
+        // Pagination!
+        $page = $request->get('page', 1);
+        $perPage = 10;
+
+        $comments = $model->nestedComments();
+
+        $comments = new LengthAwarePaginator(
+            $comments,
+            count($model->comments->where('parent_id', null)) ?? 0,
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        ) ?? collect();
 
         return view('sharing.link', [
             'link' => $model,
+            'comments' => $comments,
         ]);
     }
 
-    public function submit($what = null) {
+    public function submit($what = null, Request $request) {
+        if(!Auth::check()) {
+            $request->session()->flash("info", "You'll need to login/register before you can submit a link.");
+            return redirect(route("register"));
+        }
+
         $on = new CPID($what);
 
         return view('sharing.submit', [
@@ -68,5 +91,23 @@ class LinkController extends Controller
         }
 
         return redirect($link->getLink());
+    }
+
+    public function edit(Request $request) {
+        try {
+            $link = Link::where('id', $request->id)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
+        if(Gate::allows('Can edit links') || Auth::id() == $link->posted_by) {
+            $link->update([
+                'title' => $request->title,
+                'link' => $request->link,
+                'body' => e($request->body),
+            ]);
+        }
+
+        return response()->json($link->toArray());
     }
 }

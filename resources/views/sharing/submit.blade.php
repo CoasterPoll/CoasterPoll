@@ -7,6 +7,10 @@
 @section('content')
     <div class="row">
         <div class="col-9">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('links') }}">Links</a></li>
+                <li class="breadcrumb-item active">Submit</li>
+            </ol>
             <form action="{{ route('links.submit.post') }}" method="post">
                 <fieldset class="form-group {{ $errors->has('title') ? 'has-danger' : '' }}">
                     <label for="title" class="sr-only">Title</label>

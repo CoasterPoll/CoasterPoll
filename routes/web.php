@@ -129,7 +129,11 @@ Route::group(['prefix' => 'links'], function() {
     Route::get('/submit', 'Sharing\LinkController@submit')->name('links.submit');
     Route::get('/submit:{what?}', 'Sharing\LinkController@submit')->name('links.submit.on');
     Route::post('/submit', 'Sharing\LinkController@create')->name('links.submit.post');
+
+    Route::post('/edit', 'Sharing\LinkController@edit')->name('links.edit.post')->middleware('auth');
 });
+
+Route::post('/comment', 'Sharing\CommentController@submit')->name('comment.post')->middleware('auth');
 
 // ## Admin
 Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], function() {

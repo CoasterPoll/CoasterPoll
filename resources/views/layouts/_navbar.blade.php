@@ -44,7 +44,7 @@
     </ul>
     <ul class="navbar-nav">
         <form class="form-inline justify-content-end mr-2" action="{{ route('coasters.search') }}" method="get">
-            <input type="text" id="coaster-search" placeholder="&#xf002;" title="Search for something" class="form-control" name="q" style="font-family:Arial, FontAwesome" autocomplete="off">
+            <input type="text" id="coaster-search" placeholder="&#xf002; Search for a coaster" title="Search for something" class="form-control" name="q" style="font-family:Arial, FontAwesome" autocomplete="off">
             <button class="btn btn-outline-secondary my-2 my-sm-0 sr-only" type="submit" title="Search for a Coaster" style="height: 36px" >Go</button>
         </form>
         @if (Auth::guest())

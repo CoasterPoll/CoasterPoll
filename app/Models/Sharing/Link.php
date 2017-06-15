@@ -4,6 +4,7 @@ namespace ChaseH\Models\Sharing;
 
 use ChaseH\Models\DummyUser;
 use ChaseH\Models\User;
+use ChaseH\Traits\Eloquent\NestableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,7 +27,7 @@ class Link extends Model
         1 => "Public"
     ];
 
-    use SoftDeletes;
+    use SoftDeletes, NestableTrait;
 
     public function poster() {
         return $this->belongsTo(User::class, "posted_by")->withTrashed();
@@ -34,6 +35,10 @@ class Link extends Model
 
     public function linkable() {
         return $this->morphTo();
+    }
+
+    public function comments() {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function getPoster() {
@@ -58,6 +63,10 @@ class Link extends Model
 
     public function getId() {
         return base_convert($this->id, 10, 32);
+    }
+
+    public function getCid() {
+        return "L".$this->id;
     }
 
     public function getLink() {

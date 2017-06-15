@@ -28,6 +28,11 @@ class CreateSharingLinksTable extends Migration
 
             $table->foreign('posted_by')->references('id')->on('users')->onDelete('SET NULL');
         });
+
+        \Illuminate\Support\Facades\DB::table('permissions')->insert([
+            ['name' => "Can edit links", 'group' => 'Links', 'description' => "The ability to add/remove/edit other peoples links."],
+            ['name' => "Can submit links", 'group' => 'Links', 'description' => "The ability to submit/edit one's own links."],
+        ]);
     }
 
     /**
