@@ -100,6 +100,22 @@ class LinkController extends Controller
             return abort(404);
         }
 
+        $v = Validator::make($request->all(), [
+            'title' => 'required',
+            'link' => 'required_without:body',
+            'body' => 'required_without:link',
+        ]);
+
+        $v->sometimes('link', 'url', function($input) {
+            return $input->link !== null;
+        });
+
+        $v->sometimes('body', 'max:65535', function($input) {
+            return $input->body !== null;
+        });
+
+        $v->validate();
+
         if(Gate::allows('Can edit links') || Auth::id() == $link->posted_by) {
             $link->update([
                 'title' => $request->title,
