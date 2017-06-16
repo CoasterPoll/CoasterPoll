@@ -23,6 +23,7 @@ class CreateSharingLinksTable extends Migration
             $table->integer('posted_by')->unsigned()->nullable();
             $table->integer('linkable_id')->unsigned()->nullable();
             $table->string('linkable_type')->nullable()->default(null);
+            $table->integer('comment_count')->default(0);
             $table->timestamps();
             $table->softDeletes();
 

@@ -27,6 +27,7 @@ class CommentController extends Controller
         ]);
 
         $cid->thing->comments()->save($comment);
+        $cid->thing->increment('comment_count');
 
         return back();
     }
