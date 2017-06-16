@@ -9,9 +9,12 @@
         <div class="col-9">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('links') }}">Links</a></li>
-                @if(in_array($link->linkable_type, ['ChaseH\Models\Coasters\Coaster']))
+                @if($link->linkable_type == 'ChaseH\Models\Coasters\Coaster')
                     <li class="breadcrumb-item"><a href="{{ $link->linkable->park->getLink() }}">{{ $link->linkable->park->short }}</a></li>
                     <li class="breadcrumb-item"><a href="{{ $link->linkable->getLink() }}">{{ $link->linkable->name }}</a></li>
+                @endif
+                @if($link->linkable_type == 'ChaseH\Models\Coasters\Park')
+                    <li class="breadcrumb-item"><a href="{{ $link->linkable->getLink() }}">{{ $link->linkable->short }}</a></li>
                 @endif
                 <li class="breadcrumb-item active" id="breadcrumb-title">{{ $link->title }}</li>
             </ol>
