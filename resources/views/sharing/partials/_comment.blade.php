@@ -12,7 +12,9 @@
         </h4>
         <p class="card-text">{{ $comment->body ?? "Comment Not Found" }}</p>
         <a class="card-link small" href="#{{ $comment->getId() }}">Permalink</a>
-        <a class="card-link small reply-to-comment" role="button">Reply</a>
+        @can('Can comment')
+            <a class="card-link small reply-to-comment" role="button">Reply</a>
+        @endcan
         @if($comment->children ?? false)
             <?php $traverse($comment->children) ?>
         @endif

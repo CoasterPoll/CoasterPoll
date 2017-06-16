@@ -133,7 +133,7 @@ Route::group(['prefix' => 'links'], function() {
     Route::post('/edit', 'Sharing\LinkController@edit')->name('links.edit.post')->middleware('auth');
 });
 
-Route::post('/comment', 'Sharing\CommentController@submit')->name('comment.post')->middleware('auth');
+Route::post('/comment', 'Sharing\CommentController@submit')->name('comment.post')->middleware('auth', 'Can:Can comment');
 
 // ## Admin
 Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], function() {

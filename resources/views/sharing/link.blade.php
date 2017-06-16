@@ -61,7 +61,7 @@
                     <a class="card-link small" role="button" id="report-link">Report</a>
                 </form>
             </div>
-            @if(Auth::check() && Gate::allows('Can comment'))
+            @can('Can comment')
                 <div id="reply-block" class="mt-3">
                     <form action="{{ route('comment.post') }}" method="post" id="link-comment-form">
                         <fieldset class="form-group">
@@ -75,7 +75,7 @@
                         </fieldset>
                     </form>
                 </div>
-            @endif
+            @endcan
             <div id="comments">
                 @include('sharing.partials._comment', ['comments' => $comments])
                 {{ $comments->links('vendor.pagination.bootstrap-4') }}
@@ -137,6 +137,7 @@
             $('#submit-btn').addClass('hidden');
         }
         @endlink
+        @can('Can comment')
         $('.reply-to-comment').on('click', function() {
             var button = $(this);
             button.toggleClass('strong');
@@ -185,5 +186,6 @@
             console.log(comment);
             parent.append(comment);
         }
+        @endcan
     </script>
 @endsection
