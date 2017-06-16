@@ -57,8 +57,9 @@
                         <a class="small card-link" role="button" id="edit-btn">Edit</a>
                         <a class="small card-link hidden" role="button" id="submit-btn">Save</a>
                     @endlink
-                    <a class="card-link small" role="button" id="hide-link">Hide</a>
-                    <a class="card-link small" role="button" id="report-link">Report</a>
+                    @auth
+                        <a class="card-link small" role="button" id="report-link">Report</a>
+                    @endauth
                 </form>
             </div>
             @can('Can comment')
