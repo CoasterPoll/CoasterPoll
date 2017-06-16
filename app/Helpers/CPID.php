@@ -6,6 +6,7 @@ use ChaseH\Models\Coasters\Coaster;
 use ChaseH\Models\Coasters\Manufacturer;
 use ChaseH\Models\Coasters\Park;
 use ChaseH\Models\Sharing\Link;
+use ChaseH\Models\User;
 
 class CPID {
     private $prefix;
@@ -29,6 +30,9 @@ class CPID {
         switch ($prefix) {
             case "L":
                 return Link::where('id', $id)->first();
+                break;
+            case "U":
+                return User::where('id', $id)->first();
                 break;
             case "P":
                 return Park::where('id', $id)->first();
@@ -60,6 +64,10 @@ class CPID {
 
         if(in_array($this->prefix, ['C', 'P', 'M'])) {
             return $this->thing->name;
+        }
+
+        if($this->prefix == "U") {
+            return $this->thing->handle;
         }
 
         return "Unknown";
