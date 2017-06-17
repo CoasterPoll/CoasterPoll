@@ -96,7 +96,7 @@ class Coaster extends Model
     }
 
     public function links() {
-        return $this->morphMany('Chaseh\Models\Sharing\Link', 'linkable');
+        return $this->morphMany('ChaseH\Models\Sharing\Link', 'linkable');
     }
 
     // ## Traits

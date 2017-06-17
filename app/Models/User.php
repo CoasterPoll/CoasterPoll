@@ -79,7 +79,7 @@ class User extends Authenticatable
         return $this->hasMany('ChaseH\Models\Contact');
     }
 
-    public function links() {
+    public function shared_links() {
         return $this->hasMany('ChaseH\Models\Sharing\Link', 'posted_by');
     }
 
@@ -105,5 +105,9 @@ class User extends Authenticatable
         }
 
         return route('profile', ['handle' => $this->handle]);
+    }
+
+    public function links() {
+        return $this->morphMany('ChaseH\Models\Sharing\Link', 'linkable');
     }
 }

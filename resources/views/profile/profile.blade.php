@@ -38,7 +38,7 @@
                 </div>
                 <div class="card-block">
                     <table class="table table-sm">
-                        @foreach($user->links as $link)
+                        @foreach($user->shared_links as $link)
                             <tr>
                                 <td><a href="{{ $link->getLink() }}">{{ $link->title }}</a></td>
                                 <td>@null($link->linkable) {{ $link->linkable->name }} @endnull</td>
