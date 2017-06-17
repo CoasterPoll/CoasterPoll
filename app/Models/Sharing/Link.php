@@ -74,6 +74,10 @@ class Link extends Model
     }
 
     public function out() {
+        if($this->link == null) {
+            return $this->getLink();
+        }
+
         return $this->link;
     }
 
