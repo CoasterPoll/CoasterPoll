@@ -11,10 +11,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Cashier\Billable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasPermissionsTrait, SearchableTrait, PreferenceTrait, SoftDeletes, Billable;
+    use Notifiable, HasPermissionsTrait, SearchableTrait, PreferenceTrait, SoftDeletes, Billable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
