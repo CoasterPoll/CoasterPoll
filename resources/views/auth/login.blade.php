@@ -10,7 +10,14 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Sign In</h2>
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">Sign Up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">Sign In</a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="card-block">
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
