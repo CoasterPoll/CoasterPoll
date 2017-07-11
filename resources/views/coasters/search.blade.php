@@ -9,6 +9,9 @@
         <div class="col-md-8 offset-md-2">
             <div class="card card-block mb-4" id="search-bar"></div>
             <div class="card card-block" id="search-results"></div>
+            <div class="text-center mt-4">
+                <a class="lead text-center lead-unstyled" href="{{ route('contact') }}">Still Can't Find Something?</a>
+            </div>
         </div>
     </div>
 @endsection
