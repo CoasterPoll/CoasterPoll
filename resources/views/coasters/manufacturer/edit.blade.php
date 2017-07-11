@@ -35,7 +35,7 @@
                 </fieldset>
                 <fieldset class="form-group">
                     <label for="img_url">Image URL</label>
-                    <input type="text" name="img_url" value="@if($manufacturer->hasImg()) {{ $manufacturer->getImg() }} @endif " id="img_url" class="form-control">
+                    <input type="text" name="img_url" value="@if(isset($manufacturer) && $manufacturer->hasImg()) {{ $manufacturer->getImg() }} @endif " id="img_url" class="form-control">
                 </fieldset>
                 <fieldset class="form-group">
                     @isset($manufacturer->id)
