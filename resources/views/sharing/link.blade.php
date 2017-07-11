@@ -16,6 +16,9 @@
                 @if($link->linkable_type == 'ChaseH\Models\Coasters\Park')
                     <li class="breadcrumb-item"><a href="{{ $link->linkable->getLink() }}">{{ $link->linkable->short }}</a></li>
                 @endif
+                @if($link->linkable_type == 'ChaseH\Models\Coasters\Manufacturer')
+                    <li class="breadcrumb-item"><a href="{{ $link->linkable->getLink() }}">{{ $link->linkable->abbreviation }}</a></li>
+                @endif
                 <li class="breadcrumb-item active" id="breadcrumb-title">{{ $link->title }}</li>
             </ol>
             <div class="card card-block">
