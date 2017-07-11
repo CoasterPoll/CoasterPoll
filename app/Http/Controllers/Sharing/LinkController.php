@@ -15,7 +15,13 @@ use Illuminate\Support\Facades\Validator;
 class LinkController extends Controller
 {
     public function index() {
-        $links = Link::whereActive()->orderBy('created_at', 'DESC')->paginate(25);
+        if(Auth::check()) {
+            $links = Link::whereActive()->with(['votes' => function($query) {
+                $query->where('voter_id', Auth::id());
+            }])->orderBy('created_at', 'DESC')->paginate(25);
+        } else {
+            $links = Link::whereActive()->orderBy('created_at', 'DESC')->paginate(25);
+        }
 
         return view('sharing.index', [
             'links' => $links,

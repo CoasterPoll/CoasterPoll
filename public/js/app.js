@@ -137,3 +137,36 @@ function slugify(text) {
         .replace(/^-+/, '')             // Trim - from start of text
         .replace(/-+$/, '');            // Trim - from end of text
 }
+$('.thumb-up').on('click', function() {
+    var btn = $(this);
+    vote(btn);
+});
+$('.thumb-down').on('click', function() {
+    var btn = $(this);
+    vote(btn);
+});
+function vote(btn) {
+    var thing = btn.data('thing');
+    var direction = btn.data('direction');
+    $.post({
+        url: "/links/vote",
+        data: {
+            thing: thing,
+            direction: direction
+        },
+        success: function(resp) {
+            if(resp.vote.direction > 0) {
+                btn.closest('.thumb-group').find('.fa-thumbs-up').addClass('text-success');
+                btn.closest('.thumb-group').find('.fa-thumbs-down').removeClass('text-success');
+            } else if(resp.vote.direction < 0) {
+                btn.closest('.thumb-group').find('.fa-thumbs-up').removeClass('text-success');
+                btn.closest('.thumb-group').find('.fa-thumbs-down').addClass('text-success');
+            } else {
+                btn.closest('.thumb-group').find('.fa-thumbs-up').removeClass('text-success');
+                btn.closest('.thumb-group').find('.fa-thumbs-down').removeClass('text-success');
+            }
+
+            btn.closest('.thumb-group').find('.thumb-score').text(resp.score);
+        }
+    })
+}

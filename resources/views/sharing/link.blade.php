@@ -55,6 +55,11 @@
                     </fieldset>
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{ $link->id }}">
+                    <ul class="list-unstyled list-inline thumb-group small mr-3" style="display: inline">
+                        <li class="list-inline-item"><a role="button" class="thumb-up" data-thing="L{{ $link->id }}" data-direction="1"><i class="fa fa-thumbs-up @auth(){{ $link->getVoteClass('up') }}@endauth"></i></a></li>
+                        <li class="thumb-score list-inline-item">{{ $link->score }}</li>
+                        <li class="list-inline-item"><a role="button" class="thumb-up" data-thing="L{{ $link->id }}" data-direction="-1"><i class="fa fa-thumbs-down @auth(){{ $link->getVoteClass('down') }}@endauth"></i></a></li>
+                    </ul>
                     <a href="{{ url($link->getLink()) }}" class="small card-link">Permalink</a>
                     @link($link)
                         <a class="small card-link" role="button" id="edit-btn">Edit</a>

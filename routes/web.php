@@ -130,6 +130,8 @@ Route::group(['prefix' => 'links'], function() {
     Route::get('/submit:{what?}', 'Sharing\LinkController@submit')->name('links.submit.on');
     Route::post('/submit', 'Sharing\LinkController@create')->name('links.submit.post');
 
+    Route::post('/vote', 'Sharing\VoteController@vote')->name('vote.post')->middleware('auth', 'can:Can comment');
+
     Route::post('/edit', 'Sharing\LinkController@edit')->name('links.edit.post')->middleware('auth');
 });
 

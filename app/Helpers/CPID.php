@@ -5,11 +5,12 @@ namespace ChaseH\Helpers;
 use ChaseH\Models\Coasters\Coaster;
 use ChaseH\Models\Coasters\Manufacturer;
 use ChaseH\Models\Coasters\Park;
+use ChaseH\Models\Sharing\Comment;
 use ChaseH\Models\Sharing\Link;
 use ChaseH\Models\User;
 
 class CPID {
-    private $prefix;
+    public $prefix;
     private $id;
     public $thing = null;
 
@@ -43,6 +44,8 @@ class CPID {
             case "M":
                 return Manufacturer::where('id', $id)->first();
                 break;
+            case "Q":
+                return Comment::where('id', $id)->first();
             default:
                 return null;
         }

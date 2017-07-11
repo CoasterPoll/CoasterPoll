@@ -34,6 +34,10 @@ class Comment extends Model
         return $this->belongsTo(Comment::class, 'parent_id');
     }
 
+    public function votes() {
+        return $this->hasMany(Vote::class);
+    }
+
     public function getId() {
         return base_convert($this->id, 10, 32);
     }
