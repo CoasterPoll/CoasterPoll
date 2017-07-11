@@ -167,6 +167,11 @@ function vote(btn) {
             }
 
             btn.closest('.thumb-group').find('.thumb-score').text(resp.score);
+        },
+        error: function(resp) {
+            if(resp.status === 401) {
+                bootbox.alert("You'll need to sign in first.");
+            }
         }
     })
 }

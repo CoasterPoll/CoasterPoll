@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <div class="card">
+        <div class="card mb-3">
             @if($park->hasImg())
                 <img class="card-img-top" src="{{ $park->getImg() }}" alt="{{ $park->name }}">
             @endif
@@ -17,6 +17,7 @@
                 @endif
             </div>
         </div>
+        @each('sharing.link-card', $park->links, 'link')
     </div>
     <div class="col-md-6">
         <div class="card">

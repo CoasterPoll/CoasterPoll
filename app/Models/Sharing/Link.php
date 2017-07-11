@@ -102,6 +102,10 @@ class Link extends Model
     public function getVoteClass($btn) {
         $vote = $this->authVote();
 
+        if($vote == null) {
+            return "";
+        }
+
         if($vote->direction > 0 && $btn == "up") {
             return "text-success";
         }
