@@ -69,7 +69,12 @@
                         <a class="small card-link hidden" role="button" id="submit-btn">Save</a>
                     @endlink
                     @auth
-                        <a class="card-link small" role="button" id="report-link">Report</a>
+                        <a class="card-link small report-link-btn text-danger" data-link="{{ $link->id }}" role="button" id="report-link">
+                            Report
+                            @if(Auth::user()->can('Can moderate comments') && $link->reports->count() > 0)
+                                <span class="badge badge-warning">{{ $link->reports->count() }}</span>
+                            @endif
+                        </a>
                     @endauth
                 </form>
             </div>
@@ -95,6 +100,21 @@
         </div>
         <div class="col-3">
             @include('sharing.sidebar')
+            <div class="card card-outline-warning mt-3">
+                <div class="card-header">
+                    <h4 class="card-title">Reports</h4>
+                </div>
+                <div class="card-block">
+                    <table class="table table-sm">
+                        @foreach($link->reports as $report)
+                            <tr>
+                                <td>{{ $report->reason }}</td>
+                                <td></td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

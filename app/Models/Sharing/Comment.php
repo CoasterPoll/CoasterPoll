@@ -38,6 +38,10 @@ class Comment extends Model
         return $this->hasMany(Vote::class);
     }
 
+    public function reports() {
+        return $this->hasMany(LinkReport::class);
+    }
+
     public function getId() {
         return base_convert($this->id, 10, 32);
     }

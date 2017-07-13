@@ -175,3 +175,99 @@ function vote(btn) {
         }
     })
 }
+$('.report-link-btn').on('mousedown', function() {
+    var btn = $(this);
+    window.getreportstimer = setTimeout(function() {
+        getReports(btn);
+    }, 1500);
+}).on('mouseup', function() {
+    clearTimeout(window.getreportstimer);
+    var btn = $(this);
+
+    if(event.altKey) {
+        getReports(btn);
+        return;
+    }
+
+    bootbox.prompt({
+        title: "What's wrong with this?",
+        callback: function(result) {
+            if(result === null) {
+                return;
+            }
+            var link = btn.data('link');
+            var comment = btn.data('comment');
+            if (link === undefined) {
+                link = "";
+            }
+            if (comment === undefined) {
+                comment = "";
+            }
+            $.post({
+                url: "/links/report",
+                data: {
+                    link: link,
+                    reason: result,
+                    comment: comment
+                },
+                success: function (resp) {
+                    toastr.success(resp.message);
+                },
+                error: function (resp) {
+                    if (resp.status === 422) {
+                        toastr.error(resp.responseJSON.reason[0]);
+                    }
+
+                    toastr.error(resp.statusText);
+                }
+            })
+        },
+        buttons: {
+            confirm: {
+                label: "Report",
+                className: "btn-primary"
+            },
+            cancel: {
+                label: "Nevermind!",
+                className: "btn-secondary"
+            }
+        }
+    })
+});
+
+function getReports(btn) {
+    $.get({
+        url: "/links/reports",
+        data: {
+            link: btn.data('link'),
+            comment: btn.data('comment')
+        },
+        success: function(resp) {
+            var reports = "";
+            $.each(resp, function(thing) {
+                reports = reports + "<li>" + resp[thing].reason + "</li>";
+            });
+
+            var bb = bootbox.dialog({
+                message: "<ul>" + reports + "</ul>",
+                buttons: {
+                    cancel: {
+                        label: "Done",
+                        className: "btn-secondary",
+                        callback: function() {
+                            reports = "";
+                            bb.hide();
+                        }
+                    }
+                },
+                onEscape: true,
+                backdrop: true
+            })
+        },
+        error: function(resp) {
+            if(resp.status === 403) {
+                console.log("You don't really need that.");
+            }
+        }
+    });
+}

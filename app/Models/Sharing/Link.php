@@ -47,6 +47,10 @@ class Link extends Model
         return $this->hasMany(Vote::class);
     }
 
+    public function reports() {
+        return $this->hasMany(LinkReport::class);
+    }
+
     public function getPoster() {
         if($this->posted_by !== null) {
             return $this->poster;

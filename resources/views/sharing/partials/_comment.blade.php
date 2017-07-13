@@ -16,7 +16,12 @@
             <a class="card-link small reply-to-comment" role="button">Reply</a>
         @endcan
         @auth
-            <a class="card-link small" role="button" id="report-{{ $comment->getId() }}">Report</a>
+            <a class="card-link small report-link-btn text-danger" role="button" data-comment="{{ $comment->id }}">
+                Report
+                @if(Auth::user()->can('Can moderate comments') && $comment->reports->count() > 0)
+                    <span class="badge badge-warning">{{ $comment->reports->count() }}</span>
+                @endif
+            </a>
         @endauth
         @if($comment->children ?? false)
             <?php $traverse($comment->children) ?>

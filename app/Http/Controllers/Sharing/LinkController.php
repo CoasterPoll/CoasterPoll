@@ -19,6 +19,11 @@ class LinkController extends Controller
             $links = Link::whereActive()->with(['votes' => function($query) {
                 $query->where('voter_id', Auth::id());
             }])->orderBy('created_at', 'DESC')->paginate(25);
+
+            if(Auth::user()->can('Can moderate comments')) {
+                $links->load('reports');
+            }
+
         } else {
             $links = Link::whereActive()->orderBy('created_at', 'DESC')->paginate(25);
         }
@@ -34,6 +39,10 @@ class LinkController extends Controller
         // Pagination!
         $page = $request->get('page', 1);
         $perPage = 10;
+
+        if(Auth::user()->can('Can moderate comments')) {
+            $model = $model->load('reports');
+        }
 
         $comments = $model->nestedComments();
 

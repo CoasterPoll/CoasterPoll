@@ -133,6 +133,9 @@ Route::group(['prefix' => 'links'], function() {
     Route::post('/vote', 'Sharing\VoteController@vote')->name('vote.post')->middleware('auth', 'can:Can comment');
 
     Route::post('/edit', 'Sharing\LinkController@edit')->name('links.edit.post')->middleware('auth');
+
+    Route::post('/report', 'Sharing\ReportController@report')->name('links.report.post')->middleware('auth');
+    Route::get('/reports', 'Sharing\ReportController@view')->name('links.reports')->middleware('auth', 'can:Can moderate comments');
 });
 
 Route::post('/comment', 'Sharing\CommentController@submit')->name('comment.post')->middleware('auth', 'can:Can comment');

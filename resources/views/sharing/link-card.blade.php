@@ -11,6 +11,14 @@
             <a href="{{ $link->out() }}" target="_blank" style="display:block">{{ $link->title }}</a>
             <small class="mb-1" style="display:block">Posted by <a href="{{ $link->getPoster()->getProfileLink() }}">{{ $link->getPoster()->handle }}</a> @null($link->linkable) on {{ \ChaseH\Helpers\Namer::getNameOrTitle($link->linkable) }} @endnull about {{ $link->created_at->diffForHumans() }}.</small>
             <a class="card-link small" href="{{ $link->getLink() }}">{{ $link->comment_count }} Comments</a>
+            @auth
+                <a class="card-link small report-link-btn text-danger" role="button" data-link="{{ $link->id }}">
+                    Report
+                    @if(Auth::user()->can('Can moderate comments') && $link->reports->count() > 0)
+                        <span class="badge badge-warning">{{ $link->reports->count() }}</span>
+                    @endif
+                </a>
+            @endauth
         </div>
     </div>
 </div>
