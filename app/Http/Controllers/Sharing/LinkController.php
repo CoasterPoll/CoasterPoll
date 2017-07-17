@@ -40,7 +40,7 @@ class LinkController extends Controller
         $page = $request->get('page', 1);
         $perPage = 10;
 
-        if(Auth::user()->can('Can moderate comments')) {
+        if(Auth::check() && Auth::user()->can('Can moderate comments')) {
             $model = $model->load('reports');
         }
 
