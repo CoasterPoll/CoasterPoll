@@ -27,6 +27,10 @@ class ManufacturerController extends Controller
             Cache::put('man:'.$manufacturer, $man, 60);
         }
 
+        $man->load(['links' => function($query) {
+            $query->take(10)->orderBy('score');
+        }]);
+
         return view('coasters.manufacturer', [
             'manufacturer' => $man,
             '_hash' => $hash,

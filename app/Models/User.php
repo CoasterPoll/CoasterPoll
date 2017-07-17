@@ -4,15 +4,18 @@ namespace ChaseH\Models;
 
 use ChaseH\Events\UserCreated;
 use ChaseH\Models\Analytics\Demographic;
+use ChaseH\Models\Subscriptions\Subscription;
 use ChaseH\Permissions\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Cache;
+use Laravel\Cashier\Billable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasPermissionsTrait, SearchableTrait, SoftDeletes;
+    use Notifiable, HasPermissionsTrait, SearchableTrait, PreferenceTrait, SoftDeletes, Billable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'handle', 'email', 'password', 'preferences'
     ];
 
     /**
@@ -34,6 +37,10 @@ class User extends Authenticatable
 
     protected $events = [
         'created' => UserCreated::class,
+    ];
+
+    protected $casts = [
+        'preferences' => 'json',
     ];
 
     protected static function getSearchable() {
@@ -73,6 +80,10 @@ class User extends Authenticatable
         return $this->hasMany('ChaseH\Models\Contact');
     }
 
+    public function shared_links() {
+        return $this->hasMany('ChaseH\Models\Sharing\Link', 'posted_by');
+    }
+
     public function lockAccount() {
         $this->roles()->detach();
 
@@ -83,5 +94,21 @@ class User extends Authenticatable
         $this->restore();
 
         $this->roles()->attach(Role::where('name', 'User')->first());
+    }
+
+    public function subscriptions() {
+        return $this->hasMany(Subscription::class, $this->getForeignKey())->orderBy('created_at', 'desc');
+    }
+
+    public function getProfileLink() {
+        if($this->deleted_at != null) {
+            return "#";
+        }
+
+        return route('profile', ['handle' => $this->handle]);
+    }
+
+    public function links() {
+        return $this->morphMany('ChaseH\Models\Sharing\Link', 'linkable');
     }
 }

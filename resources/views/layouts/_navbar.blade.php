@@ -1,6 +1,7 @@
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto my-auto">
-        <li class="nav-item"><a href="{{ route('coasters.coasters') }}" class="nav-link">List</a></li>
+        <li class="nav-item"><a href="{{ route('coasters.coasters') }}" class="nav-link">Coasters</a></li>
+        <li class="nav-item"><a href="{{ route('links') }}" class="nav-link">Links</a></li>
         @can('Can track coasters')
             <li class="nav-item"><a href="{{ route('coasters.ridden') }}" class="nav-link">Ridden</a></li>
         @endcan
@@ -43,7 +44,7 @@
     </ul>
     <ul class="navbar-nav">
         <form class="form-inline justify-content-end mr-2" action="{{ route('coasters.search') }}" method="get">
-            <input type="text" id="coaster-search" placeholder="&#xf002;" title="Search for something" class="form-control" name="q" style="font-family:Arial, FontAwesome" autocomplete="off">
+            <input type="text" id="coaster-search" placeholder="&#xf002; Search for a coaster" title="Search for something" class="form-control" name="q" style="font-family:Arial, FontAwesome" autocomplete="off">
             <button class="btn btn-outline-secondary my-2 my-sm-0 sr-only" type="submit" title="Search for a Coaster" style="height: 36px" >Go</button>
         </form>
         @if (Auth::guest())
@@ -87,7 +88,9 @@
                     {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{{ route('profile', ['handle' => \Illuminate\Support\Facades\Auth::user()->handle]) }}">Your Profile</a>
                     <a class="dropdown-item" href="{{ route('user.settings') }}">Account Settings</a>
+                    <a class="dropdown-item" href="{{ route('subs.manage') }}">Manage Subscriptions</a>
                     <a class="dropdown-item" href="{{ route('user.demographics') }}">Demographics</a>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"

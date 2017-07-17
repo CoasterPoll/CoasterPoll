@@ -73,5 +73,13 @@ class PermissionsServiceProvider extends ServiceProvider
         Blade::directive('endauth', function() {
             return "<?php endif; ?>";
         });
+
+        Blade::directive('link', function($link) {
+            return "<?php if (Auth::check() && (Gate::allows('Can edit links') || Auth::id() === {$link}->id)): ?>";
+        });
+
+        Blade::directive('endlink', function() {
+            return "<?php endif; ?>";
+        });
     }
 }

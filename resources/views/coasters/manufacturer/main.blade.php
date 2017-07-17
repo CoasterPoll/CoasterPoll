@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <div class="card">
+        <div class="card mb-3">
             @if($manufacturer->hasImg())
                 <img class="card-img-top" src="{{ $manufacturer->getImg() }}" alt="{{ $manufacturer->name }}">
             @endif
@@ -8,6 +8,7 @@
                 <h4 class="card-title">{{ $manufacturer->abbreviation }}</h4>
                 <h6 class="card-subtitle">{{ $manufacturer->location }}</h6>
                 <p class="card-text">{{ $manufacturer->copyright }}</p>
+                <a class="card-link" href="{{ route('links.submit.on', ['on' => "M".$manufacturer->id]) }}">Post To</a>
                 @if($manufacturer->website !== null || $manufacturer->website !== "")
                     <a class="card-link" href="{{ $manufacturer->website }}">Website</a>
                 @endif
@@ -16,6 +17,7 @@
                 @endif
             </div>
         </div>
+        @each('sharing.link-card', $manufacturer->links, 'link')
     </div>
     <div class="col-md-6">
         <div class="card">

@@ -2,6 +2,8 @@
 
 namespace ChaseH\Http\Controllers;
 
+use ChaseH\Models\Analytics\Demographic;
+use ChaseH\Models\Analytics\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'queue' => true,
+    'queue' => env('SCOUT_QUEUE', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -60,4 +60,9 @@ return [
         'search' => env('ALGOLIA_SEARCH', ''),
     ],
 
+    'elasticsearch' => [
+        'hosts' => [
+            ['host' => env('ELASTICSEARCH_HOST', 'localhost')],
+        ]
+    ]
 ];

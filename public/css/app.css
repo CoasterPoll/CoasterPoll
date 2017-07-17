@@ -203,3 +203,9 @@
 .notification-container {
     min-width: 250px;
 }
+
+.comment {
+    margin: 10px 0 15px 30px;
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+}

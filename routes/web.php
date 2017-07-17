@@ -43,7 +43,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function() {
 // ## Coasters
 Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware'], function() {
     Route::get('search', 'Coasters\MainController@search')->name('coasters.search');
-    Route::get('list', 'Coasters\MainController@display')->name('coasters.coasters');
+    Route::get('coasters', 'Coasters\MainController@display')->name('coasters.coasters');
 
     Route::group(['middleware' => 'auth'], function() {
         Route::get('ridden', 'Coasters\MainController@ridden')->name('coasters.ridden')->middleware('can:Can track coasters');
@@ -85,6 +85,11 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
     Route::get('/@{park}/{coaster}', 'Coasters\CoasterController@view')->name('coasters.coaster');
 });
 
+// ## Public Profiles
+Route::group(['prefix' => 'u'], function() {
+    Route::get('{handle?}', 'Users\ProfileController@profile')->name('profile');
+});
+
 // ## Advertising
 Route::group(['middleware' => ['auth'], 'prefix' => 'sponsor'], function() {
     Route::get('/', 'Ads\SponsorController@dashboard')->name('ads');
@@ -102,8 +107,38 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'sponsor'], function() {
     Route::get('/ads/{ad}', 'Ads\AdController@edit')->name('ads.ad')->where(['ad' => '[0-9]+']);
     Route::post('/ads/edit', 'Ads\AdController@save')->name('ads.ad.save');
     Route::delete('/ads/delete', 'Ads\AdController@delete')->name('ads.ad.delete');
-
 });
+
+// ## Subscriptions
+Route::group(['middleware' => ['auth'], 'prefix' => 'subscribe'], function() {
+    Route::get('/manage/{user?}', 'Subscriptions\SubscriptionController@index')->name('subs.manage');
+    Route::post('/manage/cancel/{user?}', 'Subscriptions\SubscriptionController@cancel')->name('subs.manage.cancel');
+    Route::post('/manage/resume/{user?}', 'Subscriptions\SubscriptionController@resume')->name('subs.manage.resume');
+    Route::get('/plans', 'Subscriptions\PlanController@index')->name('subs.plans');
+    Route::get('/plans/{plan}', 'Subscriptions\PlanController@show')->name('subs.plan');
+    Route::post('/plans/{plan}', 'Subscriptions\SubscriptionController@create')->name('subs.plan.post');
+
+    Route::get('/test', 'Subscriptions\PlanController@test');
+});
+
+// ## Sharing
+Route::group(['prefix' => 'links'], function() {
+    Route::get('/', 'Sharing\LinkController@index')->name('links');
+    Route::get('/view/{link}/{slug?}', 'Sharing\LinkController@view')->name('links.link.view');
+
+    Route::get('/submit', 'Sharing\LinkController@submit')->name('links.submit');
+    Route::get('/submit:{what?}', 'Sharing\LinkController@submit')->name('links.submit.on');
+    Route::post('/submit', 'Sharing\LinkController@create')->name('links.submit.post');
+
+    Route::post('/vote', 'Sharing\VoteController@vote')->name('vote.post')->middleware('auth', 'can:Can comment');
+
+    Route::post('/edit', 'Sharing\LinkController@edit')->name('links.edit.post')->middleware('auth');
+
+    Route::post('/report', 'Sharing\ReportController@report')->name('links.report.post')->middleware('auth');
+    Route::get('/reports', 'Sharing\ReportController@view')->name('links.reports')->middleware('auth', 'can:Can moderate comments');
+});
+
+Route::post('/comment', 'Sharing\CommentController@submit')->name('comment.post')->middleware('auth', 'can:Can comment');
 
 // ## Admin
 Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], function() {

@@ -47,7 +47,7 @@ class UpdateDemographicCity extends Command
         }
 
         $city = urlencode($demographic->city);
-        $api = env('GOOGLE_MAPS_API');
+        $api = config('services.google.maps_api_server');
 
         $url = "https://maps.googleapis.com/maps/api/geocode/json?key={$api}&address={$city}";
 

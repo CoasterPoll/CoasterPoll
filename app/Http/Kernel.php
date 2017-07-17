@@ -4,8 +4,10 @@ namespace ChaseH\Http;
 
 use ChaseH\Http\Middleware\LinksInViewsMiddleware;
 use ChaseH\Http\Middleware\NotificationsMiddleware;
+use ChaseH\Http\Middleware\PlanMiddleware;
 use ChaseH\Http\Middleware\RoleMiddleware;
 use ChaseH\Http\Middleware\SocialMiddleware;
+use ChaseH\Http\Middleware\SubscribedMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,5 +66,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'role' => RoleMiddleware::class,
         'social' => SocialMiddleware::class,
+        'subscribed' => SubscribedMiddleware::class,
+        'plan' => PlanMiddleware::class,
     ];
 }

@@ -173,6 +173,8 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
         //Laravel\Socialite\SocialiteServiceProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
+        Laravel\Cashier\CashierServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -183,6 +185,7 @@ return [
         ChaseH\Providers\EventServiceProvider::class,
         ChaseH\Providers\RouteServiceProvider::class,
         ChaseH\Providers\PermissionsServiceProvider::class,
+        ChaseH\Stretch\StretchProvider::class,
 
     ],
 

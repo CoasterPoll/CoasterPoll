@@ -2,6 +2,7 @@
 
 namespace ChaseH\Http\Controllers;
 
+use ChaseH\Models\Coasters\Category;
 use ChaseH\Models\Coasters\Coaster;
 use ChaseH\Models\Coasters\Type;
 use ChaseH\Models\Contact;

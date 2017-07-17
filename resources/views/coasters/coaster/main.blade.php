@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-8 offset-md-2">
-        <div class="card">
+        <div class="card mb-3">
             @if($coaster->hasImg())
                 <img class="card-img-top" src="{{ $coaster->getImg() }}" alt="{{ $coaster->name }}">
             @endif
@@ -16,7 +16,8 @@
                 </ul>
                 </p>
                 <p class="card-text">{{ $coaster->copyright }}</p>
-                <a class="card-link" href="{{ route('contact.coaster', ['id' => $coaster->id]) }}">Report Problem</a>
+                <a class="card-link" href="{{ route('links.submit.on', ['on' => "C".$coaster->id]) }}">Post To</a>
+                <a class="card-link" href="{{ route('contact.coaster', ['id' => $coaster->id]) }}">Report</a>
                 @if($coaster->rcdb_id !== null)
                     <a class="card-link" href="https://rcdb.com/{{ $coaster->rcdb_id }}.htm">View on RCDB</a>
                 @endif
@@ -27,5 +28,6 @@
                 @endcan
             </div>
         </div>
+        @each('sharing.link-card', $coaster->links, 'link')
     </div>
 </div>

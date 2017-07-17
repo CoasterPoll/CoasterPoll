@@ -129,3 +129,145 @@ function getCookie(key) {
 function decode(s) {
     return decodeURIComponent(s.replace(/\+/g, ' '));
 }
+function slugify(text) {
+    return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')           // Replace spaces with -
+        .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+        .replace(/^-+/, '')             // Trim - from start of text
+        .replace(/-+$/, '');            // Trim - from end of text
+}
+$('.thumb-up').on('click', function() {
+    var btn = $(this);
+    vote(btn);
+});
+$('.thumb-down').on('click', function() {
+    var btn = $(this);
+    vote(btn);
+});
+function vote(btn) {
+    var thing = btn.data('thing');
+    var direction = btn.data('direction');
+    $.post({
+        url: "/links/vote",
+        data: {
+            thing: thing,
+            direction: direction
+        },
+        success: function(resp) {
+            if(resp.vote.direction > 0) {
+                btn.closest('.thumb-group').find('.fa-thumbs-up').addClass('text-success');
+                btn.closest('.thumb-group').find('.fa-thumbs-down').removeClass('text-success');
+            } else if(resp.vote.direction < 0) {
+                btn.closest('.thumb-group').find('.fa-thumbs-up').removeClass('text-success');
+                btn.closest('.thumb-group').find('.fa-thumbs-down').addClass('text-success');
+            } else {
+                btn.closest('.thumb-group').find('.fa-thumbs-up').removeClass('text-success');
+                btn.closest('.thumb-group').find('.fa-thumbs-down').removeClass('text-success');
+            }
+
+            btn.closest('.thumb-group').find('.thumb-score').text(resp.score);
+        },
+        error: function(resp) {
+            if(resp.status === 401) {
+                bootbox.alert("You'll need to sign in first.");
+            }
+        }
+    })
+}
+$('.report-link-btn').on('mousedown', function() {
+    var btn = $(this);
+    window.getreportstimer = setTimeout(function() {
+        getReports(btn);
+    }, 1500);
+}).on('mouseup', function() {
+    clearTimeout(window.getreportstimer);
+    var btn = $(this);
+
+    if(event.altKey) {
+        getReports(btn);
+        return;
+    }
+
+    bootbox.prompt({
+        title: "What's wrong with this?",
+        callback: function(result) {
+            if(result === null) {
+                return;
+            }
+            var link = btn.data('link');
+            var comment = btn.data('comment');
+            if (link === undefined) {
+                link = "";
+            }
+            if (comment === undefined) {
+                comment = "";
+            }
+            $.post({
+                url: "/links/report",
+                data: {
+                    link: link,
+                    reason: result,
+                    comment: comment
+                },
+                success: function (resp) {
+                    toastr.success(resp.message);
+                },
+                error: function (resp) {
+                    if (resp.status === 422) {
+                        toastr.error(resp.responseJSON.reason[0]);
+                    }
+
+                    toastr.error(resp.statusText);
+                }
+            })
+        },
+        buttons: {
+            confirm: {
+                label: "Report",
+                className: "btn-primary"
+            },
+            cancel: {
+                label: "Nevermind!",
+                className: "btn-secondary"
+            }
+        }
+    })
+});
+
+function getReports(btn) {
+    $.get({
+        url: "/links/reports",
+        data: {
+            link: btn.data('link'),
+            comment: btn.data('comment')
+        },
+        success: function(resp) {
+            var reports = "";
+            $.each(resp, function(thing) {
+                reports = reports + "<li>" + resp[thing].reason + "</li>";
+            });
+
+            var bb = bootbox.dialog({
+                message: "<ul>" + reports + "</ul>",
+                buttons: {
+                    cancel: {
+                        label: "Done",
+                        className: "btn-secondary",
+                        callback: function() {
+                            reports = "";
+                            bb.hide();
+                        }
+                    }
+                },
+                onEscape: true,
+                backdrop: true
+            })
+        },
+        error: function(resp) {
+            if(resp.status === 403) {
+                console.log("You don't really need that.");
+            }
+        }
+    });
+}

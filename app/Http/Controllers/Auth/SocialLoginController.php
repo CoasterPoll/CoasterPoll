@@ -27,6 +27,7 @@ class SocialLoginController extends Controller
         if(!$user) {
             $user = User::create([
                 'name' => $serviceUser->getName(),
+                'handle' => str_slug(uniqid($serviceUser->getName())),
                 'email' => $serviceUser->getEmail(),
                 'password' => null,
             ]);

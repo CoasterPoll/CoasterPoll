@@ -77,6 +77,7 @@ class PreferencesController extends Controller
         if($request->input('edit-password') == 'true') {
             $v = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
+                'handle' => 'required|string|max:255|alpha_dash|unique:users,handle,'.$user->id,
                 'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
                 'password' => 'required|string|min:6|confirmed',
             ]);
@@ -97,12 +98,14 @@ class PreferencesController extends Controller
         } else {
             $this->validate($request, [
                 'name' => 'required|string|max:255',
+                'handle' => 'required|string|max:255|alpha_dash|unique:users,handle,'.$user->id,
                 'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             ]);
         }
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->handle = $request->input('handle');
 
         $user->save();
 

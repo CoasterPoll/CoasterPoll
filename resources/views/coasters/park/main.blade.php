@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <div class="card">
+        <div class="card mb-3">
             @if($park->hasImg())
                 <img class="card-img-top" src="{{ $park->getImg() }}" alt="{{ $park->name }}">
             @endif
@@ -8,6 +8,7 @@
                 <h4 class="card-title">{{ $park->short }}</h4>
                 <h6 class="card-subtitle">{{ $park->city }}, {{ $park->country }}</h6>
                 <p class="card-text">{{ $park->copyright }}</p>
+                <a class="card-link" href="{{ route('links.submit.on', ['on' => "P".$park->id]) }}">Post To</a>
                 @if($park->website !== null)
                     <a class="card-link" href="{{ $park->website }}">Website</a>
                 @endif
@@ -16,6 +17,7 @@
                 @endif
             </div>
         </div>
+        @each('sharing.link-card', $park->links, 'link')
     </div>
     <div class="col-md-6">
         <div class="card">
