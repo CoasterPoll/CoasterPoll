@@ -100,21 +100,23 @@
         </div>
         <div class="col-3">
             @include('sharing.sidebar')
-            <div class="card card-outline-warning mt-3">
-                <div class="card-header">
-                    <h4 class="card-title">Reports</h4>
+            @can('Can moderate comments')
+                <div class="card card-outline-warning mt-3">
+                    <div class="card-header">
+                        <h4 class="card-title">Reports</h4>
+                    </div>
+                    <div class="card-block">
+                        <table class="table table-sm">
+                            @foreach($link->reports as $report)
+                                <tr>
+                                    <td>{{ $report->reason }}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
                 </div>
-                <div class="card-block">
-                    <table class="table table-sm">
-                        @foreach($link->reports as $report)
-                            <tr>
-                                <td>{{ $report->reason }}</td>
-                                <td></td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-            </div>
+            @endcan
         </div>
     </div>
 @endsection
