@@ -6,6 +6,7 @@ use ChaseH\Events\UserCreated;
 use ChaseH\Models\Analytics\Demographic;
 use ChaseH\Models\Subscriptions\Subscription;
 use ChaseH\Permissions\HasPermissionsTrait;
+use ChaseH\Stretch\Stretchy;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,7 +16,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasPermissionsTrait, SearchableTrait, PreferenceTrait, SoftDeletes, Billable, HasApiTokens;
+    use Notifiable, HasPermissionsTrait, Stretchy, PreferenceTrait, SoftDeletes, Billable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -49,6 +50,8 @@ class User extends Authenticatable
             'email'
         ];
     }
+
+    protected $searchableUsing = "stretch";
 
     public function promoteToAdmin($role = "Admin") {
         $this->roles()->attach(Role::where('name', $role)->first());

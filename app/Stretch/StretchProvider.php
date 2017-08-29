@@ -9,9 +9,8 @@ use Laravel\Scout\EngineManager;
 class StretchProvider extends ServiceProvider {
     public function boot() {
         resolve(EngineManager::class)->extend('stretch', function($app) {
-            return new ElasticEngine(ClientBuilder::create()
-                ->setHosts(config('scout.elasticsearch.hosts'))
-                ->build()
+            return new ElasticEngine(ClientBuilder::create()->
+                setHosts(config('scout.elasticsearch.hosts'))->build()
             );
         });
     }
