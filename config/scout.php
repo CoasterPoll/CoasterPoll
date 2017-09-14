@@ -58,6 +58,7 @@ return [
         'id' => env('ALGOLIA_APP_ID', ''),
         'secret' => env('ALGOLIA_SECRET', ''),
         'search' => env('ALGOLIA_SEARCH', ''),
+        'monitoring' => env('ALGOLIA_MONITORING'),
     ],
 
     'elasticsearch' => [
