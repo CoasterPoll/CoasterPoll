@@ -23,6 +23,14 @@
                         </tr>
                     @endforeach
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th><a href="{{ route('admin.general.homepage') }}" class="link-unstyled">Homepage</a></th>
+                        <td>The thing people see at <a href="{{ config('app.url') }}">{{ config('app.url') }}/</a></td>
+                        <td>{{ \Carbon\Carbon::parse($last_updated)->toDateTimeString() }}</td>
+                        <td><a href="{{ route('home') }}"><i class="fa fa-eye"></i> View</a></td>
+                    </tr>
+                </tfoot>
             </table>
             {{ $pages->links() }}
         </div>

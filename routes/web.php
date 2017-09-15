@@ -145,6 +145,8 @@ Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], fu
     Route::get('/', 'AdminController@dashboard')->name('admin');
     Route::get('/search', 'AdminController@search')->name('admin.search');
     Route::get('/contact/{id?}','ContactController@admin')->name('admin.contact');
+    Route::get('/homepage', 'HomeController@edit')->name('admin.general.homepage');
+    Route::post('/homepage', 'HomeController@save')->name('admin.general.homepage.post');
 
     Route::group(['middleware' => ['can:Can manage users']], function() {
         Route::get('user/{id}', 'Users\UserController@getUser')->name('admin.user')->where('id', '[0-9]+');
