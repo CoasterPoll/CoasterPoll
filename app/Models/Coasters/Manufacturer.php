@@ -3,12 +3,13 @@
 namespace ChaseH\Models\Coasters;
 
 use ChaseH\Models\SearchableTrait;
+use ChaseH\Stretch\Stretchy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Manufacturer extends Model
 {
-    use SoftDeletes, SearchableTrait;
+    use SoftDeletes, Stretchy;
 
     protected $table = "manufacturers";
 
@@ -22,6 +23,8 @@ class Manufacturer extends Model
         'img_url',
         'img_path',
     ];
+
+    protected $searchableUsing = "stretch";
 
     public function getLink() {
         return route('coasters.manufacturer.id', ['id' => $this->id]);
