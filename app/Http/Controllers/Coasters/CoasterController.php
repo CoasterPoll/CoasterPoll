@@ -31,9 +31,11 @@ class CoasterController extends Controller
             }
         }
 
-        $coaster->load(['links' => function($query) {
-            $query->take(10)->orderBy('score');
-        }]);
+        if(config('app.links')) {
+            $coaster->load(['links' => function($query) {
+                $query->take(10)->orderBy('score');
+            }]);
+        }
 
         if(Auth::check() && Auth::user()->can('Can manage coasters')) {
             $categories = Cache::remember('all_categories', 120, function() {

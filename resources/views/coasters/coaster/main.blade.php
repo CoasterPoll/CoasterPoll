@@ -16,7 +16,9 @@
                 </ul>
                 </p>
                 <p class="card-text">{{ $coaster->copyright }}</p>
-                <a class="card-link" href="{{ route('links.submit.on', ['on' => "C".$coaster->id]) }}">Post To</a>
+                @if(config('app.links'))
+                    <a class="card-link" href="{{ route('links.submit.on', ['on' => "C".$coaster->id]) }}">Post To</a>
+                @endif
                 <a class="card-link" href="{{ route('contact.coaster', ['id' => $coaster->id]) }}">Report</a>
                 @if($coaster->rcdb_id !== null)
                     <a class="card-link" href="https://rcdb.com/{{ $coaster->rcdb_id }}.htm">View on RCDB</a>
@@ -28,6 +30,8 @@
                 @endcan
             </div>
         </div>
-        @each('sharing.link-card', $coaster->links, 'link')
+        @if(config('app.links'))
+            @each('sharing.link-card', $coaster->links, 'link')
+        @endif
     </div>
 </div>

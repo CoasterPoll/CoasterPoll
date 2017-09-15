@@ -27,9 +27,11 @@ class ParkController extends Controller
             Cache::put('park:'.$park, $pk, 60);
         }
 
-        $pk->load(['links' => function($query) {
-            $query->take(10)->orderBy('score');
-        }]);
+        if(config('app.links')) {
+            $pk->load(['links' => function($query) {
+                $query->take(10)->orderBy('score');
+            }]);
+        }
 
         return view('coasters.park', [
             'park' => $pk,

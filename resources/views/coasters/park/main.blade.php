@@ -8,7 +8,9 @@
                 <h4 class="card-title">{{ $park->short }}</h4>
                 <h6 class="card-subtitle">{{ $park->city }}, {{ $park->country }}</h6>
                 <p class="card-text">{{ $park->copyright }}</p>
-                <a class="card-link" href="{{ route('links.submit.on', ['on' => "P".$park->id]) }}">Post To</a>
+                @if(config('app.links'))
+                    <a class="card-link" href="{{ route('links.submit.on', ['on' => "P".$park->id]) }}">Post To</a>
+                @endif
                 @if($park->website !== null)
                     <a class="card-link" href="{{ $park->website }}">Website</a>
                 @endif
@@ -17,7 +19,9 @@
                 @endif
             </div>
         </div>
-        @each('sharing.link-card', $park->links, 'link')
+        @if(config('app.links'))
+            @each('sharing.link-card', $park->links, 'link')
+        @endif
     </div>
     <div class="col-md-6">
         <div class="card">

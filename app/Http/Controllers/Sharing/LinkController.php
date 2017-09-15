@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Validator;
 
 class LinkController extends Controller
 {
+    public function __construct() {
+        $this->middleware(function($request, $next) {
+            if(!config('app.links')) {
+                return abort(404);
+            }
+
+            return $next($request);
+        });
+    }
+
     public function index() {
         if(Auth::check()) {
             $links = Link::whereActive()->with(['votes' => function($query) {
