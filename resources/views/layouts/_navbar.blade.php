@@ -92,7 +92,9 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="{{ route('profile', ['handle' => \Illuminate\Support\Facades\Auth::user()->handle]) }}">Your Profile</a>
                     <a class="dropdown-item" href="{{ route('user.settings') }}">Account Settings</a>
-                    <a class="dropdown-item" href="{{ route('subs.manage') }}">Manage Subscriptions</a>
+                    @if(config('app.subscriptions'))
+                        <a class="dropdown-item" href="{{ route('subs.manage') }}">Manage Subscriptions</a>
+                    @endif
                     <a class="dropdown-item" href="{{ route('user.demographics') }}">Demographics</a>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"

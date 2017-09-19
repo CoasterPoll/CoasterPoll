@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 
 class PlanController extends Controller
 {
+    public function __construct() {
+        $this->middleware(function($request, $next) {
+            if(!config('app.subscriptions')) {
+                return abort(404);
+            }
+
+            return $next($request);
+        });
+    }
+
     public function index() {
         return view('plans.index', [
             'plans' => Plan::get(),

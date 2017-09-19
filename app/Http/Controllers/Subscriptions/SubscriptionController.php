@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
 {
+    public function __construct() {
+        $this->middleware(function($request, $next) {
+            if(!config('app.subscriptions')) {
+                return abort(404);
+            }
+
+            return $next($request);
+        });
+    }
+
     public function index(Request $request) {
         if($request->user !== null && Auth::user()->hasRole('Admin', 'Support')) {
             try {

@@ -240,4 +240,5 @@ return [
 
     'ads' => env('ADS', false),
     'links' => env('LINKS', true),
+    'subscriptions' => env('SUBSCRIPTIONS', false)
 ];
