@@ -58,11 +58,18 @@ return [
         'id' => env('ALGOLIA_APP_ID', ''),
         'secret' => env('ALGOLIA_SECRET', ''),
         'search' => env('ALGOLIA_SEARCH', ''),
+        'monitoring' => env('ALGOLIA_MONITORING'),
     ],
 
     'elasticsearch' => [
         'hosts' => [
-            ['host' => env('ELASTICSEARCH_HOST', 'localhost')],
+            [
+                'host' => env('ELASTICSEARCH_HOST', 'localhost'),
+                'port' => env('ELASTICSEARCH_PORT', '9200'),
+                'scheme' => env('ELASTICSEARCH_SCHEME', 'https'),
+                'user' => env('ELASTICSEARCH_USER'),
+                'pass' => env('ELASTICSEARCH_PASS'),
+            ],
         ]
     ]
 ];

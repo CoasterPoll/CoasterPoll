@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-4 text-center">
                 <h1 class="branding"><a class="lead-unstyled" href="/">CoasterPoll.com</a></h1>
-                <p class="text-muted">Powered by <a href="https://chaseh.net">ChaseH.net</a> </p>
+                <p class="text-muted">A <a href="https://chaseh.net">ChaseH.net</a> Project</p>
             </div>
             <div class="col-md-8">
                 <div class="nav justify-content-center flex-md-row flex-column">

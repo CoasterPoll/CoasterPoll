@@ -2,11 +2,13 @@
 
 namespace ChaseH\Http\Controllers;
 
+use Carbon\Carbon;
 use ChaseH\Models\Content\Link;
 use ChaseH\Models\Content\Page;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 
 class ContentController extends Controller
@@ -42,7 +44,16 @@ class ContentController extends Controller
     public function adminPages() {
         $pages = Page::paginate(25);
 
-        return view('content.pages', ['pages' => $pages]);
+        if(Storage::disk('local')->exists('internal/homepage.txt')) {
+            $last_updated = Storage::disk('local')->lastModified('internal/homepage.txt');
+        } else {
+            $last_updated = Carbon::now();
+        }
+
+        return view('content.pages', [
+            'pages' => $pages,
+            'last_updated' => $last_updated,
+        ]);
     }
 
     public function adminPage($page = 0) {
