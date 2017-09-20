@@ -8,6 +8,10 @@ trait Stretchy {
     use  \Laravel\Scout\Searchable;
 
     public function searchableUsing() {
+        if(!config('scout.stretch') && $this->searchableUsing == "stretch") {
+            return app(EngineManager::class)->engine("null");
+        }
+
         return app(EngineManager::class)->engine($this->searchableUsing ?? "stretch");
     }
 

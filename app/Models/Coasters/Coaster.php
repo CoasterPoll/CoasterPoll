@@ -4,13 +4,13 @@ namespace ChaseH\Models\Coasters;
 
 use ChaseH\Models\LinkableTrait;
 use ChaseH\Models\SearchableTrait;
+use ChaseH\Stretch\Stretchy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Scout\Searchable;
 
 class Coaster extends Model
 {
-    use SoftDeletes, SearchableTrait, Searchable, LinkableTrait;
+    use SoftDeletes, SearchableTrait, Stretchy, LinkableTrait;
 
     protected $table = "coasters";
 
@@ -110,6 +110,8 @@ class Coaster extends Model
     public function searchableAs() {
         return "coasters";
     }
+
+    private $searchableUsing = "algolia";
 
     public function searchableAsType() {
         return "coaster";

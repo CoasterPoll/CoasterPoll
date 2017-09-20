@@ -16,6 +16,7 @@ return [
     */
 
     'driver' => env('SCOUT_DRIVER', 'algolia'),
+    'stretch' => env('USE_STRETCHY', false),
 
     /*
     |--------------------------------------------------------------------------
