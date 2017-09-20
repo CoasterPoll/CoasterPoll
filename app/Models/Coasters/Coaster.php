@@ -111,6 +111,10 @@ class Coaster extends Model
         return "coasters";
     }
 
+    public function searchableAsType() {
+        return "coaster";
+    }
+
     public function toSearchableArray()
     {
         $this->load('park');
