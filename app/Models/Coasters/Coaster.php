@@ -56,7 +56,7 @@ class Coaster extends Model
 
     public function getImg() {
         if($this->img_path !== null) {
-            return env('IMG_URL')."/".$this->img_path;
+            return config('app.img')."/".$this->img_path;
         }
 
         if($this->img_url !== null) {
