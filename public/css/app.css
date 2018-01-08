@@ -1,9 +1,13 @@
 #main-nav {
-    margin-bottom: 25px;
     background-color: #dddddd;
 }
+
+body{
+    background-color: #fafbfd;
+}
+
 #headContainer {
-    padding-top: 75px;
+    padding-top: 20px;
     padding-bottom: 50px;
     min-height: 70vh;
 }

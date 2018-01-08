@@ -22,6 +22,8 @@ class HomeController extends Controller {
             $content = "";
         }
 
+        $content = str_replace("{{cdnurl}}", config('app.cdn'), $content);
+
         return view('home', [
             'content' => $content,
         ]);
@@ -40,7 +42,9 @@ class HomeController extends Controller {
     }
 
     public function save(Request $request) {
-        Storage::disk('local')->put('internal/homepage.txt', $request->get('content'));
+        $content = $request->get('content');
+
+        Storage::disk('local')->put('internal/homepage.txt', $content);
 
         return back()->withSuccess("We've updated the homepage!");
     }

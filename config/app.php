@@ -240,5 +240,8 @@ return [
 
     'ads' => env('ADS', false),
     'links' => env('LINKS', true),
-    'subscriptions' => env('SUBSCRIPTIONS', false)
+    'subscriptions' => env('SUBSCRIPTIONS', false),
+    'beta' => env('BETA_MODE', false),
+    'betatext' => env('BETA_TEXT', "Live Beta Test"),
+    'betalink' => env('BETA_LINK')
 ];
