@@ -51,10 +51,10 @@
         </form>
         @if(Auth::guest())
             <li class="nav-item p-1">
-                <a class="btn btn-outline-success" href="{{ route('register') }}"><i class="fa fa-hand-peace-o"></i> Sign Up</a>
+                <a class="btn btn-outline-success btn-sm" style="height: 32px; vertical-align: bottom" href="{{ route('register') }}"><i class="fa fa-hand-peace-o"></i> Sign Up</a>
             </li>
             <li class="nav-item p-1">
-                <a class="btn btn-outline-info" href="{{ route('login') }}"><i class="fa fa-sign-in"></i> Sign In</a>
+                <a class="btn btn-outline-info btn-sm" style="height: 32px;" href="{{ route('login') }}"><i class="fa fa-sign-in"></i> Sign In</a>
             </li>
         @else
             @role('Admin')
