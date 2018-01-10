@@ -9,7 +9,7 @@ Dashboard
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-users"></i> Users
+                    <a href="{{ route('admin.users') }}"><i class="fa fa-users"></i> Users</a>
                 </div>
                 <div class="card-block">
                     <table class="table">

@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ config('app.cdn') }}/css/toastr.min.css">
     <link rel="stylesheet" href="{{ config('app.cdn') }}/css/introjs.min.css">
     <link rel="stylesheet" href="{{ config('app.cdn') }}/css/app.css">
+    <link rel="stylesheet" href="{{ config('app.cdn') }}/css/coasterpoll.css">
 
     <!-- Favicon Stuff -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ config('app.cdn') }}/apple-touch-icon.png">
@@ -52,12 +53,12 @@
     @yield('head')
 </head>
 <body>
-    <nav class="navbar fixed-top bg-faded nav-transparent nav-fadable navbar-toggleable-sm hidden-print" id="main-nav">
+    <nav class="navbar fixed-top bg-faded nav-transparent nav-fadable navbar-expand-sm hidden-print" id="main-nav">
         <button class="navbar-toggler-right btn btn-outline-info my-0 hidden-md-up fade-on-collapse" id="collapseHeader" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa fa-bars"></i>
         </button>
         <a class="navbar-brand" href="/">
-            <img src="{{ config('app.cdn') }}/img/coasterpoll-navbar.png" alt="CoasterPoll.com" width="30" height="30">
+            <img src="{{ config('app.cdn') }}/img/coasterpoll-navbar.png" alt="CoasterPoll.com" width="30" height="30" class="d-inline-block align-top">
             {{ config('app.name', 'ChV3') }}
         </a>
         @include('layouts._navbar')
@@ -79,13 +80,12 @@
     </div>
     @include('layouts._footer')
     <!-- Scripts -->
-    <script src="{{ config('app.cdn') }}/js/jquery-2.2.3.min.js"></script>
-    <script src="{{ config('app.cdn') }}/js/tether.min.js"></script>
-    <script src="{{ config('app.cdn') }}/js/bootstrap4.min.js"></script>
     <script src="{{ config('app.cdn') }}/js/toastr.min.js"></script>
     <script src="{{ config('app.cdn') }}/js/bootbox.min.js"></script>
     <script src="{{ config('app.cdn') }}/js/intro.min.js"></script>
+    <script src="{{ config('app.cdn') }}/js/vue.js"></script>
     <script src="{{ config('app.cdn') }}/js/app.js"></script>
+    <script src="{{ config('app.cdn') }}/js/coasterpoll.js"></script>
     @include('coasters._scripts')
     @yield('scripts')
 </body>
