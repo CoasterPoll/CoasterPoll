@@ -114,4 +114,13 @@ class User extends Authenticatable
     public function links() {
         return $this->morphMany('ChaseH\Models\Sharing\Link', 'linkable');
     }
+
+    public function getDisplayableColumns() {
+        return [
+            'id',
+            'name',
+            'email',
+            'created_at'
+        ];
+    }
 }

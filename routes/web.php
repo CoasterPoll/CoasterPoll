@@ -149,6 +149,10 @@ Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], fu
     Route::post('/homepage', 'HomeController@save')->name('admin.general.homepage.post');
 
     Route::group(['middleware' => ['can:Can manage users']], function() {
+        Route::resource('datatables/users', 'DataTable\UserController', [
+            'as' => "datatables"
+        ]);
+        Route::get('users', 'Users\UserController@index')->name('admin.users');
         Route::get('user/{id}', 'Users\UserController@getUser')->name('admin.user')->where('id', '[0-9]+');
         Route::post('user/update', 'Users\UserController@postUser')->name('admin.user.post');
         Route::delete('user/role/remove', 'Users\PermissionsController@deleteUserRole')->name('admin.user.role.delete');

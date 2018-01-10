@@ -1,0 +1,211 @@
+#main-nav {
+    margin-bottom: 25px;
+    background-color: #dddddd;
+}
+#headContainer {
+    padding-top: 75px;
+    padding-bottom: 50px;
+    min-height: 70vh;
+}
+
+.footer {
+    display: block;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    min-height: 300px;
+    background-color: #dddddd;
+    padding-top: 50px;
+}
+
+#footer-track {
+    z-index: -100;
+    margin: auto;
+    width: 100%;
+}
+
+.branding {
+    font-size: 36px;
+    font-weight: 300;
+}
+
+.btn-pad {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.nav-transparent {
+    opacity: .8;
+}
+
+.nav-fadable {
+    transition: all 0.3s ease-in-out;
+}
+
+.fadable {
+    transition: all 0.3s ease-in-out;
+}
+
+.selected-block {
+    background-color: rgba(92, 184, 92, 0.6);
+}
+
+.bbbtnspacer {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+.btn-group-justified {
+    display: flex;
+    width: 100%;
+}
+.btn-group-justified .btn-group {
+    flex: 1;
+}
+.btn-group-justified .btn {
+    width: 100%;
+}
+
+.editable:hover {
+    text-decoration: none;
+    border-bottom: dashed;
+    border-bottom-width: thin;
+    border-bottom-color: #8c8c8c;
+}
+.editable:focus {
+    text-decoration: none;
+    border-bottom: dashed;
+    border-bottom-width: thin;
+    border-bottom-color: #8c8c8c;
+}
+.nav-subnav {
+    padding-left: 15px;
+    width: 90%;
+}
+.nav-announce {
+    transition: all 0.5s ease-in-out;
+}
+.transparent {
+    opacity: 0;
+}
+.nav-announce-1 {
+    bottom: 54px;
+}
+.nav-announce-2 {
+    bottom: 108px;
+}
+.nav-announce-3 {
+    bottom: 162px;
+}
+.lead-unstyled {
+    color: black;
+    text-decoration: none;
+}
+.lead-unstyled:hover {
+    color: #2A6496;
+    text-decoration: underline;
+}
+.link-unstyled {
+    color: black;
+    text-decoration: none;
+}
+
+.algolia-autocomplete {
+    width: 100%;
+}
+
+.algolia-autocomplete .aa-input,
+.algolia-autocomplete .aa-hint {
+    width: 100%;
+}
+
+.algolia-autocomplete .aa-hint {
+    color: #999;
+}
+
+.algolia-autocomplete .aa-dropdown-menu {
+    width: 100%;
+    background-color: #fff;
+    border-top: none;
+    margin-top: -3px;
+    border: 1px solid #98cbe8;
+    border-top: 0;
+    outline: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(152, 203, 232, 0);
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 6px 12px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-empty {
+    padding: 6px 12px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #B2D7FF;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+}
+
+.aa-suggestions-category {
+    border-top: 2px solid rgba(228, 228, 228, 0.6);
+    border-bottom: 2px solid rgba(228, 228, 228, 0.6);
+    padding: 6px 12px;
+    color: #a9a9a9;
+}
+
+.aa-suggestion > span:last-child em {
+    font-weight: 700;
+    font-style: normal;
+    background-color: rgba(58, 150, 207, 0.1);
+    padding: 2px 0 2px 2px;
+}
+
+.uses-fa {
+    font-family:Arial, FontAwesome
+}
+
+.hidden {
+    display: none !important;
+}
+
+.notification-container {
+    min-width: 250px;
+}
+
+.comment {
+    margin: 10px 0 15px 30px;
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+}
