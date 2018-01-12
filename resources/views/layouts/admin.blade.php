@@ -95,10 +95,13 @@
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.content.links') }}">Links</a></li>
                     @endcan
                 </ul>
-                <ul class="nav nav-pills flex-column">
-                    <li><span class="nav-link lead pb-0"><i class="fa fa-users fa-fw"></i> Users</span></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.user.roles') }}">User Roles</a></li>
-                </ul>
+                @can('Can manage users')
+                    <ul class="nav nav-pills flex-column">
+                        <li><span class="nav-link lead pb-0"><i class="fa fa-users fa-fw"></i> Users</span></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.user.index') }}">User List</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.user.roles') }}">User Roles</a></li>
+                    </ul>
+                @endcan
             </nav>
             <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
                 <h1>@yield('title')</h1>

@@ -88,4 +88,12 @@ class UserController extends Controller
 
         return back()->withSuccess("Done.");
     }
+
+    public function index() {
+        $users = User::paginate(35);
+
+        return view('admin.users.index', [
+            'users' => $users,
+        ]);
+    }
 }
