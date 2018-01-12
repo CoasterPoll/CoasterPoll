@@ -18,18 +18,18 @@ class ProfileController extends Controller
         }
 
         try {
-            $user = Cache::remember('u:'.$handle, 60, function() use ($handle) {
+            $user = Cache::tags('user_funct')->remember('u:'.$handle, 60, function() use ($handle) {
                 return User::where('handle', $handle)->with('links')->firstOrFail();
             });
         } catch (ModelNotFoundException $e) {
             return abort(404);
         }
 
-        $topCoasters = Cache::remember('ucoasters:'.$user->id, 15, function() use ($user) {
+        $topCoasters = Cache::tags('user_funct')->remember('ucoasters:'.$user->id, 15, function() use ($user) {
             return $user->ranked()->take(5)->orderBy('rank')->with('coaster', 'coaster.park')->get();
         });
 
-        $parks = Cache::remember('uparkcount:'.$user->id, 15, function() use ($user) {
+        $parks = Cache::tags('user_funct')->remember('uparkcount:'.$user->id, 15, function() use ($user) {
             $ids = array_unique(array_pluck($user->ridden, 'park_id'));
             return Park::whereIn('id', $ids)->get();
         });

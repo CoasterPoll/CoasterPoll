@@ -19,16 +19,16 @@ use Illuminate\Support\Facades\Cache;
 class ResultsController extends Controller
 {
     public function manage(Request $request, $page = 0) {
-        $categories = Cache::remember('all_categories', 120, function() {
+        $categories = Cache::tags('coasters')->remember('all_categories', 120, function() {
             return Category::select('id', 'name')->orderBy('name', 'ASC')->get();
         });
-        $types = Cache::remember('all_types', 120, function() {
+        $types = Cache::tags('coasters')->remember('all_types', 120, function() {
             return Type::select('id', 'name')->orderBy('name', 'ASC')->get();
         });
-        $manufacturers = Cache::remember('all_manu', 120, function() {
+        $manufacturers = Cache::tags('coasters')->remember('all_manu', 120, function() {
             return Manufacturer::select('id', 'name')->orderBy('name', 'ASC')->get();
         });
-        $parks = Cache::remember('all_parks', 120, function() {
+        $parks = Cache::tags('coasters')->remember('all_parks', 120, function() {
             return Park::select('id', 'name')->orderBy('name', 'ASC')->get();
         });
 
@@ -119,9 +119,9 @@ class ResultsController extends Controller
         }
 
         if(ResultPage::where('public', true)->where('default', true)->count() > 0) {
-            Cache::forever('has-results', true);
+            Cache::tags('coasters')->forever('has-results', true);
         } else {
-            Cache::forget('has-results');
+            Cache::tags('coasters')->forget('has-results');
         }
 
         return back()->withSuccess("We've saved that page.");
@@ -133,14 +133,14 @@ class ResultsController extends Controller
             try {
                 $page = ResultPage::where('default', true)->firstOrFail();
             } catch (ModelNotFoundException $e) {
-                Cache::forget('has-results');
+                Cache::tags('coasters')->forget('has-results');
                 return abort(404);
             }
         } else { // If we're looking at a specific url
             try {
                 $page = ResultPage::where('url', $url)->firstOrFail();
             } catch (ModelNotFoundException $e) {
-                Cache::forget('has-results');
+                Cache::tags('coasters')->forget('has-results');
                 return abort(404);
             }
         }

@@ -10,7 +10,7 @@ class Subscription extends \Laravel\Cashier\Subscription {
     }
 
     public function renews() {
-        return Cache::remember("subs_ends:".$this->id, 60, function() {
+        return Cache::tags('subscriptions')->remember("subs_ends:".$this->id, 60, function() {
             return \Carbon\Carbon::now()->timestamp($this->asStripeSubscription()->current_period_end)->format('D, M jS');
         });
     }

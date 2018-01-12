@@ -30,10 +30,10 @@ class ContactController extends Controller
             $coaster = null;
         }
 
-        $types = Cache::remember('all_types', 120, function() {
+        $types = Cache::tags('coasters')->remember('all_types', 120, function() {
             return Type::select('id', 'name')->get();
         });
-        $categories = Cache::remember('all_categories', 120, function() {
+        $categories = Cache::tags('coasters')->remember('all_categories', 120, function() {
             return Category::select('id', 'name')->get();
         });
 

@@ -18,7 +18,7 @@ class MainController extends Controller
     }
 
     public function display(Request $request) {
-        $coasters = Cache::remember('coasters_list_pg:'.$request->input('page', 1), 30, function() {
+        $coasters = Cache::tags('coasters')->remember('coasters_list_pg:'.$request->input('page', 1), 30, function() {
             return Coaster::with(['park' => function($query) {
                 $query->select('id', 'name', 'city', 'short');
             }, 'manufacturer' => function($query) {
@@ -54,9 +54,9 @@ class MainController extends Controller
         }
 
         // Clear cache so it shows up instantly
-        Cache::forget('ridden:'.Auth::user()->id);
-        Cache::forget('unranked:'.Auth::user()->id);
-        Cache::forget('ranked:'.Auth::user()->id);
+        Cache::tags('ridden')->forget('ridden:'.Auth::user()->id);
+        Cache::tags('ridden')->forget('unranked:'.Auth::user()->id);
+        Cache::tags('ridden')->forget('ranked:'.Auth::user()->id);
 
         return response()->json([
             'message' => "Thanks for telling us!",
@@ -65,13 +65,13 @@ class MainController extends Controller
     }
 
     public function rank() {
-        $ranked = Cache::remember('ranked:'.Auth::user()->id, 60, function() {
+        $ranked = Cache::tags('ridden')->remember('ranked:'.Auth::user()->id, 60, function() {
             $ranked = Auth::user()->ranked;
             $ranked->load('coaster', 'coaster.manufacturer', 'coaster.park');
             return $ranked;
         });
 
-        $unranked = Cache::remember('unranked:'.Auth::user()->id, 60, function() use ($ranked) {
+        $unranked = Cache::tags('ridden')->remember('unranked:'.Auth::user()->id, 60, function() use ($ranked) {
             $unranked = Coaster::whereIn('id', Auth::user()->ridden->pluck('id', 'id'))
                 ->whereNotIn('id', $ranked->pluck('coaster_id', 'coaster_id')->toArray())
                 ->with('manufacturer', 'park')->get();

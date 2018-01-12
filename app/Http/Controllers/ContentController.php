@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\View;
 class ContentController extends Controller
 {
     public function page($page, Request $request) {
-        if($pg = Cache::get('page:'.$page)) {
+        if($pg = Cache::tags('content')->get('page:'.$page)) {
             $this->links();
             return view('content.page', ['page' => $pg]);
         }
@@ -25,7 +25,7 @@ class ContentController extends Controller
             return abort(404);
         }
 
-        Cache::put('page:'.$page, $pg, 240);
+        Cache::tags('content')->put('page:'.$page, $pg, 240);
 
         // Add sidebar links
         $this->links();
@@ -34,7 +34,7 @@ class ContentController extends Controller
     }
 
     private function links() {
-        $links = Cache::remember('content-links', 120, function() {
+        $links = Cache::tags('content')->remember('content-links', 120, function() {
             return Link::where('location', 'content')->orderBy('order', 'ASC')->get();
         });
 
@@ -116,9 +116,9 @@ class ContentController extends Controller
         ]);
 
         // Clear cache so things actually change.
-        Cache::forget('content-links');
-        Cache::forget('navbar-links');
-        Cache::forget('footer-links');
+        Cache::tags('content')->forget('content-links');
+        Cache::tags('content')->forget('navbar-links');
+        Cache::tags('content')->forget('footer-links');
 
         return back()->withSuccess("We did it!");
     }
@@ -127,9 +127,9 @@ class ContentController extends Controller
         Link::find($request->input('link'))->delete();
 
         // Clear cache so things actually change.
-        Cache::forget('content-links');
-        Cache::forget('navbar-links');
-        Cache::forget('footer-links');
+        Cache::tags('content')->forget('content-links');
+        Cache::tags('content')->forget('navbar-links');
+        Cache::tags('content')->forget('footer-links');
 
         return back()->withSuccess("Bye!");
     }

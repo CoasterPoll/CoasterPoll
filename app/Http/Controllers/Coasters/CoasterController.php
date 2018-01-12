@@ -17,15 +17,15 @@ use Illuminate\Support\Facades\Validator;
 class CoasterController extends Controller
 {
     public function view($pk, $cstr, $hash = null, $new_url = null) {
-        if(Cache::has($pk.":".$cstr)) {
-            $coaster = Cache::get($pk.":".$cstr);
+        if(Cache::tags('coasters')->has($pk.":".$cstr)) {
+            $coaster = Cache::tags('coasters')->get($pk.":".$cstr);
         } else {
             try {
                 $coaster = Coaster::where('slug', $cstr)->whereHas('park', function($query) use ($pk) {
                     $query->where('parks.short', $pk);
                 })->with('park', 'categories', 'type', 'manufacturer')->firstOrFail();
 
-                Cache::put($pk.":".$cstr, $coaster, 120);
+                Cache::tags('coasters')->put($pk.":".$cstr, $coaster, 120);
             } catch (ModelNotFoundException $e) {
                 return abort(404);
             }
@@ -38,16 +38,16 @@ class CoasterController extends Controller
         }
 
         if(Auth::check() && Auth::user()->can('Can manage coasters')) {
-            $categories = Cache::remember('all_categories', 120, function() {
+            $categories = Cache::tags('coasters')->remember('all_categories', 120, function() {
                 return Category::select('id', 'name')->get();
             });
-            $types = Cache::remember('all_types', 120, function() {
+            $types = Cache::tags('coasters')->remember('all_types', 120, function() {
                 return Type::select('id', 'name')->get();
             });
-            $manufacturers = Cache::remember('all_manu', 120, function() {
+            $manufacturers = Cache::tags('coasters')->remember('all_manu', 120, function() {
                 return Manufacturer::select('id', 'name')->get();
             });
-            $parks = Cache::remember('all_parks', 120, function() {
+            $parks = Cache::tags('coasters')->remember('all_parks', 120, function() {
                 return Park::select('id', 'name')->get();
             });
         } else {
@@ -185,16 +185,16 @@ class CoasterController extends Controller
     }
 
     public function new() {
-        $categories = Cache::remember('all_categories', 120, function() {
+        $categories = Cache::tags('coasters')->remember('all_categories', 120, function() {
             return Category::select('id', 'name')->get();
         });
-        $types = Cache::remember('all_types', 120, function() {
+        $types = Cache::tags('coasters')->remember('all_types', 120, function() {
             return Type::select('id', 'name')->get();
         });
-        $manufacturers = Cache::remember('all_manu', 120, function() {
+        $manufacturers = Cache::tags('coasters')->remember('all_manu', 120, function() {
             return Manufacturer::select('id', 'name')->get();
         });
-        $parks = Cache::remember('all_parks', 120, function() {
+        $parks = Cache::tags('coasters')->remember('all_parks', 120, function() {
             return Park::select('id', 'name')->get();
         });
 

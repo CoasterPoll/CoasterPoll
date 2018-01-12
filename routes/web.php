@@ -148,6 +148,11 @@ Route::group(['middleware' => ['role:Admin', 'auth'], 'prefix' => 'console'], fu
     Route::get('/homepage', 'HomeController@edit')->name('admin.general.homepage');
     Route::post('/homepage', 'HomeController@save')->name('admin.general.homepage.post');
 
+    Route::group(['middleware' => ['can:Can control site'], 'prefix' => 'site'], function() {
+        Route::get('cache', 'AdminController@cacheMan')->name('admin.site.cache');
+        Route::post('cache', 'AdminController@cacheControl')->name('admin.site.cache.post');
+    });
+
     Route::group(['middleware' => ['can:Can manage users']], function() {
         Route::get('users', 'Users\UserController@index')->name('admin.user.index');
         Route::get('user/{id}', 'Users\UserController@getUser')->name('admin.user')->where('id', '[0-9]+');

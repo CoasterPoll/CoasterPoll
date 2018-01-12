@@ -18,10 +18,10 @@ class LinksInViewsMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $footer_links = Cache::remember('footer-links', 360, function() {
+        $footer_links = Cache::tags('links')->remember('footer-links', 360, function() {
             return Link::where('location', 'footer')->orderBy('order', 'ASC')->get();
         });
-        $navbar_links = Cache::remember('navbar-links', 360, function() {
+        $navbar_links = Cache::tags('user_funct')->remember('navbar-links', 360, function() {
             return Link::where('location', 'navbar')->orderBy('order', 'ASC')->get();
         });
 

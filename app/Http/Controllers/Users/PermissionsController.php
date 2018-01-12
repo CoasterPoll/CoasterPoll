@@ -49,7 +49,7 @@ class PermissionsController extends Controller
 
         $user->givePermissionTo($req->input('permissions'));
 
-        Cache::forget('perms:'.$user->id);
+        Cache::tags('permissions')->forget('perms:'.$user->id);
 
         return back()->withSuccess("Updated {$user->name}'s individual permissions.");
     }
@@ -94,7 +94,7 @@ class PermissionsController extends Controller
         $role->permissions()->sync($permissions);
 
         foreach($permissions as $permission) {
-            Cache::forget('perm-role:'.$permission->id);
+            Cache::tags('permissions')->forget('perm-role:'.$permission->id);
         }
 
         return back()->withSuccess("We made changes to {$role->name}! Hopefully for the better...");
