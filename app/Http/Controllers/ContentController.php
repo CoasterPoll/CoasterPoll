@@ -45,7 +45,7 @@ class ContentController extends Controller
         $pages = Page::paginate(25);
 
         if(Storage::disk('local')->exists('internal/homepage.txt')) {
-            $last_updated = Storage::disk('local')->lastModified('internal/homepage.txt');
+            $last_updated = "@".Storage::disk('local')->lastModified('internal/homepage.txt');
         } else {
             $last_updated = Carbon::now();
         }

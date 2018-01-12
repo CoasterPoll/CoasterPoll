@@ -22,6 +22,8 @@ class HomeController extends Controller {
             $content = "";
         }
 
+        $content = str_replace("{{cdnurl}}", config('app.cdn'), $content);
+
         return view('home', [
             'content' => $content,
         ]);

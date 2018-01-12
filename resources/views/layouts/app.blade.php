@@ -62,6 +62,17 @@
         </a>
         @include('layouts._navbar')
     </nav>
+    @if(config('app.beta'))
+        <div class="beta-notice text-center" style="margin-top: {{ (\Illuminate\Support\Facades\Auth::check()) ? "55px;" : "62px;" }}">
+            <div class="bg-primary">
+                <a href="{{ config('app.betalink') }}" class="text-white">
+                    <i class="fa fa-exclamation-triangle"></i> {{ config('app.betatext') }}
+                </a>
+            </div>
+        </div>
+    @else
+        <div class="beta-notice" style="margin-top: 55px;"></div>
+    @endif
     <div class="@if(isset($_override_container)){{ $_override_container }} @else container @endif" id="headContainer">
         @include('layouts._flash')
         @yield('content')
