@@ -85,7 +85,7 @@
             </ul>
         </div>
     </nav>
-    <div class="container-fluid" id="headContainer">
+    <div class="container-fluid">
         <div class="row">
             <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar" id="sidebar">
                 <ul class="nav nav-pills flex-column">
@@ -109,10 +109,10 @@
     </div>
 
 <!-- Scripts -->
+<script src="{{ config('app.cdn') }}/js/jquery-2.2.3.min.js"></script>
+<script src="{{ config('app.cdn') }}/js/tether.min.js"></script>
+<script src="{{ config('app.cdn') }}/js/bootstrap4.min.js"></script>
 <script src="{{ config('app.cdn') }}/js/toastr.min.js"></script>
 <script src="{{ config('app.cdn') }}/js/bootbox.min.js"></script>
-<script src="{{ config('app.cdn') }}/js/vue.js"></script>
-<script src="{{ config('app.cdn') }}/js/app.js"></script>
-<script src="{{ config('app.cdn') }}/js/coasterpoll.js"></script>
 </body>
 </html>

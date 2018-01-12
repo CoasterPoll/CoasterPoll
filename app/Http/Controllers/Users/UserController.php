@@ -88,8 +88,4 @@ class UserController extends Controller
 
         return back()->withSuccess("Done.");
     }
-
-    public function index() {
-        return view('admin.users.index');
-    }
 }

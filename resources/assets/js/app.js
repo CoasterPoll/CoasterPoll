@@ -14,8 +14,7 @@ require('./bootstrap');
  */
 
 Vue.component('example', require('./components/Example.vue'));
-Vue.component('data-table', require('./components/Datatable.vue'));
 
 const app = new Vue({
-    el: '#headContainer'
+    el: '#app'
 });
