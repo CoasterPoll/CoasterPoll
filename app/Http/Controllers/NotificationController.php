@@ -16,13 +16,13 @@ class NotificationController extends Controller
             $user = Auth::user();
             $user->unreadNotifications->markAsRead();
 
-            Cache::tags('user_funct')->forget('notif:'.Auth::id());
+            Cache::forget('notif:'.Auth::id());
         } else {
             DB::table('notifications')->where('id', $request->input('id'))->update([
                 'read_at' => Carbon::now(),
             ]);
 
-            Cache::tags('user_funct')->forget('notif:'.Auth::id());
+            Cache::forget('notif:'.Auth::id());
         }
 
         return response()->json([

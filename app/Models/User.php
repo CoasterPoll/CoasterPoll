@@ -56,7 +56,7 @@ class User extends Authenticatable
     public function promoteToAdmin($role = "Admin") {
         $this->roles()->attach(Role::where('name', $role)->first());
 
-        Cache::tags('permissions')->forget('roles:'.$this->id);
+        Cache::forget('roles:'.$this->id);
     }
 
     public function hasSocialLinked($service) {

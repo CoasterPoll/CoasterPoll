@@ -41,7 +41,7 @@ class UpdateRanking implements ShouldQueue
                 ->update(['rank' => $request['rank']]);
         }
 
-        Cache::tags('coasters')->forget('ranked:'.$this->user_id);
-        Cache::tags('coasters')->forget('unranked:'.$this->user_id);
+        Cache::forget('ranked:'.$this->user_id);
+        Cache::forget('unranked:'.$this->user_id);
     }
 }

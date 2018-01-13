@@ -42,7 +42,7 @@ class BadCityName extends Notification
     public function toArray($notifiable)
     {
         // Clear the notifications cache if it's there
-        Cache::tags('user_func')->forget('notif:'.$notifiable->id);
+        Cache::forget('notif:'.$notifiable->id);
 
         return [
             'title' => "Demographic City Invalid",

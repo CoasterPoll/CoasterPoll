@@ -15,8 +15,8 @@ class ParkController extends Controller
 {
     public function view($park, $hash = null, $new_url = null) {
         // Get manufacturer from cache if possible
-        if(Cache::tags('coasters')->has('park:'.$park)) {
-            $pk = Cache::tags('coasters')->get('park:'.$park);
+        if(Cache::has('park:'.$park)) {
+            $pk = Cache::get('park:'.$park);
         } else {
             // Get from database if possible
             try {
@@ -24,7 +24,7 @@ class ParkController extends Controller
             } catch (ModelNotFoundException $e) {
                 return abort(404);
             }
-            Cache::tags('coasters')->put('park:'.$park, $pk, 60);
+            Cache::put('park:'.$park, $pk, 60);
         }
 
         if(config('app.links')) {
@@ -85,7 +85,7 @@ class ParkController extends Controller
                 return abort(404);
             }
 
-            Cache::tags('coasters')->forget('park:'.$park->short);
+            Cache::forget('park:'.$park->short);
             $park->delete();
 
             return redirect(route('home'))->withSuccess("We're sorry to see it go.");
@@ -143,7 +143,7 @@ class ParkController extends Controller
             ]);
         }
 
-        Cache::tags('coasters')->forget('park:'.$park->short);
+        Cache::forget('park:'.$park->short);
 
         return redirect(route('coasters.park.id', ['park' => $park->id, 'tab' => 'edit']))->withSuccess("We've made some changes!");
     }

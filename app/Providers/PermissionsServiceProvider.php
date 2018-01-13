@@ -19,12 +19,12 @@ class PermissionsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $hasTable = Cache::tags('site')->remember('has_permissions', 3600, function() {
+        $hasTable = Cache::remember('has_permissions', 3600, function() {
             return Schema::hasTable('permissions');
         });
 
         if($hasTable) {
-            $permissions = Cache::tags('site')->remember('all_permissions', 3600, function() {
+            $permissions = Cache::remember('all_permissions', 3600, function() {
                 return Permission::get();
             });
 

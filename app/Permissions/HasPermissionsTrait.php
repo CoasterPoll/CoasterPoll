@@ -19,7 +19,7 @@ trait HasPermissionsTrait {
     // Functions
     public function hasRole(...$roles) {
         $user = $this;
-        $userroles = Cache::tags('permissions')->remember('roles:'.$this->id, 60, function() use ($user) {
+        $userroles = Cache::remember('roles:'.$this->id, 60, function() use ($user) {
             return $user->roles;
         });
 
@@ -39,7 +39,7 @@ trait HasPermissionsTrait {
 
     public function hasPermission($permission) {
         $user = $this;
-        $permissions = Cache::tags('permissions')->remember('perms:'.$this->id, 60, function() use ($user) {
+        $permissions = Cache::remember('perms:'.$this->id, 60, function() use ($user) {
             return $user->permissions;
         });
 
@@ -48,11 +48,11 @@ trait HasPermissionsTrait {
 
     public function hasPermissionThroughRole($permission) {
         $user = $this;
-        $roles = Cache::tags('permissions')->remember('roles:'.$this->id, 60, function() use ($user) {
+        $roles = Cache::remember('roles:'.$this->id, 60, function() use ($user) {
             return $user->roles;
         });
 
-        $perm_roles = Cache::tags('permissions')->remember('perm-role:'.$permission->id, 60, function() use ($permission) {
+        $perm_roles = Cache::remember('perm-role:'.$permission->id, 60, function() use ($permission) {
             return $permission->roles;
         });
 
@@ -79,7 +79,7 @@ trait HasPermissionsTrait {
 
         $this->permissions()->sync($permissions);
 
-        Cache::tags('permissions')->forget('perms:'.$this->id);
+        Cache::forget('perms:'.$this->id);
 
         return $this;
     }
@@ -93,7 +93,7 @@ trait HasPermissionsTrait {
 
         $this->permissions()->detach($permissions);
 
-        Cache::tags('permissions')->forget('perms:'.$this->id);
+        Cache::forget('perms:'.$this->id);
 
         return $this;
     }
@@ -114,7 +114,7 @@ trait HasPermissionsTrait {
 
         $this->roles()->syncWithoutDetaching($roles);
 
-        Cache::tags('permissions')->forget('roles:'.$this->id);
+        Cache::forget('roles:'.$this->id);
 
         return $this;
     }
@@ -128,7 +128,7 @@ trait HasPermissionsTrait {
 
         $this->roles()->detach($roles);
 
-        Cache::tags('permissions')->forget('roles:'.$this->id);
+        Cache::forget('roles:'.$this->id);
 
         return $this;
     }

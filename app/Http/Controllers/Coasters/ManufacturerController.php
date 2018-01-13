@@ -15,8 +15,8 @@ class ManufacturerController extends Controller
 {
     public function view($manufacturer, $hash = null, $new_url = null) {
         // Get manufacturer from cache if possible
-        if(Cache::tags('coasters')->has('man:'.$manufacturer)) {
-            $man = Cache::tags('coasters')->get('man:'.$manufacturer);
+        if(Cache::has('man:'.$manufacturer)) {
+            $man = Cache::get('man:'.$manufacturer);
         } else {
             // Get from database if possible
             try {
@@ -24,7 +24,7 @@ class ManufacturerController extends Controller
             } catch (ModelNotFoundException $e) {
                 return abort(404);
             }
-            Cache::tags('coasters')->put('man:'.$manufacturer, $man, 60);
+            Cache::put('man:'.$manufacturer, $man, 60);
         }
 
         if(config('app.link')) {
@@ -71,7 +71,7 @@ class ManufacturerController extends Controller
                 return abort(404);
             }
 
-            Cache::tags('coasters')->forget('man:'.$manufacturer->manufacturer);
+            Cache::forget('man:'.$manufacturer->manufacturer);
             $manufacturer->delete();
 
             return redirect(route('home'))->withSuccess("We're sorry to see it go.");
@@ -127,7 +127,7 @@ class ManufacturerController extends Controller
             ]);
         }
 
-        Cache::tags('coasters')->forget('man:'.$manufacturer->abbreviation);
+        Cache::forget('man:'.$manufacturer->abbreviation);
 
         return redirect(route('coasters.manufacturer.id', ['manufacturer' => $manufacturer->id, 'tab' => 'edit']))->withSuccess("We've made some changes!");
     }

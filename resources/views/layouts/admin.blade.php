@@ -102,12 +102,6 @@
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.user.roles') }}">User Roles</a></li>
                     </ul>
                 @endcan
-                @can('Can control site')
-                    <ul class="nav nav-pills flex-column">
-                        <li><span class="nav-link lead pb-0"><i class="fa fa-cogs"></i> Website</span></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.site.cache') }}">Cache Control</a></li>
-                    </ul>
-                @endcan
             </nav>
             <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
                 <h1>@yield('title')</h1>

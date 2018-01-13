@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
     public function dashboard() {
-        $counts = Cache::tags('statistics')->remember('admin_counts', 60, function() {
+        $counts = Cache::remember('admin_counts', 60, function() {
             return json_encode([
                 'user_objects' => User::withTrashed()->count(),
                 'user_active' => User::count(),
@@ -29,7 +29,7 @@ class AdminController extends Controller
             ]);
         });
 
-        $searches = Cache::tags('statistics')->remember('search_counts', 60, function() {
+        $searches = Cache::remember('search_counts', 60, function() {
             $guzzle = new Client([
                 'headers' => [
                     'X-Algolia-Application-Id' => config('scout.algolia.id'),
@@ -90,33 +90,5 @@ class AdminController extends Controller
             'results' => $results,
             'query' => $request->input('q'),
         ]);
-    }
-
-    public function cacheMan() {
-        return view('admin.general.cache');
-    }
-
-    public function cacheControl(Request $request) {
-        $tags = [
-            'permissions',
-            'statistics',
-            'coasters',
-            'content',
-            'user_funct',
-            'links',
-            'subscriptions',
-            'site'
-        ];
-
-        $tag = $request->cache;
-
-
-       if(!in_array($tag, $tags)) {
-           return back()->withDanger("Unable to clear that cache group.");
-       }
-
-        Cache::tags($tag)->flush();
-
-        return back()->withSuccess("Successfully deleted entries.");
     }
 }

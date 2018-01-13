@@ -25,7 +25,7 @@ class RiddenCoastersMiddleware
     }
 
     private function addRiddenCoasters() {
-        $ridden = Cache::tags('coasters')->remember('ridden:'.Auth::id(), 2, function() {
+        $ridden = Cache::remember('ridden:'.Auth::id(), 2, function() {
             $collection = Auth::user()->ridden->pluck('id');
 
             $ids = array();

@@ -4,6 +4,7 @@ namespace ChaseH\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 
 class NotificationsMiddleware
