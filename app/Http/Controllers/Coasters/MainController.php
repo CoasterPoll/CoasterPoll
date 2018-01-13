@@ -91,7 +91,7 @@ class MainController extends Controller
         dispatch(new UpdateRanking($input, $user_id));
 
         return response()->json([
-            'message' => "Saved your new order! It'll be live soon&trade;.",
+            'message' => "Saved your new order! It'll be live soon.",
         ]);
     }
 

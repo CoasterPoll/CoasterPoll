@@ -184,7 +184,7 @@
                     all: data
                 },
                 success: function (res) {
-                    //toastr.success(res.message);
+                    toastr.success(res.message);
                 },
                 beforeSend: function () {
                     $('#updating-btn').prop('disabled', 'disabled').find('#updating-i').addClass('fa-spinner fa-spin').removeClass('fa-save');
