@@ -88,7 +88,14 @@ class MainController extends Controller
         $input = $request->input('all');
         $user_id = Auth::user()->id;
 
-        dispatch(new UpdateRanking($input, $user_id));
+        foreach($input as $request) {
+            Rank::where('coaster_id', $request['coaster'])
+                ->where('user_id', $user_id)
+                ->update(['rank' => $request['rank']]);
+        }
+
+        Cache::forget('ranked:'.$user_id);
+        Cache::forget('unranked:'.$user_id);
 
         return response()->json([
             'message' => "Saved your new order! It'll be live soon.",
