@@ -7,8 +7,6 @@ use ChaseH\Stretch\Stretchy;
 use Illuminate\Database\Eloquent\Model;
 
 class View extends Model {
-    use Stretchy;
-
     protected $table = "views";
 
     protected $fillable = [

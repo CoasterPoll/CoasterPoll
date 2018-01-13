@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 class Demographic extends Model {
     protected $table = "demographics";
 
-    use Stretchy;
-
     protected $fillable = [
         'age_range',
         'gender',
