@@ -93,7 +93,7 @@ class ManufacturerController extends Controller
             if($id !== null) {
                 return redirect(route('coasters.manufacturer.id', ['park' => $id, 'tab' => 'edit']))->withInput()->withErrors($validation);
             } else {
-                return back(400)->withErrors($validation)->withInput();
+                return back()->withErrors($validation)->withInput();
             }
         }
 
