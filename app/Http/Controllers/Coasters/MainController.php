@@ -118,6 +118,9 @@ class MainController extends Controller
             'rank' => $request->input('rank')
         ]);
 
+        Cache::forget('ranked:'.Auth::user()->id);
+        Cache::forget('unranked:'.Auth::user()->id);
+
         return response()->json([
             'message' => "Done!",
         ]);

@@ -23,24 +23,25 @@
         </div>
     </div>
     @if($unranked->count() != 0)
-        <hr id="unranked-divider" data-step="2" data-intro="Just above this.">
-    @endif
-    <div class="row">
-        <div class="col-md-12" id="unranked">
-            @foreach($unranked as $coaster)
-                <div class="card card-block py-1 my-1">
-                    <div class="row">
-                        <div class="col-sm-10 align-content-center">
-                            <span class="lead handle" @if($ranked->count() == 0) data-step="1" data-intro="Start by dragging this..." @endif ><i class="fa fa-arrow-up"></i> &nbsp;&nbsp;{{ $coaster->name }}</span> <span class="small"><a href="{{ route('coasters.manufacturer', ['manufacturer' => $coaster->manufacturer->abbreviation]) }}">{{ $coaster->manufacturer->abbreviation }}</a> at <a href="{{ route('coasters.park', ['park' => $coaster->park->short]) }}">{{ $coaster->park->short }}</a>.</span>
-                        </div>
-                        <div class="col-sm-2 text-right">
-                            <input type="number" class="form-control form-control-sm my-1 rank hidden" data-coaster="{{ $coaster->id }}" value="">
+        <hr id="unranked-divider" data-step="2" data-intro="Just above this." style="background-color: #333333">
+        <div class="row">
+            <div class="col-md-12 bg-faded card card-block" id="unranked">
+                <p>These haven't been added to your rankings yet. Just drag them out of this box to put them on your rankings.</p>
+                @foreach($unranked as $coaster)
+                    <div class="card card-block py-1 my-1">
+                        <div class="row">
+                            <div class="col-sm-10 align-content-center">
+                                <span class="lead handle" @if($ranked->count() == 0) data-step="1" data-intro="Start by dragging this..." @endif ><i class="fa fa-arrow-up"></i> &nbsp;&nbsp;{{ $coaster->name }}</span> <span class="small"><a href="{{ route('coasters.manufacturer', ['manufacturer' => $coaster->manufacturer->abbreviation]) }}">{{ $coaster->manufacturer->abbreviation }}</a> at <a href="{{ route('coasters.park', ['park' => $coaster->park->short]) }}">{{ $coaster->park->short }}</a>.</span>
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                <input type="number" class="form-control form-control-sm my-1 rankable hidden" data-coaster="{{ $coaster->id }}" value="">
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
-    </div>
+    @endif
 @endsection
 
 @section('scripts')
@@ -119,7 +120,7 @@
                     newRank = 1;
                 }
 
-                row.find('.rank').val(newRank).removeClass('hidden').show(); // Update input for where we are
+                row.find('.rankable').val(newRank).addClass('rank').removeClass('hidden rankable').show(); // Update input for where we are
                 row.find('i').removeClass('fa-arrow-up').addClass('fa-arrows-v');
 
                 addNewRank(row);
@@ -177,7 +178,7 @@
                     rank: $(this).val()
                 });
             });
-
+console.log(data);
             $.post({
                 url: "{!! route('coasters.rank.post') !!}",
                 data: {
@@ -185,6 +186,9 @@
                 },
                 success: function (res) {
                     toastr.success(res.message);
+                },
+                error: function(res) {
+                    toastr.error(res.responseJSON.message)
                 },
                 beforeSend: function () {
                     $('#updating-btn').prop('disabled', 'disabled').find('#updating-i').addClass('fa-spinner fa-spin').removeClass('fa-save');
