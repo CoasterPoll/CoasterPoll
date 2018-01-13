@@ -3,6 +3,7 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+toastr.options.preventDuplicates = true;
 $(document).on('ready', function() {
     var _timer = window.setTimeout(updatePageViews, 4000);
 });
