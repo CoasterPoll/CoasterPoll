@@ -23,7 +23,7 @@ class MainController extends Controller
                 $query->select('id', 'name', 'city', 'short');
             }, 'manufacturer' => function($query) {
                 $query->select('id', 'name', 'abbreviation');
-            }, 'type'])->paginate(25);
+            }, 'type'])->orderBy('name', 'ASC')->paginate(25);
         });
 
         return view('coasters.display', [
