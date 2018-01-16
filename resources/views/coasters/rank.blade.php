@@ -7,7 +7,7 @@
 @section('content')
     <h1>Rank Coasters <span class="pull-right"><button type="button" class="btn btn-primary" id="updating-btn" onclick="updateRanks()"><i id="updating-i" class="fa fa-save"></i> Save</button></span></h1>
     <div class="row">
-        <div class="col-md-12" id="rankings">
+        <div class="col-md-12 card card-block card-outline-info" id="rankings" style="min-height: 100px">
             @foreach($ranked as $rank)
                 @if($rank->coaster instanceof \ChaseH\Models\Coasters\Coaster)
                     <div class="card card-block py-1 my-1">
@@ -22,6 +22,9 @@
                     </div>
                 @endif
             @endforeach
+            @if($ranked->count() == 0)
+                <p>It's kinda empty here. @if($unranked->count() > 0)Try dragging a coaster from below up to this box.@endif @if($unranked->count() == 0) First, you'll need to track any coasters you've ridden. You can start by searching for a park you've been to in the search bar above. @endif </p>
+            @endif
         </div>
     </div>
     @if($unranked->count() != 0)
@@ -72,6 +75,8 @@
                 pull: false,
                 put: true
             },
+            scrollSensitivity: 50,
+            scroll: true,
             onUpdate: function(e) {
                 var row = $(e.item);
 
@@ -144,7 +149,9 @@
                 name: 'coasters',
                 pull: true,
                 put: false
-            }
+            },
+            scrollSensitivity: 50,
+            scroll: true,
         });
 
         function addNewRank(row) {
