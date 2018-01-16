@@ -2,6 +2,7 @@
 
 namespace ChaseH\Console;
 
+use ChaseH\Console\Commands\FillDemographicCity;
 use ChaseH\Console\Commands\UpdateDemographicCity;
 use ChaseH\Console\Commands\UpdateRidersCount;
 use ChaseH\Console\Commands\UserPromotion;
@@ -19,6 +20,7 @@ class Kernel extends ConsoleKernel
         UserPromotion::class,
         UpdateRidersCount::class,
         UpdateDemographicCity::class,
+        FillDemographicCity::class
     ];
 
     /**
