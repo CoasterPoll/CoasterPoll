@@ -83,7 +83,7 @@
                 pull: false,
                 put: true
             },
-            scrollSensitivity: 50,
+            scrollSensitivity: 90,
             scroll: true,
             onUpdate: function(e) {
                 var row = $(e.item);
