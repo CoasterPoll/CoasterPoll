@@ -64,7 +64,11 @@ class MainController extends Controller
         ]);
     }
 
-    public function rank() {
+    public function rank($method = "auto", Request $request) {
+        if($method == "auto") {
+            $method = Auth::user()->getPreference('rank_form') ?? "dragdrop";
+        }
+
         $ranked = Cache::remember('ranked:'.Auth::user()->id, 60, function() {
             $ranked = Auth::user()->ranked;
             $ranked->load('coaster', 'coaster.manufacturer', 'coaster.park');
@@ -78,7 +82,42 @@ class MainController extends Controller
             return $unranked;
         });
 
-        return view('coasters.rank', [
+        if($method == "spreadsheet") {
+            Auth::user()->setPreference(['rank_form' => 'spreadsheet']);
+
+            $all = $ranked->merge($unranked);
+
+            switch($request->get('sort')) {
+                case "coaster":
+                    $sorted = $all->sort(function($a, $b) {
+                        return $a->getName() > $b->getName();
+                    });
+                    break;
+                case "manufacturer":
+                    $sorted = $all->sort(function($a, $b) {
+                        return $a->getManufacturerName() > $b->getManufacturerName();
+                    });
+                    break;
+                case "park":
+                    $sorted = $all->sort(function($a, $b) {
+                        return $a->getParkName() > $b->getParkName();
+                    });
+                    break;
+                default:
+                    $sorted = $all->sort(function($a, $b) {
+                        return $a->getRank() > $b->getRank();
+                    });
+                    break;
+            }
+
+            return view('coasters.spreadsheet_rank', [
+                'all' => $sorted,
+            ]);
+        }
+
+        Auth::user()->setPreference(['rank_form' => 'dragdrop']);
+
+        return view('coasters.drag_rank', [
             'ranked' => $ranked->sortBy('rank'),
             'unranked' => $unranked,
         ]);
@@ -124,5 +163,32 @@ class MainController extends Controller
         return response()->json([
             'message' => "Done!",
         ]);
+    }
+
+    public function spreadsheetRank(Request $request) {
+        $coasters = collect($request->get('coasters'))->map(function($item, $key) {
+            return [
+                'coaster' => $key,
+                'rank' => $item
+            ];
+        });
+
+        $user_id = Auth::id();
+
+        $updates = $coasters->where('rank', '!=', null);
+
+        foreach($updates as $update) {
+            Rank::updateOrCreate([
+                'user_id' => $user_id,
+                'coaster_id' => $update['coaster'],
+            ], [
+                'rank' => $update['rank']
+            ]);
+        }
+
+        Cache::forget('ranked:'.$user_id);
+        Cache::forget('unranked:'.$user_id);
+
+        return back()->withSuccess("Updated your rankings.");
     }
 }

@@ -27,6 +27,26 @@ class Coaster extends Model
         'slug'
     ];
 
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getParkName() {
+        return $this->park->name;
+    }
+
+    public function getManufacturerName() {
+        return $this->manufacturer->name;
+    }
+
+    public function getRank() {
+        return null;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
     // ## Functions
     public static function rankedBy(int $userid, string $with = null) {
         $return = self::whereHas('rankings', function($query) use ($userid) {

@@ -6,6 +6,14 @@
 
 @section('content')
     <h1>Rank Coasters <span class="pull-right"><button type="button" class="btn btn-primary" id="updating-btn" onclick="updateRanks()"><i id="updating-i" class="fa fa-save"></i> Save</button></span></h1>
+    <ul class="nav nav-tabs" style="margin-bottom: 15px;">
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ route('coasters.rank', ['method' => 'dragdrop']) }}">Drag & Drop</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('coasters.rank', ['method' => 'spreadsheet']) }}">Spreadsheet</a>
+        </li>
+    </ul>
     <div class="row">
         <div class="col-md-12 card card-block card-outline-info" id="rankings" style="min-height: 100px">
             @foreach($ranked as $rank)

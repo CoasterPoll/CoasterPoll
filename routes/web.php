@@ -47,9 +47,10 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
 
     Route::group(['middleware' => 'auth'], function() {
         Route::get('ridden', 'Coasters\MainController@ridden')->name('coasters.ridden')->middleware('can:Can track coasters');
-        Route::get('rank', 'Coasters\MainController@rank')->name('coasters.rank')->middleware('can:Can rank coasters');
+        Route::get('rank/{method?}', 'Coasters\MainController@rank')->name('coasters.rank')->middleware('can:Can rank coasters');
         Route::post('rank/update', 'Coasters\MainController@updateRank')->name('coasters.rank.post')->middleware('can:Can rank coasters');
         Route::put('rank/new', 'Coasters\MainController@newRank')->name('coasters.rank.put')->middleware('can:Can rank coasters');
+        Route::post('rank/spreadsheet', 'Coasters\MainController@spreadsheetRank')->name('coasters.rank.spreadsheet')->middleware('can:Can rank coasters');
 
         Route::post('/track/ridden', 'Coasters\MainController@ride')->name('coasters.track.ride')->middleware('can:Can track coasters');
 

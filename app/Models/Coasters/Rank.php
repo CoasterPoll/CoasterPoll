@@ -14,6 +14,26 @@ class Rank extends Model
         'rank'
     ];
 
+    public function getName() {
+        return $this->coaster->getName();
+    }
+
+    public function getParkName() {
+        return $this->coaster->getParkName();
+    }
+
+    public function getManufacturerName() {
+        return $this->coaster->getManufacturerName();
+    }
+
+    public function getRank() {
+        return $this->rank;
+    }
+
+    public function getId() {
+        return $this->coaster_id;
+    }
+
     // ## Relationships
     public function user() {
         return $this->belongsTo('ChaseH\Models\User');
