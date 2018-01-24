@@ -4,10 +4,15 @@ namespace ChaseH\Http\Controllers\Coasters;
 
 use ChaseH\Http\Controllers\Controller;
 use ChaseH\Jobs\UpdateRanking;
+use ChaseH\Models\Coasters\Category;
 use ChaseH\Models\Coasters\Coaster;
+use ChaseH\Models\Coasters\Manufacturer;
+use ChaseH\Models\Coasters\Park;
 use ChaseH\Models\Coasters\Rank;
+use ChaseH\Models\Coasters\Type;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -18,16 +23,86 @@ class MainController extends Controller
     }
 
     public function display(Request $request) {
-        $coasters = Cache::remember('coasters_list_pg:'.$request->input('page', 1), 30, function() {
-            return Coaster::with(['park' => function($query) {
+        if($request->get('limit') == "yes") {
+            $coasters = Coaster::with(['park' => function($query) {
                 $query->select('id', 'name', 'city', 'short');
             }, 'manufacturer' => function($query) {
                 $query->select('id', 'name', 'abbreviation');
-            }, 'type'])->orderBy('name', 'ASC')->paginate(25);
+            }, 'type']);
+
+            if($request->get('park')) {
+                $coasters->where('park_id', $request->get('park'));
+            }
+            if($request->get('manufacturer')) {
+                $coasters->where('manufacturer_id', $request->get('manufacturer'));
+            }
+            if($request->get('type')) {
+                $coasters->where('type_id', $request->get('type'));
+            }
+            if($request->get('category')) {
+                $coasters->whereHas('categories', function($query) use ($request) {
+                    return $query->where('category_id', $request->get('category'));
+                });
+            }
+
+            $coasters = $coasters->get();
+
+            if($request->get('sort') == "coaster" && $request->get('direction') == "asc") {
+                $coasters = $coasters->sortBy('name');
+            }
+            if($request->get('sort') == "coaster" && $request->get('direction') == "desc") {
+                $coasters = $coasters->sortByDesc('name');
+            }
+            if($request->get('sort') == "park" && $request->get('direction') == "asc") {
+                $coasters = $coasters->sortBy('park.name');
+            }
+            if($request->get('sort') == "park" && $request->get('direction') == "desc") {
+                $coasters = $coasters->sortByDesc('park.name');
+            }
+            if($request->get('sort') == "manufacturer" && $request->get('direction') == "asc") {
+                $coasters = $coasters->sortBy('manufacturer.name');
+            }
+            if($request->get('sort') == "manufacturer" && $request->get('direction') == "desc") {
+                $coasters = $coasters->sortByDesc('manufacturer.name');
+            }
+
+            //dd($coasters->take(25));
+
+            $coasters = new LengthAwarePaginator($coasters->forPage($request->get('page', 1), 25), $coasters->count(), 25);
+            $coasters->setPath("");
+        } else {
+            $coasters = Cache::remember('coasters_list_pg:'.$request->input('page', 1), 30, function() {
+                return Coaster::with(['park' => function($query) {
+                    $query->select('id', 'name', 'city', 'short');
+                }, 'manufacturer' => function($query) {
+                    $query->select('id', 'name', 'abbreviation');
+                }, 'type'])->orderBy('name', 'ASC')->paginate(25);
+            });
+        }
+
+        $manufacturers = Cache::remember('all_manufacturers', 120, function() {
+            return Manufacturer::orderBy('name', 'ASC')->get();
+        });
+
+        $parks = Cache::remember('all_parks', 120, function() {
+            return Park::orderBy('name', 'ASC')->get();
+        });
+
+        $categories = Cache::remember('all_categories', 120, function() {
+            return Category::orderBy('name', 'ASC')->get();
+        });
+
+        $types = Cache::remember('all_types', 120, function() {
+            return Type::get();
         });
 
         return view('coasters.display', [
             'coasters' => $coasters,
+            'types' => $types,
+            'manufacturers' => $manufacturers,
+            'parks' => $parks,
+            'categories' => $categories,
+            'request' => $request,
         ]);
     }
 

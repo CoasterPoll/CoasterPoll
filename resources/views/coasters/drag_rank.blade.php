@@ -201,7 +201,7 @@
                     rank: $(this).val()
                 });
             });
-            
+
             $.post({
                 url: "{!! route('coasters.rank.post') !!}",
                 data: {
