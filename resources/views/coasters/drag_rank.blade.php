@@ -161,7 +161,7 @@
                     pull: true,
                     put: false
                 },
-                scrollSensitivity: 50,
+                scrollSensitivity: 90,
                 scroll: true,
             });
         @endif
@@ -201,7 +201,7 @@
                     rank: $(this).val()
                 });
             });
-console.log(data);
+            
             $.post({
                 url: "{!! route('coasters.rank.post') !!}",
                 data: {
