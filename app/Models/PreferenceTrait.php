@@ -13,7 +13,7 @@ trait PreferenceTrait {
 
     public function setPreference($new) {
         return $this->update([
-            'preferences' => array_merge($this->preferences, $new),
+            'preferences' => array_merge($this->preferences ??  [], $new),
         ]);
     }
 }
