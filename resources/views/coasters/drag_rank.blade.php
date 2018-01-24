@@ -109,7 +109,7 @@
                     });
 
                     // Check if we're aiming for the number 1 spot.
-                    if(row.prev().length) {
+                    if(!row.prev().length) {
                         var newRank = 1;
                     } else {
                         var newRank = parseFloat(row.prev().find('.rank').val()) + parseFloat(1); // Find where we are
@@ -117,6 +117,8 @@
 
                     row.find('.rank').val(newRank); // Update input for where we are
                 }
+
+                row = false;
             },
             onAdd: function(e) {
                 var row = $(e.item);
@@ -150,17 +152,19 @@
             }
         });
 
-        Sortable.create(byId('unranked'), {
-            handle: '.handle',
-            animation: 150,
-            group: {
-                name: 'coasters',
-                pull: true,
-                put: false
-            },
-            scrollSensitivity: 50,
-            scroll: true,
-        });
+        @if($unranked->count() != 0)
+            Sortable.create(byId('unranked'), {
+                handle: '.handle',
+                animation: 150,
+                group: {
+                    name: 'coasters',
+                    pull: true,
+                    put: false
+                },
+                scrollSensitivity: 50,
+                scroll: true,
+            });
+        @endif
 
         function addNewRank(row) {
             var use = row.find('.rank');
