@@ -25,8 +25,9 @@
                             </tr>
                         @endforeach
                     </table>
+                    <a href="{{ route('profile.rankings', ['handle' => $user->handle]) }}" class="btn btn-sm btn-outline-primary btn-block mb-3">View Entire Ranking</a>
                     @if($current && \Illuminate\Support\Facades\Auth::user()->can('Can rank coasters'))
-                        <a href="{{ route('coasters.rank') }}" class="card-link">See Your Top Coasters</a>
+                        <a href="{{ route('coasters.rank') }}" class="btn btn-sm btn-outline-success btn-block">See Your Top Coasters</a>
                     @endif
                 </div>
             </div>

@@ -41,4 +41,25 @@ class ProfileController extends Controller
             'parks' => $parks,
         ]);
     }
+
+    public function rankings($handle = null) {
+        if($handle == null) {
+            $handle = Auth::user()->handle;
+        }
+
+        try {
+            $user = Cache::remember('u:'.$handle, 60, function() use ($handle) {
+                return User::where('handle', $handle)->with('links')->firstOrFail();
+            });
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
+        $rankings = $user->ranked()->orderby('rank')->with('coaster', 'coaster.park', 'coaster.manufacturer')->get();
+
+        return view('profile.rankings', [
+            'user' => $user,
+            'rankings' => $rankings,
+        ]);
+    }
 }

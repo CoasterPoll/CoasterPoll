@@ -89,6 +89,7 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
 // ## Public Profiles
 Route::group(['prefix' => 'u'], function() {
     Route::get('{handle?}', 'Users\ProfileController@profile')->name('profile');
+    Route::get('{handle?}/rankings', 'Users\ProfileController@rankings')->name('profile.rankings');
 });
 
 // ## Advertising
