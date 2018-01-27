@@ -51,6 +51,8 @@ class OverallRank implements ShouldQueue
     }
 
     private function run($coasters) {
+        set_time_limit(0);
+        
         $results = array();
 
         $coasters_ids = array_column($coasters->toArray(), 'id');
