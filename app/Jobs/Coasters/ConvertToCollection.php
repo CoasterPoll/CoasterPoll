@@ -40,8 +40,6 @@ class ConvertToCollection implements ShouldQueue
     {
         $results = json_decode(Storage::drive('local')->get($this->filename));
 
-        Result::clear($this->group);
-
         foreach($results as $result) {
             Result::create([
                 'coaster_id' => $result->coaster,
@@ -57,6 +55,6 @@ class ConvertToCollection implements ShouldQueue
             ]);
         }
 
-        $this->auth->notify(new ResultsAvailable($this->group, $this->filename));
+        //$this->auth->notify(new ResultsAvailable($this->group, $this->filename));
     }
 }
