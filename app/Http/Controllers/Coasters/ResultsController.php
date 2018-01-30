@@ -86,13 +86,7 @@ class ResultsController extends Controller
             return back()->withDanger("Whoops. Looks like there's not actually any coasters to rank.");
         }
 
-        // Chunk the collection so we can actually finish without timing out
-        $chunks = $coasters->chunk(20);
-
-        // Start the job that actually ranks them
-        foreach($chunks as $chunk) {
-            dispatch(new OverallRank($request->input('group'), Auth::user(), $chunk));
-        }
+        dispatch(new OverallRank($request->input('group'), Auth::user(), $coasters));
 
 
         // Return to the manage page.

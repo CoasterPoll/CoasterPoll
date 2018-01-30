@@ -55,6 +55,6 @@ class ConvertToCollection implements ShouldQueue
             ]);
         }
 
-        //$this->auth->notify(new ResultsAvailable($this->group, $this->filename));
+        $this->auth->notify(new ResultsAvailable($this->group, $this->filename));
     }
 }

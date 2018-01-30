@@ -40,6 +40,7 @@ class OverallRank implements ShouldQueue
     public function handle()
     {
         if($this->coasters !== null) {
+            Log::info("Started running results.");
             $this->run($this->coasters);
         } else {
             $coasters = Coaster::select('id')->with(['rankings' => function($q) {
@@ -134,6 +135,8 @@ class OverallRank implements ShouldQueue
                 'ties' => $ties,
                 'flags' => (isset($flags)) ? $flags : null,
             ];
+
+            Log::info("Finished coaster.");
         }
 
         $formatted_results = json_encode($results, JSON_PRETTY_PRINT);
