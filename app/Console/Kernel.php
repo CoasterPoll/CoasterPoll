@@ -2,6 +2,7 @@
 
 namespace ChaseH\Console;
 
+use ChaseH\Console\Commands\Coasters\FixDeletedRanks;
 use ChaseH\Console\Commands\Coasters\RunResults;
 use ChaseH\Console\Commands\FillDemographicCity;
 use ChaseH\Console\Commands\UpdateDemographicCity;
@@ -22,7 +23,8 @@ class Kernel extends ConsoleKernel
         UpdateRidersCount::class,
         UpdateDemographicCity::class,
         FillDemographicCity::class,
-        RunResults::class
+        RunResults::class,
+        FixDeletedRanks::class,
     ];
 
     /**

@@ -6,6 +6,7 @@ use ChaseH\Models\Coasters\Category;
 use ChaseH\Models\Coasters\Coaster;
 use ChaseH\Models\Coasters\Manufacturer;
 use ChaseH\Models\Coasters\Park;
+use ChaseH\Models\Coasters\Rank;
 use ChaseH\Models\Coasters\Type;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -120,6 +121,11 @@ class CoasterController extends Controller
             } catch (ModelNotFoundException $e) {
                 return abort(404);
             }
+
+            Rank::where('coaster_id', $coaster->id)->delete();
+
+            Cache::forget('park:'.$coaster->park->short);
+            Cache::forget($coaster->park->short.':'.$coaster->slug);
 
             $coaster->delete();
 
