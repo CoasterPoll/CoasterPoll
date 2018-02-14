@@ -157,6 +157,8 @@ class MainController extends Controller
             return $unranked;
         });
 
+        $complete = (array_sum($ranked->pluck('ballot_complete')->all()) > 0);
+
         if($method == "spreadsheet") {
             Auth::user()->setPreference(['rank_form' => 'spreadsheet']);
 
@@ -187,6 +189,7 @@ class MainController extends Controller
 
             return view('coasters.spreadsheet_rank', [
                 'all' => $sorted,
+                'complete' => $complete,
             ]);
         }
 
@@ -195,6 +198,7 @@ class MainController extends Controller
         return view('coasters.drag_rank', [
             'ranked' => $ranked->sortBy('rank'),
             'unranked' => $unranked,
+            'complete' => $complete,
         ]);
     }
 
@@ -265,5 +269,27 @@ class MainController extends Controller
         Cache::forget('unranked:'.$user_id);
 
         return back()->withSuccess("Updated your rankings.");
+    }
+
+    public function completeBallot(Request $request) {
+        Rank::where('user_id', Auth::id())->update([
+            'ballot_complete' => 1,
+        ]);
+
+        Cache::forget('unranked:'.Auth::user()->id);
+        Cache::forget('ranked:'.Auth::user()->id);
+
+        return back()->withSuccess("Thanks! We'll be completing the results soon!");
+    }
+
+    public function incompleteBallot(Request $request) {
+        Rank::where('user_id', Auth::id())->update([
+            'ballot_complete' => 0,
+        ]);
+
+        Cache::forget('unranked:'.Auth::user()->id);
+        Cache::forget('ranked:'.Auth::user()->id);
+
+        return back()->withSuccess("Oh No! We'll be completing the results soon, you don't want to miss out.");
     }
 }

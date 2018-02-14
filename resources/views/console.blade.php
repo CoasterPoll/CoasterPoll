@@ -57,6 +57,10 @@ Dashboard
                             <th>Coasters Ranked</th>
                             <td>{{ $counts->ranked }}</td>
                         </tr>
+                        <tr>
+                            <th>Complete Rankings</th>
+                            <td>{{ $counts->completed }}%</td>
+                        </tr>
                     </table>
                 </div>
             </div>

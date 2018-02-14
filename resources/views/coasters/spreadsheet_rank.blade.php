@@ -15,7 +15,7 @@
         </li>
     </ul>
     <div class="row">
-        <div class="col-md-10">
+        <div class="@if($complete) col-md-12 @else col-md-10 @endif">
             <form action="{{ route('coasters.rank.spreadsheet') }}" method="post" id="the-spreadsheet">
                 <table class="table table-striped table-bordered">
                     <thead>
@@ -33,7 +33,7 @@
                                 <td>{{ $coaster->getManufacturerName() }}</td>
                                 <td>{{ $coaster->getParkName() }}</td>
                                 <td>
-                                    <input type="number" class="form-control form-control-sm" name="coasters[{{ $coaster->getId() }}]" value="{{ $coaster->getRank() }}">
+                                    <input type="number" class="form-control form-control-sm" name="coasters[{{ $coaster->getId() }}]" @if($complete) readonly @endif value="{{ $coaster->getRank() }}">
                                 </td>
                             </tr>
                         @endforeach
@@ -42,10 +42,27 @@
                 {{ csrf_field() }}
             </form>
         </div>
-        <div class="col-md-2">
-            <div class="card card-block" id="utils">
-                <button type="button" class="save-spreadsheet btn btn-primary"><i class="fa fa-save"></i> Save</button>
+        @if(!$complete)
+            <div class="col-md-2">
+                <div class="card card-block" id="utils">
+                    <button type="button" class="save-spreadsheet btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                </div>
             </div>
+        @endif
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            @if($complete)
+                <form action="{{ route('coasters.ballot.incomplete') }}" method="post">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-block btn-warning">Not Done Yet</button>
+                </form>
+            @else
+                <form action="{{ route('coasters.ballot.complete') }}" method="post">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-block btn-success">Done Ranking!</button>
+                </form>
+            @endif
         </div>
     </div>
 @endsection

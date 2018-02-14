@@ -26,6 +26,7 @@ class AdminController extends Controller
                 'parks' => Park::count(),
                 'ridden' => DB::table('coaster_user')->count(),
                 'ranked' => Rank::count(),
+                'completed' => round((Rank::where('ballot_complete', 1)->count() / Rank::where('ballot_complete', 0)->count()) * 100),
             ]);
         });
 

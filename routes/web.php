@@ -62,6 +62,9 @@ Route::group(['middleware' => 'ChaseH\Http\Middleware\RiddenCoastersMiddleware']
         Route::get('/new/coaster', 'Coasters\CoasterController@new')->name('coasters.coaster.new')->middleware('can:Can manage coasters');
         Route::get('/new/manufacturer', 'Coasters\ManufacturerController@new')->name('coasters.manufacturer.new')->middleware('can:Can manage coasters');
 
+        Route::post('/track/complete', 'Coasters\MainController@completeBallot')->name('coasters.ballot.complete')->middleware('can:Can rank coasters');
+        Route::post('/track/incomplete', 'Coasters\MainController@incompleteBallot')->name('coasters.ballot.incomplete')->middleware('can:Can rank coasters');
+
         Route::group(['middleware' => 'can:Can run results'], function() {
             Route::get('/results/manage/{page?}', 'Coasters\ResultsController@manage')->name('coasters.results.manage');
             Route::post('/results/run', 'Coasters\ResultsController@run')->name('coasters.results.run');

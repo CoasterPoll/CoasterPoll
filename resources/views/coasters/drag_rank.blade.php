@@ -24,7 +24,7 @@
                                 <span class="lead handle"><i class="fa fa-arrows-v"></i> &nbsp;&nbsp;{{ $rank->coaster->name }}</span> <span class="small"><a href="{{ route('coasters.manufacturer', ['manufacturer' => $rank->coaster->manufacturer->abbreviation]) }}">{{ $rank->coaster->manufacturer->abbreviation }}</a> at <a href="{{ route('coasters.park', ['park' => $rank->coaster->park->short]) }}">{{ $rank->coaster->park->short }}</a>.</span>
                             </div>
                             <div class="col-sm-2 text-right">
-                                <input type="number" class="form-control form-control-sm my-1 rank" data-coaster="{{ $rank->coaster_id }}" value="{{ $rank->rank }}">
+                                <input type="number" class="form-control form-control-sm my-1 rank" @if($complete) readonly @endif data-coaster="{{ $rank->coaster_id }}" value="{{ $rank->rank }}">
                             </div>
                         </div>
                     </div>
@@ -57,169 +57,186 @@
             </div>
         </div>
     @endif
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-3">
+            @if($complete)
+                <form action="{{ route('coasters.ballot.incomplete') }}" method="post">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-block btn-warning">Not Done Yet</button>
+                </form>
+            @else
+                <form action="{{ route('coasters.ballot.complete') }}" method="post">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-block btn-success">Done Ranking!</button>
+                </form>
+            @endif
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/Sortable.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.binding.js') }}"></script>
-    <script>
-        function byId(id) {
-            return document.getElementById(id);
-        }
+    @if(!$complete)
+        <script src="{{ asset('js/Sortable.min.js') }}"></script>
+        <script src="{{ asset('js/jquery.binding.js') }}"></script>
+        <script>
+            function byId(id) {
+                return document.getElementById(id);
+            }
 
-        @if($ranked->count() == 0)
-            $('.lead').on('mouseenter', function() {
-                introJs().start().onexit(function() {
-                    $('.lead').unbind('mouseenter');
-                });
-            });
-        @endif
-
-        Sortable.create(byId('rankings'), {
-            handle: '.handle',
-            animation: 150,
-            group: {
-                name: 'coasters',
-                pull: false,
-                put: true
-            },
-            scrollSensitivity: 90,
-            scroll: true,
-            onUpdate: function(e) {
-                var row = $(e.item);
-
-                if(e.newIndex > e.oldIndex) { // Draggin' Down
-                    $.each(row.prevUntil(function() {
-                        return $(this).index() <= (e.oldIndex - 1);
-                    }), function() {
-                        var desc = $(this).find('.rank');
-                        var oldRank = desc.val();
-                        desc.val(parseFloat(oldRank) - parseFloat(1));
+            @if($ranked->count() == 0)
+                $('.lead').on('mouseenter', function() {
+                    introJs().start().onexit(function() {
+                        $('.lead').unbind('mouseenter');
                     });
+                });
+            @endif
 
-                    var newRank = parseFloat(row.prev().find('.rank').val()) + parseFloat(1); // Find where we are
-                    row.find('.rank').val(newRank); // Update input for where we are
-                } else { // Draggin' Up!
-                    $.each(row.nextUntil(function() {
-                        return $(this).index() > (e.oldIndex);
-                    }), function() {
+            Sortable.create(byId('rankings'), {
+                handle: '.handle',
+                animation: 150,
+                group: {
+                    name: 'coasters',
+                    pull: false,
+                    put: true
+                },
+                scrollSensitivity: 90,
+                scroll: true,
+                onUpdate: function(e) {
+                    var row = $(e.item);
+
+                    if(e.newIndex > e.oldIndex) { // Draggin' Down
+                        $.each(row.prevUntil(function() {
+                            return $(this).index() <= (e.oldIndex - 1);
+                        }), function() {
+                            var desc = $(this).find('.rank');
+                            var oldRank = desc.val();
+                            desc.val(parseFloat(oldRank) - parseFloat(1));
+                        });
+
+                        var newRank = parseFloat(row.prev().find('.rank').val()) + parseFloat(1); // Find where we are
+                        row.find('.rank').val(newRank); // Update input for where we are
+                    } else { // Draggin' Up!
+                        $.each(row.nextUntil(function() {
+                            return $(this).index() > (e.oldIndex);
+                        }), function() {
+                            var desc = $(this).find('.rank');
+                            var oldRank = desc.val();
+                            desc.val(parseFloat(oldRank) + parseFloat(1));
+                        });
+
+                        // Check if we're aiming for the number 1 spot.
+                        if(!row.prev().length) {
+                            var newRank = 1;
+                        } else {
+                            var newRank = parseFloat(row.prev().find('.rank').val()) + parseFloat(1); // Find where we are
+                        }
+
+                        row.find('.rank').val(newRank); // Update input for where we are
+                    }
+
+                    row = false;
+                },
+                onAdd: function(e) {
+                    var row = $(e.item);
+
+                    $.each(row.nextAll(), function() {
                         var desc = $(this).find('.rank');
                         var oldRank = desc.val();
                         desc.val(parseFloat(oldRank) + parseFloat(1));
                     });
 
-                    // Check if we're aiming for the number 1 spot.
                     if(!row.prev().length) {
-                        var newRank = 1;
+                        var newRank = parseFloat(row.next().find('.rank').val()) - parseFloat(1); // Find where we are
                     } else {
                         var newRank = parseFloat(row.prev().find('.rank').val()) + parseFloat(1); // Find where we are
                     }
 
-                    row.find('.rank').val(newRank); // Update input for where we are
+                    if(isNaN(newRank)) {
+                        newRank = 1;
+                    }
+
+                    row.find('.rankable').val(newRank).addClass('rank').removeClass('hidden rankable').show(); // Update input for where we are
+                    row.find('i').removeClass('fa-arrow-up').addClass('fa-arrows-v');
+
+                    addNewRank(row);
+                },
+                onSort: function() {
+                    window.updatingIn = window.setTimeout(updateRanks, 3000);
+                },
+                onStart: function() {
+                    window.clearTimeout(window.updatingIn);
                 }
+            });
 
-                row = false;
-            },
-            onAdd: function(e) {
-                var row = $(e.item);
-
-                $.each(row.nextAll(), function() {
-                    var desc = $(this).find('.rank');
-                    var oldRank = desc.val();
-                    desc.val(parseFloat(oldRank) + parseFloat(1));
+            @if($unranked->count() != 0)
+                Sortable.create(byId('unranked'), {
+                    handle: '.handle',
+                    animation: 150,
+                    group: {
+                        name: 'coasters',
+                        pull: true,
+                        put: false
+                    },
+                    scrollSensitivity: 90,
+                    scroll: true,
                 });
+            @endif
 
-                if(!row.prev().length) {
-                    var newRank = parseFloat(row.next().find('.rank').val()) - parseFloat(1); // Find where we are
-                } else {
-                    var newRank = parseFloat(row.prev().find('.rank').val()) + parseFloat(1); // Find where we are
-                }
+            function addNewRank(row) {
+                var use = row.find('.rank');
+                var coaster = use.data('coaster');
+                var rank = use.val();
 
-                if(isNaN(newRank)) {
-                    newRank = 1;
-                }
-
-                row.find('.rankable').val(newRank).addClass('rank').removeClass('hidden rankable').show(); // Update input for where we are
-                row.find('i').removeClass('fa-arrow-up').addClass('fa-arrows-v');
-
-                addNewRank(row);
-            },
-            onSort: function() {
-                window.updatingIn = window.setTimeout(updateRanks, 3000);
-            },
-            onStart: function() {
-                window.clearTimeout(window.updatingIn);
+                $.post({
+                    url: "{!! route('coasters.rank.put') !!}",
+                    method: "PUT",
+                    data: {
+                        coaster: coaster,
+                        rank: rank
+                    },
+                    success: function(res) {
+                        toastr.success("We've added that to your ranking!");
+                    },
+                    error: function(res) {
+                        toastr.error(res.statusText);
+                    },
+                    beforeSend: function() {
+                        $('#updating-btn').prop('disabled', 'disabled').find('#updating-i').addClass('fa-spinner fa-spin').removeClass('fa-save');
+                    },
+                    complete: function() {
+                        $('#updating-btn').prop('disabled', null).find('#updating-i').removeClass('fa-spinner fa-spin').addClass('fa-save');
+                    }
+                });
             }
-        });
 
-        @if($unranked->count() != 0)
-            Sortable.create(byId('unranked'), {
-                handle: '.handle',
-                animation: 150,
-                group: {
-                    name: 'coasters',
-                    pull: true,
-                    put: false
-                },
-                scrollSensitivity: 90,
-                scroll: true,
-            });
-        @endif
-
-        function addNewRank(row) {
-            var use = row.find('.rank');
-            var coaster = use.data('coaster');
-            var rank = use.val();
-
-            $.post({
-                url: "{!! route('coasters.rank.put') !!}",
-                method: "PUT",
-                data: {
-                    coaster: coaster,
-                    rank: rank
-                },
-                success: function(res) {
-                    toastr.success("We've added that to your ranking!");
-                },
-                error: function(res) {
-                    toastr.error(res.statusText);
-                },
-                beforeSend: function() {
-                    $('#updating-btn').prop('disabled', 'disabled').find('#updating-i').addClass('fa-spinner fa-spin').removeClass('fa-save');
-                },
-                complete: function() {
-                    $('#updating-btn').prop('disabled', null).find('#updating-i').removeClass('fa-spinner fa-spin').addClass('fa-save');
-                }
-            });
-        }
-
-        function updateRanks() {
-            var data = [];
-            $.each($('.rank'), function() {
-                data.push({
-                    coaster: $(this).data('coaster'),
-                    rank: $(this).val()
+            function updateRanks() {
+                var data = [];
+                $.each($('.rank'), function() {
+                    data.push({
+                        coaster: $(this).data('coaster'),
+                        rank: $(this).val()
+                    });
                 });
-            });
 
-            $.post({
-                url: "{!! route('coasters.rank.post') !!}",
-                data: {
-                    all: data
-                },
-                success: function (res) {
-                    toastr.success(res.message);
-                },
-                error: function(res) {
-                    toastr.error(res.responseJSON.message)
-                },
-                beforeSend: function () {
-                    $('#updating-btn').prop('disabled', 'disabled').find('#updating-i').addClass('fa-spinner fa-spin').removeClass('fa-save');
-                },
-                complete: function () {
-                    $('#updating-btn').prop('disabled', null).find('#updating-i').removeClass('fa-spinner fa-spin').addClass('fa-save');
-                }
-            });
-        }
-    </script>
+                $.post({
+                    url: "{!! route('coasters.rank.post') !!}",
+                    data: {
+                        all: data
+                    },
+                    success: function (res) {
+                        toastr.success(res.message);
+                    },
+                    error: function(res) {
+                        toastr.error(res.responseJSON.message)
+                    },
+                    beforeSend: function () {
+                        $('#updating-btn').prop('disabled', 'disabled').find('#updating-i').addClass('fa-spinner fa-spin').removeClass('fa-save');
+                    },
+                    complete: function () {
+                        $('#updating-btn').prop('disabled', null).find('#updating-i').removeClass('fa-spinner fa-spin').addClass('fa-save');
+                    }
+                });
+            }
+        </script>
+    @endif
 @endsection

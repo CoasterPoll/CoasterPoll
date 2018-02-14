@@ -11,7 +11,9 @@ class Rank extends Model
     protected $fillable = [
         'coaster_id',
         'user_id',
-        'rank'
+        'rank',
+        'poll_id',
+        'ballot_complete'
     ];
 
     public function getName() {
