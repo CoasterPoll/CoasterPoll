@@ -145,7 +145,7 @@ class ResultsController extends Controller
             }
         }
 
-        $results = Result::where('group', $page->group)->with('coaster', 'coaster.park', 'coaster.manufacturer')->orderBy('percentage', 'DESC')->paginate(30);
+        $results = Result::where('group', $page->group)->with('coaster', 'coaster.park', 'coaster.manufacturer')->orderBy('percentage', 'DESC')->paginate(50);
 
         return view('coasters.results', [
             'results' => $results,

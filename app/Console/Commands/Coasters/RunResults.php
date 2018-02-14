@@ -18,7 +18,7 @@ class RunResults extends Command
      *
      * @var string
      */
-    protected $signature = 'coasters:run {group} {email} {type}';
+    protected $signature = 'coasters:run {group} {type} {email=chase.hausman@me.com} {--r|lowriders} {--R|highriders} {--plr|penalize_low_riders}';
 
     /**
      * The console command description.
@@ -77,10 +77,9 @@ class RunResults extends Command
             $riders = array_column($coaster->rankings->toArray(), 'user_id');
 
             // Now find all the coasters that those people have ridden
-            $opponents = Coaster::select('id')->where('id', '!=', $coaster->id)->whereIn('id', $coasters_ids)
-                                ->whereHas('rankings', function ($q) use ($riders) {
-                                    $q->whereIn('user_id', $riders);
-                                })->with(['rankings' => function ($q) {
+            $opponents = Coaster::select('id')->where('id', '!=', $coaster->id)->whereIn('id', $coasters_ids)->whereHas('rankings', function ($q) use ($riders) {
+                $q->whereIn('user_id', $riders);
+            })->with(['rankings' => function ($q) {
                 $q->select('user_id', 'coaster_id', 'rank');
             }])->get();
 
@@ -131,12 +130,30 @@ class RunResults extends Command
                 }
             }
 
+            if($this->option('highriders')) {
+                $rider_count = collect($riders)->count();
+
+                $wins = $wins * (0.1 * $rider_count);
+            }
+
+            if($this->option('lowriders')) {
+                $rider_count = collect($riders)->count();
+
+                if($rider_count < 10) {
+                    $wins = $wins - ($rider_count * .1);
+                }
+            }
+
             if ($wins + $losses != 0) {
                 $percentage = (($wins + ($ties * .5)) / ($wins + $losses + $ties)) * 100;
                 $flags = null;
             } else {
                 $percentage = 0;
                 $flags = "Inconclusive results - no wins or loses. This is usually a result of only one rider.";
+            }
+
+            if($this->option('penalize_low_riders') && ($wins == 0 || $losses == 0)) {
+                $percentage = $percentage - 2;
             }
 
             $results[$coaster->id] = [
